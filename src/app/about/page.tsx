@@ -52,9 +52,9 @@ export default function AboutPage() {
 
         {/* Main text */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="glass-panel rounded-2xl p-8 md:p-10 mb-10"
         >
           {TEAM_SECTION.body.split("\n\n").map((para, i) => (
@@ -66,9 +66,9 @@ export default function AboutPage() {
 
         {/* Goals grid */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="mb-4"
         >
           <div className="flex items-center gap-2 mb-6">
@@ -79,9 +79,9 @@ export default function AboutPage() {
             {GOALS.map(({ number, title, desc }, i) => (
               <motion.div
                 key={number}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.15 + i * 0.07 }}
+                initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.8, delay: 0.15 + i * 0.07, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className="glass-panel rounded-xl p-6 hover:border-[rgba(6,182,212,0.35)] transition-all"
               >
                 <div className="text-3xl font-black text-cyan-400/20 font-mono mb-3">{number}</div>
@@ -94,9 +94,9 @@ export default function AboutPage() {
 
         {/* Tech stack */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="mt-10 glass-panel rounded-2xl p-8"
         >
           <div className="flex items-center gap-2 mb-6">

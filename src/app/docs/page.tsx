@@ -90,9 +90,9 @@ export default function DocsPage() {
             <motion.section
               key={section.id}
               id={section.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: si * 0.1 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: si * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-9 h-9 rounded-lg bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center">

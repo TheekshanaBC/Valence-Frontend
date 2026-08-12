@@ -53,9 +53,9 @@ export default function WalletPage() {
           {/* ── Left: Balance card ── */}
           <div className="lg:col-span-1 flex flex-col gap-5">
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="glass-panel rounded-2xl p-6"
             >
               <div className="flex items-center gap-2 mb-6">
@@ -93,9 +93,9 @@ export default function WalletPage() {
 
             {/* Faucet */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="glass-panel rounded-2xl p-5"
             >
               <div className="text-sm font-medium text-slate-200 mb-2">🚰 Faucet</div>
@@ -111,9 +111,9 @@ export default function WalletPage() {
 
             {/* Tab panel */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.05, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="glass-panel rounded-2xl overflow-hidden"
             >
               {/* Tabs */}
@@ -179,9 +179,9 @@ export default function WalletPage() {
 
             {/* Transaction history */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="glass-panel rounded-2xl overflow-hidden"
             >
               <div className="px-5 py-4 border-b border-[rgba(6,182,212,0.1)] flex items-center gap-2">

@@ -47,7 +47,7 @@ html {
   --color-panel:             var(--bg-panel);
   --color-border:            var(--border);
   --color-muted:             var(--text-muted);
-  --font-sans:               var(--font-inter), var(--font-geist-sans), Arial, sans-serif;
+  --font-sans:               var(--font-urbanist), var(--font-inter), var(--font-geist-sans), Arial, sans-serif;
   --font-mono:               var(--font-geist-mono), monospace;
 }
 

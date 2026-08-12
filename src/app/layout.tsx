@@ -1,7 +1,13 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import { Geist, Geist_Mono, Inter, Urbanist } from "next/font/google"
 import "./globals.css"
 import { Navbar } from "@/components/navbar"
+
+const urbanist = Urbanist({
+  variable: "--font-urbanist",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+})
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${urbanist.variable} ${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-[#03090e] text-[#f1f5f9]">

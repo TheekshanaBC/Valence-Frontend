@@ -54,7 +54,7 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 flex h-16 items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 flex h-16 items-center justify-between">
         <ValenceLogo />
 
         {/* Desktop links */}
@@ -107,7 +107,7 @@ export function Navbar() {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="md:hidden overflow-hidden border-t border-[rgba(6,182,212,0.1)] bg-[#03090e]/95 backdrop-blur-md"
           >
-            <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+            <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}

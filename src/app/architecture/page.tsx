@@ -81,9 +81,9 @@ export default function ArchitecturePage() {
 
           {/* Left: Flow diagram */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, x: -20, scale: 0.95, filter: "blur(8px)" }}
+            animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
             <div className="flex items-center gap-2 mb-6">
               <span className="status-dot" />
@@ -93,9 +93,9 @@ export default function ArchitecturePage() {
             {LAYERS.map((layer, i) => (
               <div key={layer.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                  transition={{ delay: i * 0.1, duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-xl p-5 hover:border-[rgba(6,182,212,0.35)] transition-all"
                 >
                   <div className="flex items-center gap-3 mb-3">
@@ -124,9 +124,9 @@ export default function ArchitecturePage() {
 
           {/* Right: SVG bond diagram */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, x: 20, scale: 0.95, filter: "blur(8px)" }}
+            animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="sticky top-24"
           >
             <div className="flex items-center gap-2 mb-6">

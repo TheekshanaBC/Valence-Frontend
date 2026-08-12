@@ -52,9 +52,9 @@ export default function ExplorerPage() {
 
         {/* Search bar */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="relative mb-10"
         >
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
@@ -67,9 +67,9 @@ export default function ExplorerPage() {
 
         {/* Stats row */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10"
         >
           {[
@@ -89,7 +89,7 @@ export default function ExplorerPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Latest Blocks */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+          <motion.div initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }} animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }} transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}>
             <Panel title={
               <div className="flex items-center gap-2">
                 <span className="status-dot" />
@@ -121,7 +121,7 @@ export default function ExplorerPage() {
           </motion.div>
 
           {/* Recent Transactions */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+          <motion.div initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }} animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }} transition={{ duration: 0.8, delay: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}>
             <Panel title={
               <div className="flex items-center gap-2">
                 <span className="status-dot" />
