@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, Inter, Urbanist } from "next/font/google"
 import "./globals.css"
 import { Navbar } from "@/components/navbar"
+import { Providers } from "./providers"
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -44,8 +45,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-[#03090e] text-[#f1f5f9]">
-        <Navbar />
-        <main className="flex-1">{children}</main>
+        <Providers>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+        </Providers>
       </body>
     </html>
   )

@@ -1,33 +1,26 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Search, Clock, ArrowUpRight, Hash, RefreshCw } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { MoleculeBg } from "@/components/molecule-bg"
 
-// ── Placeholder data ──
-const BLOCKS = Array.from({ length: 6 }, (_, i) => ({
-  height: 1284 - i,
-  hash:   `0000${Math.random().toString(16).slice(2, 18)}`,
-  txCount: Math.floor(Math.random() * 8) + 1,
-  miner:  `node-${(i % 3) + 1}`,
-  age:    `${i * 12 + 8}s ago`,
-}))
+import { useWallet } from "@/context/WalletContext"
 
-const TXS = Array.from({ length: 8 }, (_, i) => ({
-  hash:   `a${Math.random().toString(16).slice(2, 18)}`,
-  from:   `0x${Math.random().toString(16).slice(2, 10)}`,
-  to:     `0x${Math.random().toString(16).slice(2, 10)}`,
-  amount: (Math.random() * 50).toFixed(4),
-  age:    `${i * 6 + 2}s ago`,
-}))
+function formatAge(timestampNano: number) {
+  const diffMs = Date.now() - (timestampNano / 1e6)
+  if (diffMs < 60000) return `${Math.max(0, Math.floor(diffMs/1000))}s ago`
+  if (diffMs < 3600000) return `${Math.floor(diffMs/60000)}m ago`
+  return `${Math.floor(diffMs/3600000)}h ago`
+}
 
-function Panel({ title, children }: { title: React.ReactNode; children: React.ReactNode }) {
+function Panel({ title, onRefresh, children }: { title: React.ReactNode; onRefresh?: () => void; children: React.ReactNode }) {
   return (
     <div className="glass-panel rounded-xl overflow-hidden">
       <div className="px-5 py-4 border-b border-[rgba(6,182,212,0.1)] flex items-center justify-between">
         {title}
-        <button className="text-slate-500 hover:text-cyan-400 transition-colors">
+        <button onClick={onRefresh} className="text-slate-500 hover:text-cyan-400 transition-colors">
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
@@ -37,6 +30,65 @@ function Panel({ title, children }: { title: React.ReactNode; children: React.Re
 }
 
 export default function ExplorerPage() {
+  const { rpcUrl } = useWallet()
+  const [stats, setStats] = useState({ height: 0, txs: 0, nodes: 0 })
+  const [blocks, setBlocks] = useState<any[]>([])
+  const [recentTxs, setRecentTxs] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchStatus = async () => {
+    try {
+      const res = await fetch(`${rpcUrl}/status`)
+      if (res.ok) {
+        const data = await res.json()
+        setStats({
+          height: data.height || 0,
+          txs: data.mempool_size || 0,
+          nodes: data.peers || 0
+        })
+      }
+    } catch (err) {
+      console.error("Failed to fetch status:", err)
+    }
+  }
+
+  const fetchBlocks = async () => {
+    try {
+      const res = await fetch(`${rpcUrl}/chain?limit=10`)
+      if (res.ok) {
+        const data = await res.json()
+        if (Array.isArray(data)) {
+          const sortedBlocks = [...data].reverse()
+          setBlocks(sortedBlocks.slice(0, 6))
+
+          let txs: any[] = []
+          for (const b of sortedBlocks) {
+            if (b.transactions) {
+              txs.push(...b.transactions)
+            }
+            if (txs.length >= 8) break
+          }
+          setRecentTxs(txs.slice(0, 8))
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch blocks:", err)
+    }
+  }
+
+  const fetchData = async () => {
+    setLoading(true)
+    await Promise.all([fetchStatus(), fetchBlocks()])
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    if (!rpcUrl) return
+    fetchData()
+    const interval = setInterval(fetchData, 10000)
+    return () => clearInterval(interval)
+  }, [rpcUrl])
+
   return (
     <div className="min-h-screen">
       <PageHeader
@@ -73,10 +125,10 @@ export default function ExplorerPage() {
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10"
         >
           {[
-            { label: "Latest Block", value: "1,284" },
-            { label: "Transactions", value: "9,471" },
-            { label: "Active Nodes", value: "42" },
-            { label: "Avg Block Time", value: "~14s" },
+            { label: "Latest Block", value: stats.height.toLocaleString() },
+            { label: "Mempool TXs", value: stats.txs.toLocaleString() },
+            { label: "Active Nodes", value: stats.nodes.toString() },
+            { label: "Avg Block Time", value: "~10s" },
           ].map(({ label, value }) => (
             <div key={label} className="glass-panel rounded-xl p-5">
               <div className="text-2xl font-semibold text-cyan-400 font-mono mb-1">{value}</div>
@@ -95,9 +147,12 @@ export default function ExplorerPage() {
                 <span className="status-dot" />
                 <span className="text-sm font-medium text-slate-200">Latest Blocks</span>
               </div>
-            }>
+            } onRefresh={fetchData}>
               <div className="divide-y divide-[rgba(6,182,212,0.07)]">
-                {BLOCKS.map((block) => (
+                {blocks.length === 0 && !loading && (
+                  <div className="px-5 py-8 text-center text-slate-500 text-sm">No blocks found</div>
+                )}
+                {blocks.map((block) => (
                   <div key={block.height} className="px-5 py-4 flex items-center justify-between hover:bg-cyan-400/5 transition-colors group">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-lg bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
@@ -105,13 +160,13 @@ export default function ExplorerPage() {
                       </div>
                       <div>
                         <div className="text-sm font-semibold text-slate-200">Block #{block.height}</div>
-                        <div className="text-xs font-mono text-slate-500">{block.hash.slice(0, 20)}…</div>
+                        <div className="text-xs font-mono text-slate-500">{block.hash?.slice(0, 20)}…</div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs text-cyan-400">{block.txCount} txns</div>
+                      <div className="text-xs text-cyan-400">{block.transactions?.length || 0} txns</div>
                       <div className="text-xs text-slate-500 flex items-center gap-1 justify-end">
-                        <Clock className="w-3 h-3" /> {block.age}
+                        <Clock className="w-3 h-3" /> {formatAge(block.header?.timestamp || 0)}
                       </div>
                     </div>
                   </div>
@@ -127,20 +182,23 @@ export default function ExplorerPage() {
                 <span className="status-dot" />
                 <span className="text-sm font-medium text-slate-200">Recent Transactions</span>
               </div>
-            }>
+            } onRefresh={fetchData}>
               <div className="divide-y divide-[rgba(6,182,212,0.07)]">
-                {TXS.map((tx) => (
-                  <div key={tx.hash} className="px-5 py-4 flex items-center justify-between hover:bg-cyan-400/5 transition-colors">
+                {recentTxs.length === 0 && !loading && (
+                  <div className="px-5 py-8 text-center text-slate-500 text-sm">No transactions found</div>
+                )}
+                {recentTxs.map((tx, idx) => (
+                  <div key={tx.id || `fallback-${idx}`} className="px-5 py-4 flex items-center justify-between hover:bg-cyan-400/5 transition-colors">
                     <div>
-                      <div className="text-xs font-mono text-slate-200">{tx.hash.slice(0, 18)}…</div>
+                      <div className="text-xs font-mono text-slate-200">{tx.id?.slice(0, 18)}…</div>
                       <div className="text-xs text-slate-500 mt-0.5">
-                        {tx.from.slice(0, 8)}… → {tx.to.slice(0, 8)}…
+                        {tx.sender === "VALENCE_COINBASE" ? "Coinbase" : `${tx.sender?.slice(0, 8)}…`} → {tx.recipient === "Genesis" ? "Genesis" : `${tx.recipient?.slice(0, 8)}…`}
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium text-cyan-400">{tx.amount} VLC</div>
+                      <div className="text-sm font-medium text-cyan-400">{(tx.amount / 1000000000).toFixed(4)} VLC</div>
                       <div className="text-xs text-slate-500 flex items-center gap-1 justify-end">
-                        <Clock className="w-3 h-3" /> {tx.age}
+                        <Clock className="w-3 h-3" /> {formatAge(tx.timestamp || 0)}
                       </div>
                     </div>
                   </div>
@@ -155,18 +213,12 @@ export default function ExplorerPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-8 flex items-center justify-between px-5 py-4 rounded-xl border border-amber-400/20 bg-amber-400/5"
+          className="mt-8 flex items-center justify-between px-5 py-4 rounded-xl border border-cyan-400/20 bg-cyan-400/5"
         >
-          <div className="flex items-center gap-3 text-sm text-amber-300/80">
-            <div className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#fbbf24]" />
-            Data shown is mock — start a local Valence node to see live data.
+          <div className="flex items-center gap-3 text-sm text-cyan-300/80">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_#22d3ee]" />
+            Connected to Live Network ({rpcUrl})
           </div>
-          <a
-            href="/docs"
-            className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition-colors"
-          >
-            How to start <ArrowUpRight className="w-3 h-3" />
-          </a>
         </motion.div>
       </div>
     </div>
