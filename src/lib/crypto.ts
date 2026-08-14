@@ -25,29 +25,36 @@ export function signTransaction(
   privateKeyHex: string,
   publicKeyHex: string
 ) {
-  // Build the message to sign exactly as backend expects:
-  // message = fmt.Sprintf("%s:%s:%d:%d", tx.Sender, tx.Recipient, tx.Amount, tx.Sequence)
-  const message = `${senderAddress}:${recipientAddress}:${amount}:${sequence}`;
-  const messageBytes = new TextEncoder().encode(message);
+  const timestamp = Date.now() * 1000000; // nanoseconds
+
+  // Build the record exactly as backend expects:
+  // record = fmt.Sprintf("%d:%s|%d:%s|%d|%d|%d", len(tx.Sender), tx.Sender, len(tx.Recipient), tx.Recipient, tx.Amount, tx.Sequence, tx.Timestamp)
+  const record = `${senderAddress.length}:${senderAddress}|${recipientAddress.length}:${recipientAddress}|${amount}|${sequence}|${timestamp}`;
+  const recordBytes = new TextEncoder().encode(record);
+  
+  // Backend uses DoubleHashBytes (sha256(sha256(data)))
+  const hash1 = sha256(recordBytes);
+  const hash2 = sha256(hash1);
   
   const privateKeyBytes = hexToBytes(privateKeyHex);
-  const signatureBytes = ed25519.sign(messageBytes, privateKeyBytes);
+  // Backend signs the double hash, not the raw message
+  const signatureBytes = ed25519.sign(hash2, privateKeyBytes);
   const publicKeyBytes = hexToBytes(publicKeyHex);
   
-  // Calculate ID (sha256 of signature)
-  const idHash = sha256(signatureBytes);
+  // Backend ID is the hex encoding of the double hash
+  const idHex = bytesToHex(hash2);
   
   // Go json.Unmarshal expects base64 encoded strings for []byte fields
   const toBase64 = (arr: Uint8Array) => Buffer.from(arr).toString('base64');
   
   return {
-    id: bytesToHex(idHash),
+    id: idHex,
     sender: senderAddress,
     recipient: recipientAddress,
     amount: amount,
     sequence: sequence,
     public_key: toBase64(publicKeyBytes),
     signature: toBase64(signatureBytes),
-    timestamp: Date.now() * 1000000, // nanoseconds
+    timestamp: timestamp,
   };
 }
