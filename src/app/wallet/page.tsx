@@ -37,13 +37,14 @@ export default function WalletPage() {
 
   // Dashboard UI State
   const [showKey, setShowKey] = useState(false)
-  const [activeTab, setActiveTab] = useState<"send" | "receive" | "dapp">("send")
+  const [activeTab, setActiveTab] = useState<"send" | "receive">("send")
   const [amount, setAmount] = useState("")
   const [recipient, setRecipient] = useState("")
   
   // Blockchain State
   const [balance, setBalance] = useState("0.0000")
   const [history, setHistory] = useState<any[]>([])
+  const [pendingHistory, setPendingHistory] = useState<any[]>([])
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -62,6 +63,7 @@ export default function WalletPage() {
       if (histRes.ok) {
         const histData = await histRes.json()
         setHistory(histData || [])
+        setPendingHistory(prev => prev.filter(p => !(histData || []).some((h: any) => h.id === p.id)))
       }
     } catch (err) {
       console.error("Failed to fetch wallet data:", err)
@@ -146,7 +148,10 @@ export default function WalletPage() {
       const amtVLC = parseFloat(amount)
       if (isNaN(amtVLC) || amtVLC <= 0) throw new Error("Invalid amount")
       
-      await requestTransaction({ recipient, amountVLC: amtVLC })
+      const res = await requestTransaction({ recipient, amountVLC: amtVLC })
+      if (res && res.transaction) {
+        setPendingHistory(prev => [res.transaction, ...prev])
+      }
       
       setSuccessMsg("Transaction broadcasted!")
       setAmount("")
@@ -163,21 +168,7 @@ export default function WalletPage() {
     }
   }
 
-  const handleDAppPurchase = async () => {
-    try {
-      // Simulate DApp charging 50 VLC to a random shop address
-      await requestTransaction({ 
-        recipient: "VALENCE_SHOP_09F3", 
-        amountVLC: 50.0 
-      })
-      setSuccessMsg("Purchase successful!")
-      setTimeout(fetchWalletData, 2000)
-    } catch (e: any) {
-      if (e.message !== "Transaction rejected by user") {
-        setError(e.message)
-      }
-    }
-  }
+
 
   return (
     <div className="min-h-screen">
@@ -366,20 +357,19 @@ export default function WalletPage() {
                   transition={{ duration: 0.8, delay: 0.05, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl overflow-hidden"
                 >
-                  {/* Tabs */}
-                  <div className="flex border-b border-[rgba(6,182,212,0.1)]">
-                    {(["send", "receive", "dapp"] as const).map((tab) => (
+                  <div className="flex bg-[#03090e] border-b border-[rgba(6,182,212,0.1)]">
+                    {(["send", "receive"] as const).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 text-sm font-medium transition-colors capitalize ${
-                          activeTab === tab
-                            ? "text-cyan-400 border-b-2 border-cyan-400 bg-cyan-400/5"
-                            : "text-slate-500 hover:text-slate-300"
+                        className={`flex-1 py-4 flex items-center justify-center gap-2 text-sm font-medium transition-colors ${
+                          activeTab === tab 
+                            ? "text-cyan-400 border-b-2 border-cyan-400 bg-cyan-400/5" 
+                            : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
                         }`}
                       >
-                        {tab === "send" ? <Send className="w-4 h-4" /> : tab === "receive" ? <Download className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                        {tab === "dapp" ? "DApp Test" : `${tab} VLC`}
+                        {tab === "send" ? <Send className="w-4 h-4" /> : <Download className="w-4 h-4" />}
+                        {`${tab} VLC`}
                       </button>
                     ))}
                   </div>
@@ -430,23 +420,6 @@ export default function WalletPage() {
                       </div>
                     )}
 
-                    {activeTab === "dapp" && (
-                      <div className="flex flex-col gap-4 items-center text-center py-6">
-                        <div className="w-16 h-16 bg-purple-500/20 rounded-2xl flex items-center justify-center border border-purple-400/30 mb-2">
-                          <Play className="w-8 h-8 text-purple-400 ml-1" />
-                        </div>
-                        <h3 className="text-lg font-semibold text-slate-200">DApp Simulator</h3>
-                        <p className="text-sm text-slate-400 max-w-sm mb-4">
-                          Click below to simulate a decentralized application requesting a transaction from your wallet. Notice the MetaMask-style approval popup.
-                        </p>
-                        <button 
-                          onClick={handleDAppPurchase}
-                          className="px-6 py-3 rounded-lg bg-purple-500 hover:bg-purple-400 text-slate-900 font-semibold transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                        >
-                          Buy NFT (50 VLC)
-                        </button>
-                      </div>
-                    )}
                   </div>
                 </motion.div>
 
@@ -462,10 +435,10 @@ export default function WalletPage() {
                     <span className="text-sm font-medium text-slate-200">Transaction History</span>
                   </div>
                   <div className="divide-y divide-[rgba(6,182,212,0.07)]">
-                    {history.length === 0 && (
+                    {history.length === 0 && pendingHistory.length === 0 && (
                       <div className="px-5 py-8 text-center text-slate-500 text-sm">No transactions yet</div>
                     )}
-                    {history.map((tx, i) => {
+                    {[...pendingHistory.map(t => ({...t, pending: true})), ...history].map((tx, i) => {
                       const isReceived = tx.recipient === keys.address
                       return (
                       <div key={i} className="px-5 py-4 flex items-center justify-between hover:bg-cyan-400/5 transition-colors">
@@ -481,7 +454,17 @@ export default function WalletPage() {
                             }
                           </div>
                           <div>
-                            <div className="text-sm font-medium text-slate-200 capitalize">{isReceived ? "received" : "sent"}</div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium text-slate-200 capitalize">{isReceived ? "received" : "sent"}</span>
+                              {tx.pending && (
+                                <span 
+                                  className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 cursor-help"
+                                  title="Awaiting network confirmation"
+                                >
+                                  Pending
+                                </span>
+                              )}
+                            </div>
                             <div className="text-xs text-slate-500 font-mono">
                               {isReceived 
                                 ? (tx.sender === "VALENCE_COINBASE" ? "from Coinbase" : `from ${tx.sender.slice(0, 8)}…`)

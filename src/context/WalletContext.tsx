@@ -143,7 +143,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
       })
       
       if (submitRes.ok) {
-        pendingTx.resolve(await submitRes.json())
+        const responseData = await submitRes.json()
+        pendingTx.resolve({ ...responseData, transaction: tx })
         setPendingTx(null)
       } else {
         const text = await submitRes.text()
