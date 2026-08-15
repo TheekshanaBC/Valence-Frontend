@@ -291,13 +291,14 @@ export function Hero3D() {
     resizeObserver.observe(container)
 
     /* ---------- loop ---------- */
-    const clock = new THREE.Clock()
+    const timer = new THREE.Timer()
     let t = 0
     let animationId: number
 
     function tick() {
       animationId = requestAnimationFrame(tick)
-      const dt = Math.min(clock.getDelta(), 0.05)
+      timer.update()
+      const dt = Math.min(timer.getDelta(), 0.05)
       t += dt
 
       mouse.x += (target.x - mouse.x) * 0.04

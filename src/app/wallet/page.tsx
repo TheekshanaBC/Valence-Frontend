@@ -173,7 +173,6 @@ export default function WalletPage() {
   return (
     <div className="min-h-screen">
       <PageHeader
-        label="Valence Web Wallet"
         title="Web"
         titleAccent="Wallet"
         subtitle="A secure, non-custodial wallet with AES encryption and MetaMask-style transaction approvals."

@@ -1,149 +1,365 @@
 "use client"
 
+import * as React from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { ArrowRight, Terminal, Download, Book, Zap } from "lucide-react"
+import {
+  Terminal,
+  Zap,
+  Globe,
+  Sliders,
+  Copy,
+  Check,
+  ExternalLink,
+  Book,
+  Shield,
+  Layers,
+  Search,
+} from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { MoleculeBg } from "@/components/molecule-bg"
 
-const SECTIONS = [
+const GITHUB_REPO_URL = "https://github.com/TheekshanaBC/Blockchain-Simulator"
+
+const QUICKSTART_STEPS = [
   {
-    id: "quickstart",
-    icon: <Zap className="w-5 h-5 text-cyan-400" />,
-    title: "Quick Start",
-    desc: "Get a local Valence cluster running in under 5 minutes.",
-    steps: [
-      { label: "Clone the repository", code: "git clone https://github.com/TheekshanaBC/Valence-Frontend.git" },
-      { label: "Install dependencies", code: "go mod tidy" },
-      { label: "Start a node", code: "go run ./cmd/valenced --port=8080 --data=./data/node1" },
-      { label: "Start a second node (new terminal)", code: "go run ./cmd/valenced --port=8081 --data=./data/node2 --peers=localhost:8080" },
-      { label: "Mine a block", code: "go run ./cmd/valence-cli mine --node=localhost:8080" },
-    ],
+    step: 1,
+    title: "Clone the Repository",
+    desc: "Clone the open-source Go backend and Next.js frontend repository.",
+    cmd: "git clone https://github.com/TheekshanaBC/Blockchain-Simulator.git",
   },
   {
-    id: "api",
-    icon: <Terminal className="w-5 h-5 text-cyan-400" />,
-    title: "REST API Reference",
-    desc: "Each node exposes a REST API for interacting with the blockchain.",
-    endpoints: [
-      { method: "GET",  path: "/chain",         desc: "Returns the full blockchain" },
-      { method: "GET",  path: "/blocks/:height", desc: "Get block at height" },
-      { method: "GET",  path: "/mempool",        desc: "List unconfirmed transactions" },
-      { method: "POST", path: "/transactions",   desc: "Broadcast a signed transaction" },
-      { method: "GET",  path: "/peers",          desc: "List connected peers" },
-      { method: "GET",  path: "/balance/:addr",  desc: "Get address balance" },
-    ],
+    step: 2,
+    title: "Start Primary Node Daemon (Node 1)",
+    desc: "Initializes the Genesis block and launches Node 1 on port 8080.",
+    cmd: "go run ./cmd/valenced -port=8080 -data-dir=./data/node1",
   },
   {
-    id: "wallet",
-    icon: <Download className="w-5 h-5 text-cyan-400" />,
-    title: "Wallet CLI",
-    desc: "Create keys and send transactions from the command line.",
-    steps: [
-      { label: "Create a new wallet",  code: "go run ./cmd/valence-cli wallet new" },
-      { label: "Check balance",        code: "go run ./cmd/valence-cli balance --addr=<your-address>" },
-      { label: "Send VLC",             code: "go run ./cmd/valence-cli send --to=<addr> --amount=10 --key=<privkey>" },
-      { label: "Request faucet funds", code: "go run ./cmd/valence-cli faucet --addr=<your-address>" },
-    ],
+    step: 3,
+    title: "Start Secondary Peer Node (Node 2)",
+    desc: "Launches Node 2 on port 8081 and automatically connects to Node 1 via mesh discovery.",
+    cmd: "go run ./cmd/valenced -port=8081 -data-dir=./data/node2 -peers=localhost:8080",
   },
+  {
+    step: 4,
+    title: "Mine a Block with valence-cli",
+    desc: "Triggers the Proof-of-Work engine on Node 1 to mine pending transactions.",
+    cmd: "go run ./cmd/valence-cli -node=http://localhost:8080 generate",
+  },
+]
+
+const CLI_COMMANDS = [
+  {
+    cmd: "valence-cli createwallet",
+    args: "[-wallet=name]",
+    desc: "Generates a new Ed25519 keypair and securely saves it into the local keystore (keys.json).",
+  },
+  {
+    cmd: "valence-cli getbalance",
+    args: "[address]",
+    desc: "Queries the confirmed on-chain balance in VCN for the active wallet or a specified address.",
+  },
+  {
+    cmd: "valence-cli sendtoaddress",
+    args: "<address> <amount>",
+    desc: "Signs and submits a transaction transfer. Automatically converts VCN to Electrons (10^9).",
+  },
+  {
+    cmd: "valence-cli faucet",
+    args: "<amount>",
+    desc: "Requests test VCN from the network development faucet wallet.",
+  },
+  {
+    cmd: "valence-cli generate",
+    args: "",
+    desc: "Triggers the local node Proof-of-Work solver to mine a block containing pending mempool transactions.",
+  },
+  {
+    cmd: "valence-cli getnetworkinfo",
+    args: "",
+    desc: "Returns current node status including block height, best hash, peer count, and difficulty.",
+  },
+  {
+    cmd: "valence-cli getmempoolinfo",
+    args: "",
+    desc: "Lists all unconfirmed transactions currently queued in the node's mempool.",
+  },
+  {
+    cmd: "valence-cli getpeerinfo",
+    args: "",
+    desc: "Displays connected peer nodes, latency status, and health metrics.",
+  },
+  {
+    cmd: "valence-cli addnode",
+    args: "<address>",
+    desc: "Manually triggers a mutual peer announcement connection to an external node address.",
+  },
+]
+
+const DAEMON_FLAGS = [
+  { flag: "-port", default: "8080", desc: "TCP port the HTTP REST API and gossip listener binds to (1–65535)." },
+  { flag: "-data-dir", default: "./data/node1", desc: "Local directory where chain.json and keys.json are persisted." },
+  { flag: "-peers", default: '""', desc: "Comma-separated list of bootstrap peers (e.g. localhost:8081,localhost:8082)." },
+  { flag: "-difficulty", default: "3", desc: "Initial Proof-of-Work target leading zero requirement." },
+  { flag: "-retarget-window", default: "4", desc: "Number of blocks between dynamic difficulty recalculations." },
+  { flag: "-target-block-time", default: "10", desc: "Target seconds per block used by the retargeting formula." },
+  { flag: "-min-diff / -max-diff", default: "2 / 6", desc: "Hard clamping bounds for dynamic difficulty adjustments." },
+  { flag: "-max-tx-per-block", default: "10", desc: "Maximum number of transactions packaged into a single block." },
+]
+
+const REST_ENDPOINTS = [
+  { method: "GET", path: "/status", desc: "Node status: current height, best hash, peer count, difficulty, and mempool size." },
+  { method: "GET", path: "/chain", desc: "Retrieves the full blockchain or paginated slice (?limit=N&offset=N)." },
+  { method: "GET", path: "/chain/blocks/:height/proof/:txIndex", desc: "Returns binary Merkle SPV inclusion proof for a specific transaction." },
+  { method: "GET", path: "/balances", desc: "Returns account balance map derived via in-memory transaction replay." },
+  { method: "GET", path: "/history/:address", desc: "Returns all inbound and outbound transactions involving the address." },
+  { method: "GET", path: "/sequence/:address", desc: "Returns the next expected sequential nonce for replay protection." },
+  { method: "GET", path: "/mempool", desc: "Lists all unconfirmed transactions waiting in the memory pool." },
+  { method: "POST", path: "/tx/submit", desc: "Submits an Ed25519 signed transaction into the mempool." },
+  { method: "POST", path: "/mine", desc: "Triggers multi-core CPU Proof-of-Work mining on pending transactions." },
+  { method: "POST", path: "/faucet", desc: "Mints development test tokens to a recipient address (rate-limited)." },
+  { method: "GET", path: "/peers", desc: "Returns list of connected and healthy network peers." },
+  { method: "POST", path: "/peers/announce", desc: "Announces local address for mutual peer discovery and mesh expansion." },
+  { method: "POST", path: "/chain/sync", desc: "Accepts push chain synchronization from an ahead peer." },
 ]
 
 function MethodBadge({ method }: { method: string }) {
   const colors: Record<string, string> = {
-    GET:  "text-green-400 bg-green-400/10 border-green-400/20",
-    POST: "text-amber-400 bg-amber-400/10 border-amber-400/20",
+    GET: "text-emerald-400 bg-emerald-400/10 border-emerald-400/25",
+    POST: "text-amber-400 bg-amber-400/10 border-amber-400/25",
   }
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold border ${colors[method] ?? "text-slate-400 bg-slate-400/10 border-slate-400/20"}`}>
+    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${colors[method] ?? "text-slate-400 bg-slate-400/10 border-slate-400/20"}`}>
       {method}
     </span>
   )
 }
 
-export default function DocsPage() {
+function CodeBlock({ code }: { code: string }) {
+  const [copied, setCopied] = React.useState(false)
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
-    <div className="min-h-screen">
+    <div className="relative group bg-[#03090e] rounded-lg px-4 py-3 border border-[rgba(6,182,212,0.12)] flex items-center justify-between gap-3">
+      <div className="flex items-center gap-2.5 min-w-0 overflow-x-auto">
+        <Terminal className="w-3.5 h-3.5 text-cyan-400/60 flex-shrink-0" />
+        <code className="text-xs font-mono text-slate-200 whitespace-nowrap">{code}</code>
+      </div>
+      <button
+        onClick={handleCopy}
+        className="text-slate-500 hover:text-cyan-300 transition-colors flex-shrink-0 p-1 rounded"
+        title="Copy to clipboard"
+      >
+        {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+      </button>
+    </div>
+  )
+}
+
+export default function DocsPage() {
+  const [activeSection, setActiveSection] = React.useState<"quickstart" | "cli" | "flags" | "api">("quickstart")
+  const [apiSearch, setApiSearch] = React.useState("")
+
+  const filteredEndpoints = React.useMemo(() => {
+    return REST_ENDPOINTS.filter((ep) =>
+      ep.path.toLowerCase().includes(apiSearch.toLowerCase()) ||
+      ep.desc.toLowerCase().includes(apiSearch.toLowerCase()) ||
+      ep.method.toLowerCase().includes(apiSearch.toLowerCase())
+    )
+  }, [apiSearch])
+
+  return (
+    <div className="min-h-screen pb-24">
       <PageHeader
-        label="Documentation"
-        title="Getting"
-        titleAccent="Started"
-        subtitle="Everything you need to run a local Valence cluster, send transactions, and explore the chain."
+        title="Developer"
+        titleAccent="Documentation"
+        subtitle="Complete guide to running local node clusters, CLI commands, daemon configuration, and the REST API catalog."
         breadcrumb={[{ href: "/docs", label: "Docs" }]}
       >
-        <div className="flex flex-wrap gap-3 mt-2">
+        <div className="flex flex-wrap gap-3 mt-4">
           <Link
-            href="https://github.com/TheekshanaBC/Valence-Frontend"
+            href={GITHUB_REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 text-sm font-semibold transition-all shadow-[0_0_16px_rgba(6,182,212,0.3)]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-semibold tracking-wide transition-all shadow-[0_0_16px_rgba(6,182,212,0.35)]"
           >
-            <Book className="w-4 h-4" /> View on GitHub <ArrowRight className="w-3.5 h-3.5" />
+            <Book className="w-3.5 h-3.5" /> View on GitHub <ExternalLink className="w-3 h-3 opacity-60" />
           </Link>
         </div>
       </PageHeader>
 
-      <div className="relative max-w-4xl mx-auto px-4 py-16">
-        <MoleculeBg intensity={0.2} particles={false} />
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <MoleculeBg intensity={0.25} particles={false} />
 
-        <div className="flex flex-col gap-10">
-          {SECTIONS.map((section, si) => (
-            <motion.section
-              key={section.id}
-              id={section.id}
-              initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.8, delay: si * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+        {/* ─── Navigation Sub-Tabs ─── */}
+        <div className="flex flex-wrap gap-2 mb-8 border-b border-[rgba(6,182,212,0.12)] pb-4">
+          {[
+            { id: "quickstart", label: "Quick Start Guide", icon: <Zap className="w-3.5 h-3.5" /> },
+            { id: "cli", label: "valence-cli Reference", icon: <Terminal className="w-3.5 h-3.5" /> },
+            { id: "flags", label: "valenced Daemon Flags", icon: <Sliders className="w-3.5 h-3.5" /> },
+            { id: "api", label: "HTTP REST API Catalog", icon: <Globe className="w-3.5 h-3.5" /> },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveSection(tab.id as typeof activeSection)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+                activeSection === tab.id
+                  ? "bg-cyan-500 text-slate-950 font-semibold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+                  : "glass-panel text-slate-400 hover:text-white hover:border-cyan-400/30"
+              }`}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center">
-                  {section.icon}
-                </div>
-                <div>
-                  <h2 className="text-xl font-semibold text-white">{section.title}</h2>
-                  <p className="text-sm text-slate-400 font-light">{section.desc}</p>
-                </div>
-              </div>
-
-              <div className="glass-panel rounded-xl overflow-hidden">
-                {/* Steps (quickstart + wallet) */}
-                {("steps" in section ? (section as { steps: { label: string; code: string }[] }).steps : []).map((step, i) => (
-                  <div key={i} className="border-b border-[rgba(6,182,212,0.07)] last:border-0">
-                    <div className="px-5 pt-4 pb-1 flex items-center gap-3">
-                      <span className="w-5 h-5 rounded-full bg-cyan-400/15 border border-cyan-400/30 text-cyan-400 text-xs font-mono flex items-center justify-center flex-shrink-0">{i + 1}</span>
-                      <span className="text-sm text-slate-300">{step.label}</span>
-                    </div>
-                    <div className="mx-5 mb-4 mt-2 flex items-center gap-3 bg-[#03090e] rounded-lg px-4 py-3 border border-[rgba(6,182,212,0.08)]">
-                      <Terminal className="w-3.5 h-3.5 text-cyan-400/50 flex-shrink-0" />
-                      <code className="text-xs font-mono text-slate-300 break-all">{step.code}</code>
-                    </div>
-                  </div>
-                ))}
-
-                {/* Endpoints (API) */}
-                {("endpoints" in section ? (section as { endpoints: { method: string; path: string; desc: string }[] }).endpoints : []).map((ep, i) => (
-                  <div key={i} className="px-5 py-4 flex items-center gap-4 border-b border-[rgba(6,182,212,0.07)] last:border-0 hover:bg-cyan-400/5 transition-colors">
-                    <MethodBadge method={ep.method} />
-                    <code className="text-sm font-mono text-cyan-300 flex-1">{ep.path}</code>
-                    <span className="text-sm text-slate-500 hidden sm:block">{ep.desc}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.section>
+              {tab.icon}
+              <span>{tab.label}</span>
+            </button>
           ))}
         </div>
 
-        {/* Footer note */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-12 text-center text-slate-600 text-sm"
-        >
-          Full API specification and architecture details available in the{" "}
-          <Link href="https://github.com/TheekshanaBC/Valence-Frontend" target="_blank" className="text-cyan-400/70 hover:text-cyan-400 transition-colors">
-            GitHub repository →
+        {/* ─── Section 1: Quick Start ─── */}
+        {activeSection === "quickstart" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            <div className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border-[rgba(6,182,212,0.18)]">
+              <div>
+                <h3 className="text-xl font-bold text-white tracking-tight">Multi-Node Local Cluster Setup</h3>
+                <p className="text-sm text-slate-400 font-light mt-1">
+                  Follow these steps to spin up a live two-node P2P cluster and submit your first transaction in under 3 minutes.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {QUICKSTART_STEPS.map((s) => (
+                  <div key={s.step} className="p-4 rounded-xl bg-[#03090e]/70 border border-[rgba(6,182,212,0.08)] space-y-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-5 h-5 rounded-md bg-cyan-400/15 border border-cyan-400/30 text-cyan-300 font-mono text-[11px] font-bold flex items-center justify-center">
+                        {s.step}
+                      </span>
+                      <h4 className="text-sm font-semibold text-white">{s.title}</h4>
+                    </div>
+                    <p className="text-xs text-slate-400 font-light leading-relaxed">{s.desc}</p>
+                    <CodeBlock code={s.cmd} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ─── Section 2: CLI Command Reference ─── */}
+        {activeSection === "cli" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            <div className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border-[rgba(6,182,212,0.18)]">
+              <div>
+                <h3 className="text-xl font-bold text-white tracking-tight">valence-cli Command-Line Interface</h3>
+                <p className="text-sm text-slate-400 font-light mt-1">
+                  Interact with any node daemon from your terminal using Bitcoin Core-style CLI subcommands.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {CLI_COMMANDS.map((c) => (
+                  <div key={c.cmd} className="p-4 rounded-xl bg-[#03090e]/80 border border-[rgba(6,182,212,0.08)] flex flex-col justify-between space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <code className="text-xs font-mono font-bold text-cyan-300">{c.cmd}</code>
+                        {c.args && <span className="text-[10px] font-mono text-slate-500">{c.args}</span>}
+                      </div>
+                      <p className="text-xs text-slate-400 font-light leading-relaxed">{c.desc}</p>
+                    </div>
+                    <CodeBlock code={`go run ./cmd/valence-cli ${c.cmd.replace("valence-cli ", "")} ${c.args}`} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ─── Section 3: Daemon Configuration Flags ─── */}
+        {activeSection === "flags" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            <div className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border-[rgba(6,182,212,0.18)]">
+              <div>
+                <h3 className="text-xl font-bold text-white tracking-tight">valenced Node Daemon Configuration Flags</h3>
+                <p className="text-sm text-slate-400 font-light mt-1">
+                  All startup parameters supported by the core blockchain node daemon.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {DAEMON_FLAGS.map((f) => (
+                  <div key={f.flag} className="p-4 rounded-xl bg-[#03090e]/80 border border-[rgba(6,182,212,0.08)] flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-mono font-bold text-cyan-300">{f.flag}</span>
+                        <span className="text-[10px] font-mono text-slate-500 bg-cyan-400/5 px-2 py-0.5 rounded border border-cyan-400/10">
+                          Default: {f.default}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-400 font-light leading-relaxed">{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ─── Section 4: REST API Catalog ─── */}
+        {activeSection === "api" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            <div className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border-[rgba(6,182,212,0.18)]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-xl font-bold text-white tracking-tight">HTTP REST API Endpoints</h3>
+                  <p className="text-sm text-slate-400 font-light mt-0.5">
+                    CORS-enabled JSON endpoints exposed by every active node daemon on its configured port.
+                  </p>
+                </div>
+                <div className="relative w-full sm:w-64">
+                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search endpoints..."
+                    value={apiSearch}
+                    onChange={(e) => setApiSearch(e.target.value)}
+                    className="w-full bg-[#03090e] border border-[rgba(6,182,212,0.18)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                {filteredEndpoints.map((ep, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3.5 rounded-xl bg-[#03090e]/70 border border-[rgba(6,182,212,0.08)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-cyan-400/30 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <MethodBadge method={ep.method} />
+                      <code className="text-xs font-mono font-semibold text-cyan-300 truncate">{ep.path}</code>
+                    </div>
+                    <span className="text-xs text-slate-400 font-light">{ep.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ─── Footer Link ─── */}
+        <div className="mt-12 text-center text-xs text-slate-500 font-light">
+          Full Go source code, tests, and reference manual available in the{" "}
+          <Link
+            href={GITHUB_REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors"
+          >
+            GitHub repository
           </Link>
-        </motion.div>
+          .
+        </div>
       </div>
     </div>
   )

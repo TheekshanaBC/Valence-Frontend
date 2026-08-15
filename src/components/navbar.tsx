@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/architecture", label: "Architecture" },
   { href: "/explorer",     label: "Explorer" },
   { href: "/docs",         label: "Docs" },
-  { href: "https://github.com/TheekshanaBC/Valence-Frontend", label: "GitHub", external: true },
+  { href: "https://github.com/TheekshanaBC/Blockchain-Simulator", label: "GitHub", external: true },
 ]
 
 function ValenceLogo() {

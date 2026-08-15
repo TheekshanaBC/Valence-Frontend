@@ -209,7 +209,7 @@ export default function Home() {
                 Open Wallet
               </Link>
               <Link
-                href="https://github.com/TheekshanaBC/Valence-Frontend"
+                href="https://github.com/TheekshanaBC/Blockchain-Simulator"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-slate-400 hover:text-white font-medium tracking-wide hover:bg-white/5 transition-all"
@@ -346,7 +346,7 @@ export default function Home() {
           <div className="flex items-center gap-6 text-sm text-slate-500">
             <Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link>
             <Link href="/docs"  className="hover:text-cyan-400 transition-colors">Docs</Link>
-            <Link href="https://github.com/TheekshanaBC/Valence-Frontend" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors flex items-center gap-1">
+            <Link href="https://github.com/TheekshanaBC/Blockchain-Simulator" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors flex items-center gap-1">
               GitHub
             </Link>
           </div>

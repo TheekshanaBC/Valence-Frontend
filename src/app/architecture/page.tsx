@@ -1,194 +1,206 @@
 "use client"
 
-import { motion } from "framer-motion"
+import * as React from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  ShieldCheck,
+  Search,
+  ChevronRight,
+  FileCode2,
+  CheckCircle2,
+  BookOpen,
+  Network,
+} from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { MoleculeBg } from "@/components/molecule-bg"
+import { MermaidDiagram } from "@/components/mermaid-diagram"
+import { ARCH_MODULES } from "@/lib/architecture-data"
 
-// Architecture flow: nodes → mempool → mining → block → chain
-const LAYERS = [
-  {
-    id: "wallet",
-    label: "Wallet / CLI",
-    color: "#22d3ee",
-    desc: "Ed25519 key pairs, transaction signing, broadcast to node API.",
-    items: ["Key Generation", "Sign Tx", "REST API Client"],
-  },
-  {
-    id: "node",
-    label: "Node API",
-    color: "#38bdf8",
-    desc: "HTTP REST API exposing chain state, mempool, and peer management.",
-    items: ["GET /blocks", "POST /transactions", "GET /peers"],
-  },
-  {
-    id: "mempool",
-    label: "Mempool",
-    color: "#818cf8",
-    desc: "Unconfirmed transactions are validated and held until mined into a block.",
-    items: ["Signature verify", "Balance check", "Fee ordering"],
-  },
-  {
-    id: "mining",
-    label: "PoW Miner",
-    color: "#a78bfa",
-    desc: "Continuously attempts nonces to find a hash satisfying the difficulty target.",
-    items: ["SHA-256", "Difficulty target", "Nonce loop"],
-  },
-  {
-    id: "block",
-    label: "Block",
-    color: "#c084fc",
-    desc: "Sealed block: header, Merkle root, nonce, prev-hash, timestamp.",
-    items: ["Merkle tree", "Header hash", "Block reward"],
-  },
-  {
-    id: "p2p",
-    label: "P2P Gossip",
-    color: "#f472b6",
-    desc: "Blocks and transactions propagate to all known peers via TCP gossip.",
-    items: ["Peer discovery", "Block broadcast", "Fork resolution"],
-  },
-]
-
-function Arrow() {
-  return (
-    <div className="flex justify-center my-2">
-      <motion.div
-        animate={{ y: [0, 4, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        className="w-px h-8 bg-gradient-to-b from-cyan-400/50 to-transparent relative"
-      >
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-cyan-400/50 w-0 h-0" />
-      </motion.div>
-    </div>
-  )
-}
+const CATEGORIES = ["All", "Primitives", "Consensus & State", "Network & P2P", "Orchestration"] as const
+type Category = (typeof CATEGORIES)[number]
 
 export default function ArchitecturePage() {
+  const [selectedCategory, setSelectedCategory] = React.useState<Category>("All")
+  const [searchQuery, setSearchQuery] = React.useState("")
+  const [activeModuleId, setActiveModuleId] = React.useState<string>(ARCH_MODULES[0].id)
+
+  const filteredModules = React.useMemo(() => {
+    return ARCH_MODULES.filter((m) => {
+      const matchesCategory = selectedCategory === "All" || m.category === selectedCategory
+      const matchesSearch =
+        m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.goPackage.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.description.some((d) => d.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        m.highlights.some((h) => h.toLowerCase().includes(searchQuery.toLowerCase()))
+      return matchesCategory && matchesSearch
+    })
+  }, [selectedCategory, searchQuery])
+
+  const activeModule = React.useMemo(() => {
+    return ARCH_MODULES.find((m) => m.id === activeModuleId) || ARCH_MODULES[0]
+  }, [activeModuleId])
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-24">
       <PageHeader
-        label="System Design"
-        title="Architecture"
-        subtitle="How the Valence blockchain is structured — from wallet to wire. Each layer is a bond in the chain."
+        title="Blockchain"
+        titleAccent="Architecture"
+        subtitle="Explore the 12 core cryptographic, consensus, and networking subsystems of the Valence blockchain."
         breadcrumb={[{ href: "/architecture", label: "Architecture" }]}
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 py-16">
-        <MoleculeBg intensity={0.3} particles={false} />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <MoleculeBg intensity={0.25} particles={false} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-          {/* Left: Flow diagram */}
-          <motion.div
-            initial={{ opacity: 0, x: -20, scale: 0.95, filter: "blur(8px)" }}
-            animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-          >
-            <div className="flex items-center gap-2 mb-6">
-              <span className="status-dot" />
-              <span className="text-xs font-mono tracking-[0.25em] text-cyan-400/70 uppercase">Layer Stack</span>
-            </div>
-
-            {LAYERS.map((layer, i) => (
-              <div key={layer.id}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                  transition={{ delay: i * 0.1, duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-                  className="glass-panel rounded-xl p-5 hover:border-[rgba(6,182,212,0.35)] transition-all"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div
-                      className="w-3 h-3 rounded-full flex-shrink-0 shadow-[0_0_8px_var(--c)]"
-                      style={{ background: layer.color, ["--c" as string]: layer.color }}
-                    />
-                    <span className="font-semibold text-white">{layer.label}</span>
-                  </div>
-                  <p className="text-sm text-slate-400 font-light leading-relaxed mb-3">{layer.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {layer.items.map((item) => (
-                      <span
-                        key={item}
-                        className="px-2.5 py-1 rounded-md text-xs font-mono bg-[#03090e] border border-[rgba(6,182,212,0.1)] text-slate-400"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-                {i < LAYERS.length - 1 && <Arrow />}
-              </div>
+        {/* ─── Category Filter & Search Bar ─── */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-6">
+          <div className="flex flex-wrap gap-1.5">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                  selectedCategory === cat
+                    ? "bg-cyan-500 text-slate-950 font-semibold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+                    : "glass-panel text-slate-400 hover:text-white hover:border-cyan-400/30"
+                }`}
+              >
+                {cat}
+              </button>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Right: SVG bond diagram */}
-          <motion.div
-            initial={{ opacity: 0, x: 20, scale: 0.95, filter: "blur(8px)" }}
-            animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="sticky top-24"
-          >
-            <div className="flex items-center gap-2 mb-6">
-              <span className="status-dot" />
-              <span className="text-xs font-mono tracking-[0.25em] text-cyan-400/70 uppercase">Bond Graph</span>
-            </div>
+          <div className="relative w-full sm:w-64">
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search architecture..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#03090e] border border-[rgba(6,182,212,0.18)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+            />
+          </div>
+        </div>
 
-            <div className="glass-panel rounded-2xl p-6">
-              <svg viewBox="0 0 300 300" fill="none" className="w-full">
-                {/* Central node */}
-                <motion.circle cx="150" cy="150" r="28"
-                  fill="rgba(6,182,212,0.15)" stroke="rgba(6,182,212,0.7)" strokeWidth="1.5"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  transition={{ delay: 0.3, type: "spring" }}
-                  style={{ filter: "drop-shadow(0 0 10px rgba(6,182,212,0.5))" }}
-                />
-                <text x="150" y="155" textAnchor="middle" fill="white" fontSize="9" fontFamily="monospace" fontWeight="600">NODE</text>
-
-                {/* Satellite nodes + bonds */}
-                {[
-                  { x: 150, y: 40,  label: "Wallet",  color: "#22d3ee" },
-                  { x: 260, y: 95,  label: "API",     color: "#38bdf8" },
-                  { x: 260, y: 205, label: "Miner",   color: "#a78bfa" },
-                  { x: 150, y: 260, label: "Ledger",  color: "#c084fc" },
-                  { x: 40,  y: 205, label: "P2P",     color: "#f472b6" },
-                  { x: 40,  y: 95,  label: "Mempool", color: "#818cf8" },
-                ].map(({ x, y, label, color }, i) => (
-                  <g key={label}>
-                    <motion.line
-                      x1="150" y1="150" x2={x} y2={y}
-                      stroke="rgba(6,182,212,0.2)" strokeWidth="1"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.4 + i * 0.1 }}
-                    />
-                    <motion.circle
-                      cx={x} cy={y} r="18"
-                      fill={`${color}22`} stroke={color} strokeWidth="1"
-                      initial={{ scale: 0 }} animate={{ scale: 1 }}
-                      transition={{ delay: 0.5 + i * 0.1, type: "spring" }}
-                      style={{ filter: `drop-shadow(0 0 6px ${color}66)` }}
-                    />
-                    <text x={x} y={y + 4} textAnchor="middle" fill="white" fontSize="7" fontFamily="monospace">{label}</text>
-                  </g>
-                ))}
-              </svg>
-
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                {[
-                  { label: "Consensus", value: "Longest chain" },
-                  { label: "Block time", value: "~10–30s" },
-                  { label: "Transport", value: "TCP sockets" },
-                  { label: "Storage", value: "LevelDB" },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex flex-col bg-[#03090e] rounded-lg p-3 border border-[rgba(6,182,212,0.08)]">
-                    <span className="text-xs text-slate-500 uppercase tracking-wider">{label}</span>
-                    <span className="text-sm font-mono text-cyan-300 mt-0.5">{value}</span>
+        {/* ─── Main Two-Column View ─── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left: Compact Slim Module Navigation Rail (25% width) */}
+          <div className="lg:col-span-3 flex flex-col gap-1.5 max-h-[840px] overflow-y-auto pr-1">
+            {filteredModules.map((mod) => {
+              const isSelected = mod.id === activeModuleId
+              return (
+                <button
+                  key={mod.id}
+                  onClick={() => setActiveModuleId(mod.id)}
+                  className={`w-full text-left px-3 py-2.5 rounded-xl transition-all border flex items-center justify-between group ${
+                    isSelected
+                      ? "glass-panel bg-cyan-500/10 border-cyan-400/60 shadow-[0_0_16px_rgba(6,182,212,0.15)]"
+                      : "glass-panel border-[rgba(6,182,212,0.08)] hover:border-cyan-400/30 hover:bg-cyan-500/5"
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span
+                      className={`w-5 h-5 rounded-md flex items-center justify-center font-mono text-[10px] font-bold flex-shrink-0 ${
+                        isSelected
+                          ? "bg-cyan-400 text-slate-950 shadow-[0_0_8px_rgba(6,182,212,0.5)]"
+                          : "bg-[#03090e] text-cyan-400/80 border border-cyan-400/20"
+                      }`}
+                    >
+                      {mod.number}
+                    </span>
+                    <div className="truncate">
+                      <span className={`text-[11px] font-semibold block truncate ${isSelected ? "text-white" : "text-slate-300"}`}>
+                        {mod.title}
+                      </span>
+                      <span className="text-[9px] font-mono text-slate-500">{mod.category}</span>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+                  <ChevronRight
+                    className={`w-3 h-3 flex-shrink-0 transition-transform ${
+                      isSelected ? "text-cyan-400 translate-x-0.5" : "text-slate-600 group-hover:text-slate-400"
+                    }`}
+                  />
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Right: Expanded Main Reading View with Mermaid Diagram (75% width) */}
+          <div className="lg:col-span-9">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeModule.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+                className="glass-panel rounded-2xl p-6 sm:p-8 border-[rgba(6,182,212,0.2)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] space-y-6"
+              >
+                {/* 1. Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[rgba(6,182,212,0.1)]">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-400/15 text-cyan-300 border border-cyan-400/30">
+                        MODULE {activeModule.number}
+                      </span>
+                      <span className="text-xs font-mono text-slate-400">{activeModule.category}</span>
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{activeModule.title}</h2>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400/80 bg-[#03090e] px-3 py-1.5 rounded-lg border border-[rgba(6,182,212,0.15)] self-start">
+                    <FileCode2 className="w-3.5 h-3.5" /> {activeModule.goPackage}
+                  </span>
+                </div>
+
+                {/* 2. Narrative Description */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Subsystem Overview</span>
+                  </div>
+                  {activeModule.description.map((paragraph, idx) => (
+                    <p key={idx} className="text-sm text-slate-300 font-light leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+
+                {/* 3. Architectural Flow Diagram (Mermaid with Pan & Zoom) */}
+                <div className="space-y-2.5">
+                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
+                    <Network className="w-3.5 h-3.5" />
+                    <span>Architectural Flow Diagram</span>
+                  </div>
+                  <MermaidDiagram chart={activeModule.mermaidDiagram} id={activeModule.id} />
+                </div>
+
+                {/* 4. Key Architectural Highlights */}
+                <div className="space-y-2.5 bg-[#03090e]/60 p-4 rounded-xl border border-[rgba(6,182,212,0.08)]">
+                  <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">Key Highlights & Guarantees</h4>
+                  {activeModule.highlights.map((point, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                      <p className="text-xs text-slate-300 font-light leading-relaxed">{point}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 5. Security & Integrity Note */}
+                <div className="p-4 rounded-xl bg-cyan-500/5 border border-cyan-400/20 flex items-start gap-3">
+                  <ShieldCheck className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h5 className="text-xs font-semibold text-white tracking-wide font-mono uppercase">
+                      {activeModule.securityNote.title}
+                    </h5>
+                    <p className="text-xs text-slate-300 font-light leading-relaxed mt-1">
+                      {activeModule.securityNote.desc}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>

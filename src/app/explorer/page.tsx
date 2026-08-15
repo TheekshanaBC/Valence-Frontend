@@ -140,7 +140,6 @@ export default function ExplorerPage() {
   return (
     <div className="min-h-screen">
       <PageHeader
-        label="Live Network Data"
         title="Blockchain"
         titleAccent="Explorer"
         subtitle="Browse blocks, transactions, and mempool activity on your local Valence cluster."
