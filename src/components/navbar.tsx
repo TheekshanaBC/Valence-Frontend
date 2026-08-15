@@ -10,6 +10,7 @@ import { NetworkSwitcher } from "@/components/network-switcher"
 const navLinks = [
   { href: "/about",        label: "About" },
   { href: "/architecture", label: "Architecture" },
+  { href: "/network",      label: "Network" },
   { href: "/explorer",     label: "Explorer" },
   { href: "/docs",         label: "Docs" },
   { href: "https://github.com/TheekshanaBC/Blockchain-Simulator", label: "GitHub", external: true },

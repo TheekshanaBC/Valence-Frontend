@@ -10,6 +10,8 @@ import {
   CheckCircle2,
   BookOpen,
   Network,
+  Globe2,
+  Layers,
 } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { MoleculeBg } from "@/components/molecule-bg"
@@ -170,7 +172,7 @@ export default function ArchitecturePage() {
                 <div className="space-y-2.5">
                   <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
                     <Network className="w-3.5 h-3.5" />
-                    <span>Architectural Flow Diagram</span>
+                    <span>Architectural Flow & Topology Diagram</span>
                   </div>
                   <MermaidDiagram chart={activeModule.mermaidDiagram} id={activeModule.id} />
                 </div>
