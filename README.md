@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="./public/logo.png" alt="Valence Logo" width="300"/>
+  <br/>
+  <h3>Valence Web Wallet & Explorer</h3>
+  <p>The official interactive frontend for the Valence Blockchain Simulator.</p>
+</div>
 
-## Getting Started
+---
 
-First, run the development server:
+## ⚡ Overview
 
+The **Valence Web Wallet** is a modern, responsive Next.js application that serves as the visual gateway to the Valence Blockchain network. 
+
+Unlike typical web frontends that rely on a backend to hold private keys, this application utilizes **in-browser Ed25519 cryptography**. Your private keys never leave your browser, and all transaction signing happens entirely client-side before being broadcast to the network.
+
+## 🚀 Key Features
+
+- **Client-Side Cryptography**: Uses `@noble/ed25519` to securely generate keypairs and sign transactions locally in your browser.
+- **Interactive 3D Hero**: Features an immersive, dynamic 3D blockchain visualization built with `three.js`.
+- **Live Network Explorer**: View the current chain state, peer connections, and mempool transactions in real-time.
+- **Modern UI/UX**: Built with Next.js 16, React 19, and Tailwind CSS v4, featuring a sleek, responsive dark-mode aesthetic (Deep Violet theme) with smooth Framer Motion animations.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS v4
+- **Animations**: Framer Motion
+- **3D Graphics**: Three.js
+- **Cryptography**: `@noble/ed25519` and `crypto-js`
+- **Icons**: Lucide React
+
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+- **Node.js** v20+
+
+### Installation & Running Locally
+
+1. Install the dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Start the development server:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> **🔗 Note:** By default, the frontend will attempt to communicate with your local Valence nodes (e.g., `http://localhost:8080`). Ensure your backend cluster is running (via Docker Compose or native scripts) for the full experience.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🌐 Live Demo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+You can try out the live web application at:
+[https://valenceblockchain.vercel.app](https://valenceblockchain.vercel.app)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧪 Browser Compatibility
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Because the application relies on modern web cryptography and `three.js` for rendering, a recent version of Chrome, Firefox, Safari, or Edge is required. 
