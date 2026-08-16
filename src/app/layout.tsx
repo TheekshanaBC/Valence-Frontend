@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, Inter, Urbanist } from "next/font/google"
 import "./globals.css"
 import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 import { Providers } from "./providers"
 
 const urbanist = Urbanist({
@@ -48,6 +49,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>

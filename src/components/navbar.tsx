@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, ExternalLink } from "lucide-react"
@@ -18,16 +19,16 @@ const navLinks = [
 
 function ValenceLogo() {
   return (
-    <Link href="/" className="flex items-center gap-2 group">
-      {/* Animated nucleus dot */}
-      <span className="relative flex items-center justify-center w-6 h-6">
-        <span className="absolute w-full h-full rounded-full border border-violet-400/40 animate-ping opacity-30" />
-        <span className="w-2.5 h-2.5 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(139,92,246,0.9)]" />
-      </span>
-      <span className="text-lg font-semibold tracking-tight">
-        <span className="text-white">Val</span>
-        <span className="text-violet-400">ence</span>
-      </span>
+    <Link href="/" className="flex items-center gap-2 group transition-opacity hover:opacity-80">
+      <Image 
+        src="/logo.png" 
+        alt="Valence" 
+        width={220} 
+        height={48} 
+        className="h-12 w-auto object-contain" 
+        style={{ width: "auto" }}
+        priority 
+      />
     </Link>
   )
 }
@@ -67,7 +68,7 @@ export function Navbar() {
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              className={`flex items-center gap-1 text-base font-medium transition-colors ${
+              className={`flex items-center gap-1 text-sm font-medium transition-colors ${
                 isActive(link.href)
                   ? "text-violet-400"
                   : "text-slate-400 hover:text-slate-100"
@@ -117,7 +118,7 @@ export function Navbar() {
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
-                  className={`flex items-center justify-between px-3 py-3 rounded-lg text-base font-medium transition-colors ${
+                  className={`flex items-center justify-between px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
                     isActive(link.href)
                       ? "text-violet-400 bg-violet-400/5"
                       : "text-slate-300 hover:text-white hover:bg-white/5"

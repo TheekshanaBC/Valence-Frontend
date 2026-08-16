@@ -312,29 +312,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══════════════════════════════
-          FOOTER
-      ══════════════════════════════ */}
-      <footer className="w-full py-10 border-t border-[rgba(139,92,246,0.1)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-sm">
-            <span className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_6px_rgba(139,92,246,0.8)]" />
-            <span className="text-slate-400">
-              <span className="text-white font-medium">Val</span>
-              <span className="text-violet-400 font-medium">ence</span>
-              <span className="ml-2 text-slate-600">© {new Date().getFullYear()}</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-6 text-sm text-slate-500">
-            <Link href="/about" className="hover:text-violet-400 transition-colors">About</Link>
-            <Link href="/architecture" className="hover:text-violet-400 transition-colors">Architecture</Link>
-            <Link href="/docs" className="hover:text-violet-400 transition-colors">Docs</Link>
-            <Link href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer" className="hover:text-violet-400 transition-colors flex items-center gap-1">
-              GitHub
-            </Link>
-          </div>
-        </div>
-      </footer>
+
     </div>
   )
 }

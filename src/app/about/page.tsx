@@ -44,6 +44,25 @@ const TECH_STACK = [
   { label: "Styling", value: "Tailwind CSS v4" },
 ]
 
+const LIMITATIONS = [
+  {
+    title: "In-Memory State Recalculation",
+    desc: "Instead of a persistent State Trie, the ledger recalculates balances and nonces entirely in-memory from the chain history. This scales poorly for large chains.",
+  },
+  {
+    title: "Simplified P2P Networking",
+    desc: "Node discovery relies on explicit HTTP address arrays without advanced NAT traversal or Kademlia DHT. Gossip uses standard REST rather than persistent TCP.",
+  },
+  {
+    title: "Single JSON File Storage",
+    desc: "The entire blockchain is serialized into a single chain.json file rather than an optimized key-value store, meaning the chain must be fully parsed into memory at startup.",
+  },
+  {
+    title: "No Smart Contracts",
+    desc: "The ledger is restricted to pure currency transfers between Ed25519 addresses. There is no Virtual Machine or scripting language available.",
+  },
+]
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen pb-24">
@@ -127,6 +146,33 @@ export default function AboutPage() {
               >
                 <span className="text-[10px] font-mono uppercase text-slate-500 tracking-wider mb-1">{label}</span>
                 <span className="text-xs font-mono font-semibold text-violet-300">{value}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ─── Known Limitations ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="glass-panel rounded-2xl p-6 sm:p-8 mt-10"
+        >
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold text-white tracking-tight">Known Limitations</h3>
+            <p className="text-sm text-slate-400 font-light mt-1">
+              Intentional simplifications made for educational clarity over production scalability.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {LIMITATIONS.map(({ title, desc }) => (
+              <div
+                key={title}
+                className="bg-[#03090e]/60 rounded-xl p-5 border border-white/5 hover:border-violet-400/20 transition-colors"
+              >
+                <h4 className="text-sm font-semibold text-slate-200 mb-2">{title}</h4>
+                <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
