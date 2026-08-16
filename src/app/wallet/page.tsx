@@ -283,8 +283,8 @@ export default function WalletPage() {
               {/* ── Left: Balance card ── */}
               <div className="lg:col-span-1 flex flex-col gap-5">
                 <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl p-6"
                 >
@@ -329,8 +329,8 @@ export default function WalletPage() {
 
                 {/* Faucet */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl p-5"
                 >
@@ -351,8 +351,8 @@ export default function WalletPage() {
 
                 {/* Tab panel */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.05, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl overflow-hidden"
                 >
@@ -424,8 +424,8 @@ export default function WalletPage() {
 
                 {/* Transaction history */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl overflow-hidden"
                 >

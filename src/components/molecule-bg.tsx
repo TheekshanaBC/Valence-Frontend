@@ -65,7 +65,7 @@ export function MoleculeBg({ intensity = 1, particles = true }: MoleculeBgProps)
           <motion.div
             key={id}
             className="absolute rounded-full bg-cyan-300"
-            style={{ left, top, width: size, height: size }}
+            style={{ left, top, width: size, height: size, willChange: "transform, opacity" }}
             animate={{ y: [0, -20, 0], opacity: [0.08, 0.25, 0.08] }}
             transition={{ duration, repeat: Infinity, delay, ease: "easeInOut" }}
           />

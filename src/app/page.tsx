@@ -108,8 +108,8 @@ export default function Home() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 lg:px-12 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Content */}
           <motion.div
-            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="flex flex-col"
           >
@@ -163,8 +163,8 @@ export default function Home() {
 
           {/* Right: Three.js 3D Viewport */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="hidden lg:flex items-center justify-center h-[460px] xl:h-[560px] w-full"
           >
@@ -205,7 +205,7 @@ export default function Home() {
                     {copiedCmd === "node1" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>
-                <code className="text-xs font-mono text-slate-200 block break-all">
+                <code className="text-xs font-mono text-slate-200 block overflow-x-auto whitespace-nowrap">
                   go run ./cmd/valenced -port=8080 -data-dir=./data/node1
                 </code>
               </div>
@@ -221,7 +221,7 @@ export default function Home() {
                     {copiedCmd === "node2" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>
-                <code className="text-xs font-mono text-slate-200 block break-all">
+                <code className="text-xs font-mono text-slate-200 block overflow-x-auto whitespace-nowrap">
                   go run ./cmd/valenced -port=8081 -data-dir=./data/node2 -peers=localhost:8080
                 </code>
               </div>

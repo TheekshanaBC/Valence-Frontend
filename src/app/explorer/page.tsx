@@ -86,7 +86,9 @@ export default function ExplorerPage() {
     try {
       const res = await fetch(`${rpcUrl}/mempool`)
       if (res.ok) setMempoolTxs(await res.json() || [])
-    } catch (err) {}
+    } catch (err) {
+      setMempoolTxs([])
+    }
   }
 
   const fetchData = async () => {
@@ -121,7 +123,7 @@ export default function ExplorerPage() {
            const b = await balRes.json()
            setSearchResults({ type: 'address', address: q, data: { history: h || [], balance: b.balance } })
         } else {
-           setSearchResults({ type: 'error', data: 'Address not found or no history' })
+           setSearchResults({ type: 'error', data: 'No transactions or balance found for this address' })
         }
       }
     } catch (err) {
@@ -151,8 +153,8 @@ export default function ExplorerPage() {
 
         {/* Search bar */}
         <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="relative mb-10"
         >
@@ -164,6 +166,7 @@ export default function ExplorerPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by block height or wallet address…"
               className="w-full pl-12 pr-24 py-4 rounded-xl bg-[#071422] border border-[rgba(6,182,212,0.15)] text-slate-300 placeholder-slate-600 font-mono text-sm outline-none focus:border-cyan-400/50 focus:shadow-[0_0_0_3px_rgba(6,182,212,0.08)] transition-all"
+              required
             />
             <button 
               type="submit" 
@@ -224,8 +227,8 @@ export default function ExplorerPage() {
 
         {/* Stats row */}
         <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="grid grid-cols-2 gap-4 mb-10"
         >
@@ -246,7 +249,7 @@ export default function ExplorerPage() {
           {/* Left Column */}
           <div className="flex flex-col gap-6">
             {/* Latest Blocks */}
-            <motion.div initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }} animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }} transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}>
+            <motion.div initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}>
             <Panel title={
               <div className="flex items-center gap-2">
                 <span className="status-dot" />
@@ -317,7 +320,7 @@ export default function ExplorerPage() {
           {/* Right Column */}
           <div className="flex flex-col gap-6">
             {/* Recent Transactions */}
-            <motion.div initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }} animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }} transition={{ duration: 0.8, delay: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}>
+            <motion.div initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.8, delay: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}>
             <Panel title={
               <div className="flex items-center gap-2">
                 <span className="status-dot" />
@@ -383,7 +386,7 @@ export default function ExplorerPage() {
             </Panel>
           </motion.div>
             {/* Mempool Activity */}
-            <motion.div initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }} animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }} transition={{ duration: 0.8, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}>
+            <motion.div initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}>
             <Panel title={
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-yellow-400" />

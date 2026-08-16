@@ -5,6 +5,7 @@ import CryptoJS from "crypto-js"
 import { generateKeyPair, signTransaction } from "@/lib/crypto"
 import { motion, AnimatePresence } from "framer-motion"
 import { Check, X, AlertCircle } from "lucide-react"
+import { RPC_URL } from "@/lib/config"
 
 export type NetworkType = "mainnet" | "localhost"
 export type WalletState = "UNINITIALIZED" | "LOCKED" | "UNLOCKED"
@@ -56,7 +57,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   const [txError, setTxError] = useState("")
 
   const rpcUrl = network === "mainnet" 
-    ? "https://blockchain-simulator-production.up.railway.app" 
+    ? RPC_URL 
     : "http://localhost:8080"
 
   // Check if wallet exists on mount
@@ -94,6 +95,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     
     try {
       const bytes = CryptoJS.AES.decrypt(keystore, password)
+      if (bytes.sigBytes <= 0) return false
       const decryptedStr = bytes.toString(CryptoJS.enc.Utf8)
       if (!decryptedStr) return false
       
