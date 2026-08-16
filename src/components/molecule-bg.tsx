@@ -23,7 +23,7 @@ export function MoleculeBg({ intensity = 1, particles = true }: MoleculeBgProps)
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(ellipse 70% 60% at 70% 50%, rgba(6,182,212,${0.05 * intensity}) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse 70% 60% at 70% 50%, rgba(139,92,246,${0.05 * intensity}) 0%, transparent 70%)`,
         }}
       />
 
@@ -35,7 +35,7 @@ export function MoleculeBg({ intensity = 1, particles = true }: MoleculeBgProps)
       ].map(({ size, duration, opacity, reverse }, idx) => (
         <div
           key={idx}
-          className={`absolute rounded-full border border-cyan-400 top-1/2 right-[-10%] -translate-y-1/2 ${reverse ? 'animate-spin-reverse' : 'animate-spin-slow'}`}
+          className={`absolute rounded-full border border-violet-400 top-1/2 right-[-10%] -translate-y-1/2 ${reverse ? 'animate-spin-reverse' : 'animate-spin-slow'}`}
           style={{
             width: size,
             height: size,
@@ -46,11 +46,11 @@ export function MoleculeBg({ intensity = 1, particles = true }: MoleculeBgProps)
         >
           {/* Electron dot */}
           <div
-            className="absolute -top-[5px] left-1/2 rounded-full -translate-x-1/2 bg-cyan-400"
+            className="absolute -top-[5px] left-1/2 rounded-full -translate-x-1/2 bg-violet-400"
             style={{
               width: 8 + idx * 2,
               height: 8 + idx * 2,
-              filter: `drop-shadow(0 0 6px rgba(6,182,212,0.9))`,
+              filter: `drop-shadow(0 0 6px rgba(139,92,246,0.9))`,
             }}
           />
         </div>
@@ -61,7 +61,7 @@ export function MoleculeBg({ intensity = 1, particles = true }: MoleculeBgProps)
         PARTICLES.map(({ id, left, top, size, duration, delay }) => (
           <div
             key={id}
-            className="absolute rounded-full bg-cyan-300 animate-float"
+            className="absolute rounded-full bg-violet-300 animate-float"
             style={{ 
               left, top, width: size, height: size, 
               animationDuration: `${duration}s`,

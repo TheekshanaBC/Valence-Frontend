@@ -64,8 +64,8 @@ export default function ArchitecturePage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                   selectedCategory === cat
-                    ? "bg-cyan-500 text-slate-950 font-semibold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
-                    : "glass-panel text-slate-400 hover:text-white hover:border-cyan-400/30"
+                    ? "bg-violet-500 text-slate-950 font-semibold"
+                    : "glass-panel text-slate-400 hover:text-white hover:border-violet-400/30"
                 }`}
               >
                 {cat}
@@ -80,7 +80,7 @@ export default function ArchitecturePage() {
               placeholder="Search architecture..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#03090e] border border-[rgba(6,182,212,0.18)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+              className="w-full bg-[#03090e] border border-[rgba(139,92,246,0.18)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-400 transition-colors"
             />
           </div>
         </div>
@@ -97,16 +97,16 @@ export default function ArchitecturePage() {
                   onClick={() => setActiveModuleId(mod.id)}
                   className={`w-full text-left px-3 py-2.5 rounded-xl transition-all border flex items-center justify-between group ${
                     isSelected
-                      ? "glass-panel bg-cyan-500/10 border-cyan-400/60 shadow-[0_0_16px_rgba(6,182,212,0.15)]"
-                      : "glass-panel border-[rgba(6,182,212,0.08)] hover:border-cyan-400/30 hover:bg-cyan-500/5"
+                      ? "glass-panel bg-violet-500/10 border-violet-400/60"
+                      : "glass-panel border-[rgba(139,92,246,0.08)] hover:border-violet-400/30 hover:bg-violet-500/5"
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <span
                       className={`w-5 h-5 rounded-md flex items-center justify-center font-mono text-[10px] font-bold flex-shrink-0 ${
                         isSelected
-                          ? "bg-cyan-400 text-slate-950 shadow-[0_0_8px_rgba(6,182,212,0.5)]"
-                          : "bg-[#03090e] text-cyan-400/80 border border-cyan-400/20"
+                          ? "bg-violet-400 text-slate-950 shadow-[0_0_8px_rgba(139,92,246,0.5)]"
+                          : "bg-[#03090e] text-violet-400/80 border border-violet-400/20"
                       }`}
                     >
                       {mod.number}
@@ -120,7 +120,7 @@ export default function ArchitecturePage() {
                   </div>
                   <ChevronRight
                     className={`w-3 h-3 flex-shrink-0 transition-transform ${
-                      isSelected ? "text-cyan-400 translate-x-0.5" : "text-slate-600 group-hover:text-slate-400"
+                      isSelected ? "text-violet-400 translate-x-0.5" : "text-slate-600 group-hover:text-slate-400"
                     }`}
                   />
                 </button>
@@ -137,27 +137,27 @@ export default function ArchitecturePage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2 }}
-                className="glass-panel rounded-2xl p-6 sm:p-8 border-[rgba(6,182,212,0.2)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] space-y-6"
+                className="glass-panel rounded-2xl p-6 sm:p-8 border-[rgba(139,92,246,0.2)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] space-y-6"
               >
                 {/* 1. Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[rgba(6,182,212,0.1)]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[rgba(139,92,246,0.1)]">
                   <div>
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-400/15 text-cyan-300 border border-cyan-400/30">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-violet-400/15 text-violet-300 border border-violet-400/30">
                         MODULE {activeModule.number}
                       </span>
                       <span className="text-xs font-mono text-slate-400">{activeModule.category}</span>
                     </div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{activeModule.title}</h2>
                   </div>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400/80 bg-[#03090e] px-3 py-1.5 rounded-lg border border-[rgba(6,182,212,0.15)] self-start">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-violet-400/80 bg-[#03090e] px-3 py-1.5 rounded-lg border border-[rgba(139,92,246,0.15)] self-start">
                     <FileCode2 className="w-3.5 h-3.5" /> {activeModule.goPackage}
                   </span>
                 </div>
 
                 {/* 2. Narrative Description */}
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
+                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-violet-400">
                     <BookOpen className="w-3.5 h-3.5" />
                     <span>Subsystem Overview</span>
                   </div>
@@ -170,7 +170,7 @@ export default function ArchitecturePage() {
 
                 {/* 3. Architectural Flow Diagram (Mermaid with Pan & Zoom) */}
                 <div className="space-y-2.5">
-                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
+                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-violet-400">
                     <Network className="w-3.5 h-3.5" />
                     <span>Architectural Flow & Topology Diagram</span>
                   </div>
@@ -178,19 +178,19 @@ export default function ArchitecturePage() {
                 </div>
 
                 {/* 4. Key Architectural Highlights */}
-                <div className="space-y-2.5 bg-[#03090e]/60 p-4 rounded-xl border border-[rgba(6,182,212,0.08)]">
+                <div className="space-y-2.5 bg-[#03090e]/60 p-4 rounded-xl border border-[rgba(139,92,246,0.08)]">
                   <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">Key Highlights & Guarantees</h4>
                   {activeModule.highlights.map((point, idx) => (
                     <div key={idx} className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-violet-400 mt-0.5 flex-shrink-0" />
                       <p className="text-sm text-slate-300 font-light leading-relaxed">{point}</p>
                     </div>
                   ))}
                 </div>
 
                 {/* 5. Security & Integrity Note */}
-                <div className="p-4 rounded-xl bg-cyan-500/5 border border-cyan-400/20 flex items-start gap-3">
-                  <ShieldCheck className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                <div className="p-4 rounded-xl bg-violet-500/5 border border-violet-400/20 flex items-start gap-3">
+                  <ShieldCheck className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <h5 className="text-xs font-semibold text-white tracking-wide font-mono uppercase">
                       {activeModule.securityNote.title}

@@ -37,43 +37,43 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
 // ─── Feature cards ───
 const FEATURES = [
   {
-    icon: <Shield className="w-6 h-6 text-cyan-400" />,
-    bgIcon: <Shield className="absolute -right-4 -bottom-4 w-40 h-40 text-cyan-400/[0.03] rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
+    icon: <Shield className="w-6 h-6 text-violet-400" />,
+    bgIcon: <Shield className="absolute -right-4 -bottom-4 w-40 h-40 text-violet-400/[0.03] rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
     title: "Nakamoto Proof of Work",
     desc: "Multi-core parallel CPU mining with dynamic difficulty retargeting, enforcing target block discovery times.",
     span: "lg:col-span-2",
   },
   {
-    icon: <Activity className="w-6 h-6 text-cyan-400" />,
-    bgIcon: <Activity className="absolute -right-4 -bottom-4 w-40 h-40 text-cyan-400/[0.03] -rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
+    icon: <Activity className="w-6 h-6 text-violet-400" />,
+    bgIcon: <Activity className="absolute -right-4 -bottom-4 w-40 h-40 text-violet-400/[0.03] -rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
     title: "Asynchronous P2P Gossip",
     desc: "Non-blocking mesh broadcast engine with SeenCache deduplication and 409 Conflict automatic push-sync.",
     span: "lg:col-span-1",
   },
   {
-    icon: <Lock className="w-6 h-6 text-cyan-400" />,
-    bgIcon: <Lock className="absolute -right-4 -bottom-4 w-40 h-40 text-cyan-400/[0.03] rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
+    icon: <Lock className="w-6 h-6 text-violet-400" />,
+    bgIcon: <Lock className="absolute -right-4 -bottom-4 w-40 h-40 text-violet-400/[0.03] rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
     title: "Ed25519 Cryptography",
     desc: "Deterministic digital signatures with length-prefixed serialization preventing delimiter injection attacks.",
     span: "lg:col-span-1",
   },
   {
-    icon: <GitBranch className="w-6 h-6 text-cyan-400" />,
-    bgIcon: <GitBranch className="absolute -right-4 -bottom-4 w-40 h-40 text-cyan-400/[0.03] -rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
+    icon: <GitBranch className="w-6 h-6 text-violet-400" />,
+    bgIcon: <GitBranch className="absolute -right-4 -bottom-4 w-40 h-40 text-violet-400/[0.03] -rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
     title: "Cumulative Work Consensus",
     desc: "Heaviest valid chain resolution based on sum(16^difficulty), safely recovering orphaned transactions during reorgs.",
     span: "lg:col-span-2",
   },
   {
-    icon: <Layers className="w-6 h-6 text-cyan-400" />,
-    bgIcon: <Layers className="absolute -right-4 -bottom-4 w-40 h-40 text-cyan-400/[0.03] rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
+    icon: <Layers className="w-6 h-6 text-violet-400" />,
+    bgIcon: <Layers className="absolute -right-4 -bottom-4 w-40 h-40 text-violet-400/[0.03] rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
     title: "In-Memory Account State",
     desc: "Dynamic balance calculation via deterministic transaction replay with strict sequential nonces for replay attack immunity.",
     span: "lg:col-span-2",
   },
   {
-    icon: <Wallet className="w-6 h-6 text-cyan-400" />,
-    bgIcon: <Wallet className="absolute -right-4 -bottom-4 w-40 h-40 text-cyan-400/[0.03] -rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
+    icon: <Wallet className="w-6 h-6 text-violet-400" />,
+    bgIcon: <Wallet className="absolute -right-4 -bottom-4 w-40 h-40 text-violet-400/[0.03] -rotate-12 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110" />,
     title: "Non-Custodial Web Wallet",
     desc: "In-browser Ed25519 signing with AES-encrypted local storage and real-time transaction broadcasting.",
     span: "lg:col-span-1",
@@ -115,7 +115,7 @@ export default function Home() {
           >
             {/* Headline */}
             <h1 className="text-[clamp(3rem,6.5vw,5.2rem)] font-semibold tracking-tight leading-none mb-6">
-              <span className="text-white block mb-1">Valence</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-violet-500 block mb-1 pb-1">Valence</span>
               <span className="text-slate-400 font-light text-[clamp(1.5rem,3.5vw,2.8rem)] tracking-wide block">
                 Blockchain Simulator
               </span>
@@ -130,13 +130,13 @@ export default function Home() {
             <div className="flex flex-wrap gap-3.5 mb-10">
               <Link
                 href="/explorer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-sm tracking-wide transition-all shadow-[0_0_24px_rgba(6,182,212,0.35)] hover:shadow-[0_0_36px_rgba(6,182,212,0.5)] hover:scale-[1.02] active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-500 hover:bg-violet-400 text-slate-950 font-semibold text-sm tracking-wide transition-all hover:scale-[1.02] active:scale-95"
               >
                 <Search className="w-4 h-4" /> Explore Chain
               </Link>
               <Link
                 href="/wallet"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-cyan-400/30 text-cyan-300 font-medium text-sm tracking-wide hover:bg-cyan-400/10 hover:border-cyan-400/60 transition-all hover:scale-[1.02] active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-violet-400/30 text-violet-300 font-medium text-sm tracking-wide hover:bg-violet-400/10 hover:border-violet-400/60 transition-all hover:scale-[1.02] active:scale-95"
               >
                 Open Wallet
               </Link>
@@ -151,10 +151,10 @@ export default function Home() {
             </div>
 
             {/* Stats row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[rgba(6,182,212,0.12)]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[rgba(139,92,246,0.12)]">
               {STATS.map(({ label, value }) => (
                 <div key={label}>
-                  <div className="text-xs sm:text-sm font-semibold text-cyan-300 font-mono">{value}</div>
+                  <div className="text-xs sm:text-sm font-semibold text-violet-300 font-mono">{value}</div>
                   <div className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">{label}</div>
                 </div>
               ))}
@@ -176,9 +176,9 @@ export default function Home() {
       {/* ══════════════════════════════
           QUICK START TERMINAL STRIP
       ══════════════════════════════ */}
-      <section className="w-full py-12 border-t border-[rgba(6,182,212,0.1)] bg-[#03090e]/70">
+      <section className="w-full py-12 border-t border-[rgba(139,92,246,0.1)] bg-[#03090e]/70">
         <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12">
-          <div className="glass-panel rounded-2xl p-6 sm:p-8 border-[rgba(6,182,212,0.18)]">
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 border-[rgba(139,92,246,0.18)]">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div>
                 <h3 className="text-lg font-bold text-white tracking-tight">Run a 2-Node Cluster in Seconds</h3>
@@ -186,7 +186,7 @@ export default function Home() {
               </div>
               <Link
                 href="/docs"
-                className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors self-start sm:self-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-mono text-violet-400 hover:text-violet-300 transition-colors self-start sm:self-auto"
               >
                 <span>View Full Docs</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -195,12 +195,12 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Node 1 Command */}
-              <div className="bg-[#03090e] rounded-xl p-4 border border-[rgba(6,182,212,0.12)] space-y-2">
+              <div className="bg-[#03090e] rounded-xl p-4 border border-[rgba(139,92,246,0.12)] space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-cyan-400">Terminal 1 • Node 8080 (Genesis)</span>
+                  <span className="text-[11px] font-mono text-violet-400">Terminal 1 • Node 8080 (Genesis)</span>
                   <button
                     onClick={() => handleCopy("go run ./cmd/valenced -port=8080 -data-dir=./data/node1", "node1")}
-                    className="text-slate-500 hover:text-cyan-300 transition-colors"
+                    className="text-slate-500 hover:text-violet-300 transition-colors"
                   >
                     {copiedCmd === "node1" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
@@ -211,12 +211,12 @@ export default function Home() {
               </div>
 
               {/* Node 2 Command */}
-              <div className="bg-[#03090e] rounded-xl p-4 border border-[rgba(6,182,212,0.12)] space-y-2">
+              <div className="bg-[#03090e] rounded-xl p-4 border border-[rgba(139,92,246,0.12)] space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-cyan-400">Terminal 2 • Node 8081 (Peer Mesh)</span>
+                  <span className="text-[11px] font-mono text-violet-400">Terminal 2 • Node 8081 (Peer Mesh)</span>
                   <button
                     onClick={() => handleCopy("go run ./cmd/valenced -port=8081 -data-dir=./data/node2 -peers=localhost:8080", "node2")}
-                    className="text-slate-500 hover:text-cyan-300 transition-colors"
+                    className="text-slate-500 hover:text-violet-300 transition-colors"
                   >
                     {copiedCmd === "node2" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
@@ -233,7 +233,7 @@ export default function Home() {
       {/* ══════════════════════════════
           CORE PROTOCOL FEATURES
       ══════════════════════════════ */}
-      <section className="w-full py-24 border-t border-[rgba(6,182,212,0.1)]">
+      <section className="w-full py-24 border-t border-[rgba(139,92,246,0.1)]">
         <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12">
           <motion.div
             initial={{ opacity: 0, y: 25, filter: "blur(10px)" }}
@@ -243,7 +243,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
-              Protocol <span className="text-cyan-400">Architecture</span>
+              Protocol <span className="text-violet-400">Architecture</span>
             </h2>
             <p className="text-slate-400 max-w-xl mx-auto font-light text-base sm:text-lg leading-relaxed">
               A complete, inspectable blockchain engineered from the ground up in Go. Every subsystem is open source, transparent, and educational.
@@ -258,16 +258,15 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
-                whileHover={{ y: -3 }}
-                className={`relative overflow-hidden rounded-2xl border border-[rgba(6,182,212,0.12)] bg-gradient-to-br from-[#071422]/70 to-[#03090e]/90 backdrop-blur-md p-7 group transition-colors hover:border-[rgba(6,182,212,0.35)] hover:shadow-[0_0_24px_rgba(6,182,212,0.1)] ${span}`}
+                className={`relative overflow-hidden rounded-2xl border border-[rgba(139,92,246,0.12)] bg-gradient-to-br from-[#071422]/70 to-[#03090e]/90 backdrop-blur-md p-7 group transition-colors hover:border-[rgba(139,92,246,0.35)] ${span}`}
               >
                 {bgIcon}
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
-                    <div className="w-11 h-11 rounded-xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center mb-5 group-hover:border-cyan-400/40 group-hover:bg-cyan-400/15 transition-colors">
+                    <div className="w-11 h-11 rounded-xl bg-violet-400/10 border border-violet-400/20 flex items-center justify-center mb-5 group-hover:border-violet-400/40 group-hover:bg-violet-400/15 transition-colors">
                       {icon}
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-2.5 tracking-tight">{title}</h3>
+                    <h3 className="text-lg font-semibold text-white group-hover:text-violet-400 transition-colors duration-300 mb-2.5 tracking-tight">{title}</h3>
                     <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">{desc}</p>
                   </div>
                 </div>
@@ -280,8 +279,8 @@ export default function Home() {
       {/* ══════════════════════════════
           CTA BAND
       ══════════════════════════════ */}
-      <section className="w-full py-20 border-t border-[rgba(6,182,212,0.1)] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,rgba(6,182,212,0.05)_0%,transparent_70%)] pointer-events-none" />
+      <section className="w-full py-20 border-t border-[rgba(139,92,246,0.1)] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,rgba(139,92,246,0.05)_0%,transparent_70%)] pointer-events-none" />
         <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-8 lg:px-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -290,7 +289,7 @@ export default function Home() {
             transition={{ duration: 0.7 }}
           >
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
-              Ready to explore the <span className="text-cyan-400">network</span>?
+              Ready to explore the <span className="text-violet-400">network</span>?
             </h2>
             <p className="text-slate-400 font-light text-sm sm:text-base mb-8 max-w-lg mx-auto leading-relaxed">
               Explore the 12 core subsystems, inspect live blocks in the explorer, or spin up your own local node cluster.
@@ -298,13 +297,13 @@ export default function Home() {
             <div className="flex flex-wrap justify-center gap-3.5">
               <Link
                 href="/docs"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-sm tracking-wide transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_32px_rgba(6,182,212,0.45)]"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-500 hover:bg-violet-400 text-slate-950 font-semibold text-sm tracking-wide transition-all"
               >
                 Read the Docs <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/architecture"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-cyan-400/30 text-cyan-300 font-medium text-sm tracking-wide hover:bg-cyan-400/10 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-violet-400/30 text-violet-300 font-medium text-sm tracking-wide hover:bg-violet-400/10 transition-all"
               >
                 View Architecture
               </Link>
@@ -316,21 +315,21 @@ export default function Home() {
       {/* ══════════════════════════════
           FOOTER
       ══════════════════════════════ */}
-      <footer className="w-full py-10 border-t border-[rgba(6,182,212,0.1)]">
+      <footer className="w-full py-10 border-t border-[rgba(139,92,246,0.1)]">
         <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+            <span className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_6px_rgba(139,92,246,0.8)]" />
             <span className="text-slate-400">
               <span className="text-white font-medium">Val</span>
-              <span className="text-cyan-400 font-medium">ence</span>
+              <span className="text-violet-400 font-medium">ence</span>
               <span className="ml-2 text-slate-600">© {new Date().getFullYear()}</span>
             </span>
           </div>
           <div className="flex items-center gap-6 text-sm text-slate-500">
-            <Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link>
-            <Link href="/architecture" className="hover:text-cyan-400 transition-colors">Architecture</Link>
-            <Link href="/docs" className="hover:text-cyan-400 transition-colors">Docs</Link>
-            <Link href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors flex items-center gap-1">
+            <Link href="/about" className="hover:text-violet-400 transition-colors">About</Link>
+            <Link href="/architecture" className="hover:text-violet-400 transition-colors">Architecture</Link>
+            <Link href="/docs" className="hover:text-violet-400 transition-colors">Docs</Link>
+            <Link href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer" className="hover:text-violet-400 transition-colors flex items-center gap-1">
               GitHub
             </Link>
           </div>

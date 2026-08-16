@@ -71,13 +71,13 @@ export function Hero3D() {
     const key = new THREE.DirectionalLight(0xffffff, 0.5)
     key.position.set(4, 6, 6)
     scene.add(key)
-    const cy = new THREE.PointLight(0x2ee6ff, 20, 40)
+    const cy = new THREE.PointLight(0x8b5cf6, 20, 40)
     cy.position.set(-6, 2, -3)
     scene.add(cy)
-    const tl = new THREE.PointLight(0x0fb4c4, 14, 40)
+    const tl = new THREE.PointLight(0x6366f1, 14, 40)
     tl.position.set(6, -2, -2)
     scene.add(tl)
-    const rim = new THREE.PointLight(0x2ee6ff, 5, 20)
+    const rim = new THREE.PointLight(0x8b5cf6, 5, 20)
     rim.position.set(0, 0, -5)
     scene.add(rim)
 
@@ -120,11 +120,11 @@ export function Hero3D() {
       clearcoat: 0.6, clearcoatRoughness: 0.2
     })
     const glowMat = new THREE.MeshStandardMaterial({
-      color: 0x0a5560, emissive: 0x2ee6ff, emissiveIntensity: 1.1, roughness: 0.3, metalness: 0
+      color: 0x2e1065, emissive: 0x8b5cf6, emissiveIntensity: 1.1, roughness: 0.3, metalness: 0
     })
     const glowMatDim = glowMat.clone(); glowMatDim.emissiveIntensity = 0.55
     const electronMat = new THREE.MeshStandardMaterial({
-      color: 0xc8f7ff, emissive: 0x2ee6ff, emissiveIntensity: 2.2, roughness: 0.2, metalness: 0
+      color: 0xe0e7ff, emissive: 0xa78bfa, emissiveIntensity: 2.2, roughness: 0.2, metalness: 0
     })
 
     /* ---------- coin ---------- */
@@ -215,7 +215,7 @@ export function Hero3D() {
       const c = document.createElement("canvas"); c.width = 512; c.height = 192;
       const x = c.getContext("2d")!;
       x.font = "700 130px Arial"; x.textAlign = "center"; x.textBaseline = "middle";
-      x.fillStyle = "#2ee6ff"; x.fillText("VCN", 256, 100);
+      x.fillStyle = "#8b5cf6"; x.fillText("VCN", 256, 100);
       const m = new THREE.Mesh(
         new THREE.PlaneGeometry(1.9, 0.71),
         new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, toneMapped: false })

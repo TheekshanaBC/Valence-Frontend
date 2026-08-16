@@ -187,17 +187,17 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="w-full max-w-md bg-[#0a1118] border border-cyan-400/20 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.15)] overflow-hidden"
+              className="w-full max-w-md bg-[#0a1118] border border-violet-400/20 rounded-2xl overflow-hidden"
             >
-              <div className="px-6 py-4 border-b border-[rgba(6,182,212,0.1)] flex items-center gap-2 bg-cyan-400/5">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <div className="px-6 py-4 border-b border-[rgba(139,92,246,0.1)] flex items-center gap-2 bg-violet-400/5">
+                <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
                 <span className="text-sm font-semibold text-slate-200">Signature Request</span>
               </div>
               
               <div className="p-6">
                 <p className="text-sm text-slate-400 mb-6">A decentralized application is requesting your approval to broadcast a transaction.</p>
                 
-                <div className="bg-[#03090e] border border-[rgba(6,182,212,0.1)] rounded-xl p-4 mb-6">
+                <div className="bg-[#03090e] border border-[rgba(139,92,246,0.1)] rounded-xl p-4 mb-6">
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Action</div>
                   <div className="text-base text-slate-200 font-medium mb-4">Send VLC</div>
                   
@@ -205,7 +205,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
                   <div className="text-xs font-mono text-slate-300 break-all bg-black/20 p-2 rounded mb-4 border border-white/5">{pendingTx.params.recipient}</div>
                   
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Amount</div>
-                  <div className="text-2xl font-light text-cyan-400">{pendingTx.params.amountVLC.toFixed(4)} <span className="text-sm text-cyan-400/60 font-medium">VLC</span></div>
+                  <div className="text-2xl font-light text-violet-400">{pendingTx.params.amountVLC.toFixed(4)} <span className="text-sm text-violet-400/60 font-medium">VLC</span></div>
                 </div>
 
                 {txError && (
@@ -225,7 +225,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
                   <button 
                     onClick={approveTx}
                     disabled={txLoading}
-                    className="flex-1 py-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 transition-colors flex items-center justify-center gap-2 text-sm font-semibold disabled:opacity-50"
+                    className="flex-1 py-3 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 transition-colors flex items-center justify-center gap-2 text-sm font-semibold disabled:opacity-50"
                   >
                     {txLoading ? (
                       <span className="w-4 h-4 rounded-full border-2 border-slate-900/30 border-t-slate-900 animate-spin" />

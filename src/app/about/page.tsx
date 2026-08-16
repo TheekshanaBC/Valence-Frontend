@@ -95,9 +95,9 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 + i * 0.05 }}
-                className="glass-panel rounded-xl p-6 border-[rgba(6,182,212,0.12)] hover:border-cyan-400/30 transition-all"
+                className="glass-panel rounded-xl p-6 border-[rgba(139,92,246,0.12)] hover:border-violet-400/30 transition-all"
               >
-                <div className="text-3xl font-black text-cyan-400/25 font-mono mb-2">{number}</div>
+                <div className="text-3xl font-black text-violet-400/25 font-mono mb-2">{number}</div>
                 <h4 className="text-base font-semibold text-white mb-2">{title}</h4>
                 <p className="text-sm text-slate-400 font-light leading-relaxed">{desc}</p>
               </motion.div>
@@ -123,10 +123,10 @@ export default function AboutPage() {
             {TECH_STACK.map(({ label, value }) => (
               <div
                 key={label}
-                className="bg-[#03090e]/90 rounded-xl p-4 border border-[rgba(6,182,212,0.08)] flex flex-col justify-between"
+                className="bg-[#03090e]/90 rounded-xl p-4 border border-[rgba(139,92,246,0.08)] flex flex-col justify-between"
               >
                 <span className="text-[10px] font-mono uppercase text-slate-500 tracking-wider mb-1">{label}</span>
-                <span className="text-xs font-mono font-semibold text-cyan-300">{value}</span>
+                <span className="text-xs font-mono font-semibold text-violet-300">{value}</span>
               </div>
             ))}
           </div>

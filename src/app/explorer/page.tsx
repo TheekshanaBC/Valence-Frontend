@@ -18,9 +18,9 @@ function formatAge(timestampNano: number) {
 function Panel({ title, onRefresh, children }: { title: React.ReactNode; onRefresh?: () => void; children: React.ReactNode }) {
   return (
     <div className="glass-panel rounded-xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-[rgba(6,182,212,0.1)] flex items-center justify-between">
+      <div className="px-5 py-4 border-b border-[rgba(139,92,246,0.1)] flex items-center justify-between">
         {title}
-        <button onClick={onRefresh} className="text-slate-500 hover:text-cyan-400 transition-colors">
+        <button onClick={onRefresh} className="text-slate-500 hover:text-violet-400 transition-colors">
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
@@ -165,13 +165,13 @@ export default function ExplorerPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by block height or wallet address…"
-              className="w-full pl-12 pr-24 py-4 rounded-xl bg-[#071422] border border-[rgba(6,182,212,0.15)] text-slate-300 placeholder-slate-600 font-mono text-sm outline-none focus:border-cyan-400/50 focus:shadow-[0_0_0_3px_rgba(6,182,212,0.08)] transition-all"
+              className="w-full pl-12 pr-24 py-4 rounded-xl bg-[#071422] border border-[rgba(139,92,246,0.15)] text-slate-300 placeholder-slate-600 font-mono text-sm outline-none focus:border-violet-400/50 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.08)] transition-all"
               required
             />
             <button 
               type="submit" 
               disabled={searchLoading}
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-violet-500/10 hover:bg-violet-500/20 text-violet-400 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
             >
               {searchLoading ? 'Searching...' : 'Search'}
             </button>
@@ -179,9 +179,9 @@ export default function ExplorerPage() {
 
           {/* Search Results */}
           {searchResults && (
-            <div className="absolute top-full left-0 right-0 mt-4 p-6 glass-panel rounded-xl z-10 border border-cyan-400/30 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+            <div className="absolute top-full left-0 right-0 mt-4 p-6 glass-panel rounded-xl z-10 border border-violet-400/30 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
               <div className="flex justify-between items-center mb-4 pb-4 border-b border-white/5">
-                <h3 className="text-lg font-semibold text-cyan-400">Search Results</h3>
+                <h3 className="text-lg font-semibold text-violet-400">Search Results</h3>
                 <button onClick={() => setSearchResults(null)} className="text-slate-500 hover:text-white"><X className="w-5 h-5" /></button>
               </div>
               
@@ -197,7 +197,7 @@ export default function ExplorerPage() {
                   <div className="text-sm text-slate-400 mb-1">Block Found</div>
                   <div className="text-2xl font-mono text-slate-200 mb-4">#{searchResults.data.height}</div>
                   <div className="grid grid-cols-2 gap-4 text-sm font-mono bg-black/20 p-4 rounded-lg border border-white/5">
-                    <div><span className="text-slate-500">Hash:</span> <br/><span className="text-cyan-300 break-all">{searchResults.data.hash}</span></div>
+                    <div><span className="text-slate-500">Hash:</span> <br/><span className="text-violet-300 break-all">{searchResults.data.hash}</span></div>
                     <div><span className="text-slate-500">Prev:</span> <br/><span className="text-slate-400 break-all">{searchResults.data.header.prev_hash}</span></div>
                     <div><span className="text-slate-500">Transactions:</span> <span className="text-slate-300">{searchResults.data.transactions?.length || 0}</span></div>
                     <div><span className="text-slate-500">Difficulty:</span> <span className="text-slate-300">{searchResults.data.header.difficulty}</span></div>
@@ -208,7 +208,7 @@ export default function ExplorerPage() {
               {searchResults.type === 'address' && (
                 <div>
                   <div className="text-sm text-slate-400 mb-1">Address Details</div>
-                  <div className="text-sm font-mono text-cyan-300 break-all bg-black/20 p-3 rounded border border-white/5 mb-4">{searchResults.address}</div>
+                  <div className="text-sm font-mono text-violet-300 break-all bg-black/20 p-3 rounded border border-white/5 mb-4">{searchResults.address}</div>
                   <div className="flex gap-8 mb-6">
                     <div>
                       <div className="text-xs text-slate-500 uppercase">Balance</div>
@@ -237,7 +237,7 @@ export default function ExplorerPage() {
             { label: "Mempool TXs", value: stats.txs.toLocaleString() },
           ].map(({ label, value }) => (
             <div key={label} className="glass-panel rounded-xl p-5">
-              <div className="text-2xl font-semibold text-cyan-400 font-mono mb-1">{value}</div>
+              <div className="text-2xl font-semibold text-violet-400 font-mono mb-1">{value}</div>
               <div className="text-xs text-slate-500 uppercase tracking-widest">{label}</div>
             </div>
           ))}
@@ -256,16 +256,16 @@ export default function ExplorerPage() {
                 <span className="text-sm font-medium text-slate-200">Latest Blocks</span>
               </div>
             } onRefresh={fetchData}>
-              <div className="divide-y divide-[rgba(6,182,212,0.07)]">
+              <div className="divide-y divide-[rgba(139,92,246,0.07)]">
                 {blocks.length === 0 && !loading && (
                   <div className="px-5 py-8 text-center text-slate-500 text-sm">No blocks found</div>
                 )}
                 {blocks.map((block) => (
-                  <div key={block.height} className="border-b border-transparent hover:bg-cyan-400/5 transition-colors group cursor-pointer" onClick={() => setExpandedBlock(expandedBlock === block.height ? null : block.height)}>
+                  <div key={block.height} className="border-b border-transparent hover:bg-violet-400/5 transition-colors group cursor-pointer" onClick={() => setExpandedBlock(expandedBlock === block.height ? null : block.height)}>
                     <div className="px-5 py-4 flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
-                          <Hash className="w-4 h-4 text-cyan-400" />
+                        <div className="w-9 h-9 rounded-lg bg-violet-400/10 border border-violet-400/20 flex items-center justify-center flex-shrink-0">
+                          <Hash className="w-4 h-4 text-violet-400" />
                         </div>
                         <div>
                           <div className="text-sm font-semibold text-slate-200">Block #{block.height}</div>
@@ -274,7 +274,7 @@ export default function ExplorerPage() {
                       </div>
                       <div className="text-right flex items-center gap-3">
                         <div>
-                          <div className="text-xs text-cyan-400">{block.transactions?.length || 0} txns</div>
+                          <div className="text-xs text-violet-400">{block.transactions?.length || 0} txns</div>
                           <div className="text-xs text-slate-500 flex items-center gap-1 justify-end">
                             <Clock className="w-3 h-3" /> {formatAge(block.header?.timestamp || 0)}
                           </div>
@@ -284,10 +284,10 @@ export default function ExplorerPage() {
                     </div>
                     {expandedBlock === block.height && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="px-5 pb-4">
-                        <div className="bg-[#03090e] border border-cyan-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-mono">
+                        <div className="bg-[#03090e] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-mono">
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Block Hash</div>
-                            <div className="text-cyan-300 break-all">{block.hash}</div>
+                            <div className="text-violet-300 break-all">{block.hash}</div>
                           </div>
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Previous Hash</div>
@@ -327,26 +327,26 @@ export default function ExplorerPage() {
                 <span className="text-sm font-medium text-slate-200">Recent Transactions</span>
               </div>
             } onRefresh={fetchData}>
-              <div className="divide-y divide-[rgba(6,182,212,0.07)]">
+              <div className="divide-y divide-[rgba(139,92,246,0.07)]">
                 {recentTxs.length === 0 && !loading && (
                   <div className="px-5 py-8 text-center text-slate-500 text-sm">No transactions found</div>
                 )}
                 {recentTxs.map((tx, idx) => {
                   const uniqueId = tx.id || `fallback-${idx}`;
                   return (
-                  <div key={uniqueId} className="border-b border-transparent hover:bg-cyan-400/5 transition-colors cursor-pointer" onClick={() => setExpandedTx(expandedTx === uniqueId ? null : uniqueId)}>
+                  <div key={uniqueId} className="border-b border-transparent hover:bg-violet-400/5 transition-colors cursor-pointer" onClick={() => setExpandedTx(expandedTx === uniqueId ? null : uniqueId)}>
                     <div className="px-5 py-4 flex items-center justify-between">
                       <div>
                         <div className="text-sm font-mono text-slate-200">{tx.id ? `${tx.id.slice(0, 18)}…` : '---'}</div>
                         <div className="text-xs text-slate-500 mt-0.5 flex items-center gap-2">
                           <span>{tx.sender === "VALENCE_COINBASE" ? "Coinbase" : `${tx.sender?.slice(0, 8)}…`}</span>
-                          <span className="text-cyan-500/50">→</span>
+                          <span className="text-violet-500/50">→</span>
                           <span>{tx.recipient === "Genesis" ? "Genesis" : `${tx.recipient?.slice(0, 8)}…`}</span>
                         </div>
                       </div>
                       <div className="text-right flex items-center gap-3">
                         <div>
-                          <div className="text-sm font-medium text-cyan-400">{(tx.amount / 1000000000).toFixed(4)} VLC</div>
+                          <div className="text-sm font-medium text-violet-400">{(tx.amount / 1000000000).toFixed(4)} VLC</div>
                           <div className="text-xs text-slate-500 flex items-center gap-1 justify-end">
                             <Clock className="w-3 h-3" /> {formatAge(tx.timestamp || 0)}
                           </div>
@@ -356,10 +356,10 @@ export default function ExplorerPage() {
                     </div>
                     {expandedTx === uniqueId && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="px-5 pb-4">
-                        <div className="bg-[#03090e] border border-cyan-400/10 rounded-lg p-4 grid grid-cols-1 gap-3 text-sm font-mono">
+                        <div className="bg-[#03090e] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 gap-3 text-sm font-mono">
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Transaction ID</div>
-                            <div className="text-cyan-300 break-all">{tx.id || "N/A (System Transaction)"}</div>
+                            <div className="text-violet-300 break-all">{tx.id || "N/A (System Transaction)"}</div>
                           </div>
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Sender Public Key</div>
@@ -396,7 +396,7 @@ export default function ExplorerPage() {
                 <span className="text-sm font-medium text-slate-200">Mempool Activity</span>
               </div>
             } onRefresh={fetchData}>
-              <div className="divide-y divide-[rgba(6,182,212,0.07)]">
+              <div className="divide-y divide-[rgba(139,92,246,0.07)]">
                 {mempoolTxs.length === 0 && !loading && (
                   <div className="px-5 py-8 text-center text-slate-500 text-sm">Mempool is empty</div>
                 )}
@@ -425,10 +425,10 @@ export default function ExplorerPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-8 flex items-center justify-between px-5 py-4 rounded-xl border border-cyan-400/20 bg-cyan-400/5"
+          className="mt-8 flex items-center justify-between px-5 py-4 rounded-xl border border-violet-400/20 bg-violet-400/5"
         >
-          <div className="flex items-center gap-3 text-sm text-cyan-300/80">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_#22d3ee]" />
+          <div className="flex items-center gap-3 text-sm text-violet-300/80">
+            <div className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_6px_#a78bfa]" />
             Connected to Live Network ({rpcUrl})
           </div>
         </motion.div>

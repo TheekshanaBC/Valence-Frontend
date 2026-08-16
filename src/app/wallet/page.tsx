@@ -12,7 +12,7 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500) }}
-      className="text-slate-500 hover:text-cyan-400 transition-colors"
+      className="text-slate-500 hover:text-violet-400 transition-colors"
       title="Copy"
     >
       {copied ? <CheckCircle className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
@@ -189,8 +189,8 @@ export default function WalletPage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto glass-panel rounded-2xl p-8"
           >
-            <div className="w-12 h-12 bg-cyan-500/20 rounded-full flex items-center justify-center mb-6 border border-cyan-400/30">
-              <Key className="w-6 h-6 text-cyan-400" />
+            <div className="w-12 h-12 bg-violet-500/20 rounded-full flex items-center justify-center mb-6 border border-violet-400/30">
+              <Key className="w-6 h-6 text-violet-400" />
             </div>
             <h2 className="text-2xl font-semibold mb-2">Create Wallet</h2>
             <p className="text-sm text-slate-400 mb-6">Create a strong password to securely encrypt your new Valence keys in this browser.</p>
@@ -208,7 +208,7 @@ export default function WalletPage() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="New Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                 />
               </div>
               <div>
@@ -217,10 +217,10 @@ export default function WalletPage() {
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                 />
               </div>
-              <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold tracking-wide transition-all shadow-[0_0_20px_rgba(6,182,212,0.25)] flex items-center justify-center gap-2">
+              <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all flex items-center justify-center gap-2">
                 Create & Encrypt Wallet
               </button>
             </form>
@@ -234,8 +234,8 @@ export default function WalletPage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto glass-panel rounded-2xl p-8"
           >
-            <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 border border-purple-400/30 mx-auto">
-              <Lock className="w-6 h-6 text-purple-400" />
+            <div className="w-12 h-12 bg-violet-500/20 rounded-full flex items-center justify-center mb-6 border border-violet-400/30 mx-auto">
+              <Lock className="w-6 h-6 text-violet-400" />
             </div>
             <h2 className="text-2xl font-semibold mb-2 text-center">Wallet Locked</h2>
             <p className="text-sm text-slate-400 mb-6 text-center">Enter your password to decrypt your keystore.</p>
@@ -252,9 +252,9 @@ export default function WalletPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
               />
-              <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold tracking-wide transition-all shadow-[0_0_20px_rgba(6,182,212,0.25)] flex items-center justify-center gap-2">
+              <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all flex items-center justify-center gap-2">
                 Unlock Wallet
               </button>
             </form>
@@ -290,8 +290,8 @@ export default function WalletPage() {
                 >
                   <div className="flex items-center gap-2 mb-6">
                     <span className="status-dot" />
-                    <span className="text-xs font-mono tracking-widest text-cyan-400/70 uppercase">Balance</span>
-                    <button onClick={fetchWalletData} className="ml-auto text-slate-500 hover:text-cyan-400 transition-colors">
+                    <span className="text-xs font-mono tracking-widest text-violet-400/70 uppercase">Balance</span>
+                    <button onClick={fetchWalletData} className="ml-auto text-slate-500 hover:text-violet-400 transition-colors">
                       <RefreshCw className="w-4 h-4" />
                     </button>
                   </div>
@@ -301,19 +301,19 @@ export default function WalletPage() {
                   <div className="text-sm text-slate-500 mb-6">VLC</div>
 
                   <div className="text-xs font-mono text-slate-500 mb-1">Your Address</div>
-                  <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-3 py-2.5 border border-[rgba(6,182,212,0.1)]">
+                  <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-3 py-2.5 border border-[rgba(139,92,246,0.1)]">
                     <span className="text-xs font-mono text-slate-300 truncate flex-1">{keys.address}</span>
                     <CopyButton text={keys.address} />
                   </div>
 
                   <div className="mt-4 text-xs font-mono text-slate-500 mb-1">Private Key (Encrypted on disk)</div>
-                  <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-3 py-2.5 border border-[rgba(6,182,212,0.1)]">
+                  <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-3 py-2.5 border border-[rgba(139,92,246,0.1)]">
                     <span className="text-xs font-mono text-slate-300 flex-1 truncate">
                       {showKey ? keys.privateKey : "•••••••••••••••••••••••••••"}
                     </span>
                     <button
                       onClick={() => setShowKey(v => !v)}
-                      className="text-slate-500 hover:text-cyan-400 transition-colors"
+                      className="text-slate-500 hover:text-violet-400 transition-colors"
                     >
                       {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -339,7 +339,7 @@ export default function WalletPage() {
                   <button 
                     onClick={handleFaucet}
                     disabled={loading}
-                    className="w-full py-3 rounded-lg bg-cyan-500/20 border border-cyan-400/30 text-cyan-300 text-sm font-medium hover:bg-cyan-500/30 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full py-3 rounded-lg bg-violet-500/20 border border-violet-400/30 text-violet-300 text-sm font-medium hover:bg-violet-500/30 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Request 100 VLC
                   </button>
@@ -356,14 +356,14 @@ export default function WalletPage() {
                   transition={{ duration: 0.8, delay: 0.05, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl overflow-hidden"
                 >
-                  <div className="flex bg-[#03090e] border-b border-[rgba(6,182,212,0.1)]">
+                  <div className="flex bg-[#03090e] border-b border-[rgba(139,92,246,0.1)]">
                     {(["send", "receive"] as const).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`flex-1 py-4 flex items-center justify-center gap-2 text-sm font-medium transition-colors ${
                           activeTab === tab 
-                            ? "text-cyan-400 border-b-2 border-cyan-400 bg-cyan-400/5" 
+                            ? "text-violet-400 border-b-2 border-violet-400 bg-violet-400/5" 
                             : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
                         }`}
                       >
@@ -383,7 +383,7 @@ export default function WalletPage() {
                             value={recipient}
                             onChange={e => setRecipient(e.target.value)}
                             placeholder="Address (hex)"
-                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                           />
                         </div>
                         <div>
@@ -393,13 +393,13 @@ export default function WalletPage() {
                             value={amount}
                             onChange={e => setAmount(e.target.value)}
                             placeholder="0.0000"
-                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                           />
                         </div>
                         <button 
                           onClick={handleSend}
                           disabled={loading || !amount || !recipient}
-                          className="mt-2 w-full py-3.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold tracking-wide transition-all shadow-[0_0_20px_rgba(6,182,212,0.25)] flex items-center justify-center gap-2 disabled:opacity-50 disabled:shadow-none"
+                          className="mt-2 w-full py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:shadow-none"
                         >
                           <Send className="w-4 h-4" /> Send Transaction
                         </button>
@@ -408,11 +408,11 @@ export default function WalletPage() {
                     
                     {activeTab === "receive" && (
                       <div className="flex flex-col items-center text-center gap-4 py-4">
-                        <div className="w-32 h-32 rounded-xl border-2 border-dashed border-cyan-400/30 flex items-center justify-center bg-cyan-400/5">
+                        <div className="w-32 h-32 rounded-xl border-2 border-dashed border-violet-400/30 flex items-center justify-center bg-violet-400/5">
                           <span className="text-xs text-slate-500 font-mono">QR Code</span>
                         </div>
                         <p className="text-sm text-slate-400 max-w-xs">Share your address to receive VLC from another wallet or the faucet.</p>
-                        <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-4 py-2.5 border border-[rgba(6,182,212,0.1)] w-full">
+                        <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-4 py-2.5 border border-[rgba(139,92,246,0.1)] w-full">
                           <span className="text-xs font-mono text-slate-300 flex-1 truncate">{keys.address}</span>
                           <CopyButton text={keys.address} />
                         </div>
@@ -429,18 +429,18 @@ export default function WalletPage() {
                   transition={{ duration: 0.8, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl overflow-hidden"
                 >
-                  <div className="px-5 py-4 border-b border-[rgba(6,182,212,0.1)] flex items-center gap-2">
+                  <div className="px-5 py-4 border-b border-[rgba(139,92,246,0.1)] flex items-center gap-2">
                     <span className="status-dot" />
                     <span className="text-sm font-medium text-slate-200">Transaction History</span>
                   </div>
-                  <div className="divide-y divide-[rgba(6,182,212,0.07)]">
+                  <div className="divide-y divide-[rgba(139,92,246,0.07)]">
                     {history.length === 0 && pendingHistory.length === 0 && (
                       <div className="px-5 py-8 text-center text-slate-500 text-sm">No transactions yet</div>
                     )}
                     {[...pendingHistory.map(t => ({...t, pending: true})), ...history].map((tx, i) => {
                       const isReceived = tx.recipient === keys.address
                       return (
-                      <div key={i} className="px-5 py-4 flex items-center justify-between hover:bg-cyan-400/5 transition-colors">
+                      <div key={i} className="px-5 py-4 flex items-center justify-between hover:bg-violet-400/5 transition-colors">
                         <div className="flex items-center gap-3">
                           <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                             isReceived

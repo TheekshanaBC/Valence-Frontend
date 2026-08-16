@@ -199,7 +199,7 @@ function GlassTheme() {
           rotate: [0, 90, 0],
         }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-purple-600/30 rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-violet-600/30 rounded-full blur-[120px] pointer-events-none"
       />
       <motion.div 
         animate={{ 
@@ -223,7 +223,7 @@ function GlassTheme() {
           Experience the future of local blockchain simulation. Fluid, beautiful, and incredibly fast.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-shadow">
+          <button className="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white font-bold transition-shadow">
             Launch Platform
           </button>
           <button className="px-8 py-4 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition-colors">
@@ -1211,7 +1211,7 @@ function AtomicV4Theme() {
       style={{ minHeight: 600 }}
     >
       {/* Subtle gradient wash */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_70%_at_75%_50%,rgba(6,182,212,0.06)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_70%_at_75%_50%,rgba(139,92,246,0.06)_0%,transparent_70%)] pointer-events-none" />
 
       {/* ── Molecule Diagram (right side) ── */}
       <div className="absolute right-0 top-0 bottom-0 w-full md:w-1/2 pointer-events-none flex items-center justify-center opacity-80">
@@ -1222,7 +1222,7 @@ function AtomicV4Theme() {
               key={i}
               x1={`${nodes[f][0]}%`} y1={`${nodes[f][1]}%`}
               x2={`${nodes[t][0]}%`} y2={`${nodes[t][1]}%`}
-              stroke="rgba(6,182,212,0.35)"
+              stroke="rgba(139,92,246,0.35)"
               strokeWidth="1.5"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
@@ -1234,13 +1234,13 @@ function AtomicV4Theme() {
             <motion.circle
               key={i}
               cx={`${x}%`} cy={`${y}%`} r={r}
-              fill={i === 0 ? "rgba(6,182,212,0.9)" : glow ? "rgba(14,165,233,0.6)" : "rgba(6,182,212,0.25)"}
-              stroke={"rgba(6,182,212,0.6)"}
+              fill={i === 0 ? "rgba(139,92,246,0.9)" : glow ? "rgba(14,165,233,0.6)" : "rgba(139,92,246,0.25)"}
+              stroke={"rgba(139,92,246,0.6)"}
               strokeWidth="1"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.1 + i * 0.1, type: "spring", bounce: 0.4 }}
-              style={{ filter: glow ? "drop-shadow(0 0 8px rgba(6,182,212,0.9))" : undefined }}
+              style={{ filter: glow ? "drop-shadow(0 0 8px rgba(139,92,246,0.9))" : undefined }}
             />
           ))}
         </svg>
@@ -1254,12 +1254,12 @@ function AtomicV4Theme() {
           transition={{ delay: 0.1, duration: 0.8, ease: "easeOut" }}
         >
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-            <span className="text-xs font-mono text-cyan-400/80 tracking-[0.25em] uppercase">Bond Network Active</span>
+            <div className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_8px_#a78bfa]" />
+            <span className="text-xs font-mono text-violet-400/80 tracking-[0.25em] uppercase">Bond Network Active</span>
           </div>
 
           <h1 className="text-[clamp(3.5rem,8vw,6rem)] font-semibold tracking-tight leading-none mb-6">
-            <span className="text-white">Val</span><span className="text-cyan-400">ence</span>
+            <span className="text-white">Val</span><span className="text-violet-400">ence</span>
           </h1>
           <p className="text-slate-400 font-light text-lg leading-relaxed mb-10 max-w-md">
             Peer nodes bond like atoms in a molecule. An education-first blockchain where every connection has chemical precision.
@@ -1269,14 +1269,14 @@ function AtomicV4Theme() {
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              className="px-7 py-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold tracking-wide transition-colors shadow-[0_0_24px_rgba(6,182,212,0.35)]"
+              className="px-7 py-3 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-colors"
             >
               Join Network
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              className="px-7 py-3 rounded-lg border border-cyan-400/25 text-cyan-300 font-medium tracking-wide hover:bg-cyan-900/20 transition-colors"
+              className="px-7 py-3 rounded-lg border border-violet-400/25 text-violet-300 font-medium tracking-wide hover:bg-violet-900/20 transition-colors"
             >
               View Architecture
             </motion.button>
@@ -1290,7 +1290,7 @@ function AtomicV4Theme() {
               { label: "Tx/s", value: "2.4k" },
             ].map(({ label, value }) => (
               <div key={label}>
-                <div className="text-2xl font-semibold text-cyan-400">{value}</div>
+                <div className="text-2xl font-semibold text-violet-400">{value}</div>
                 <div className="text-xs text-slate-500 uppercase tracking-widest mt-1">{label}</div>
               </div>
             ))}

@@ -23,18 +23,18 @@ export function PageHeader({
   children,
 }: PageHeaderProps) {
   return (
-    <section className="relative w-full pt-20 pb-16 px-4 overflow-hidden border-b border-[rgba(6,182,212,0.1)]">
+    <section className="relative w-full pt-20 pb-16 px-4 overflow-hidden border-b border-[rgba(139,92,246,0.1)]">
       <MoleculeBg intensity={0.5} particles={false} />
 
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Breadcrumb */}
         {breadcrumb && breadcrumb.length > 0 && (
           <nav className="flex items-center gap-1 text-xs text-slate-500 font-mono tracking-wide mb-6">
-            <Link href="/" className="hover:text-cyan-400 transition-colors">Home</Link>
+            <Link href="/" className="hover:text-violet-400 transition-colors">Home</Link>
             {breadcrumb.map((crumb) => (
               <span key={crumb.href} className="flex items-center gap-1">
                 <ChevronRight className="w-3 h-3" />
-                <Link href={crumb.href} className="hover:text-cyan-400 transition-colors">
+                <Link href={crumb.href} className="hover:text-violet-400 transition-colors">
                   {crumb.label}
                 </Link>
               </span>
@@ -46,7 +46,7 @@ export function PageHeader({
         {label && (
           <div className="flex items-center gap-2 mb-4">
             <span className="status-dot" />
-            <span className="text-xs font-mono tracking-[0.25em] text-cyan-400/80 uppercase">{label}</span>
+            <span className="text-xs font-mono tracking-[0.25em] text-violet-400/80 uppercase">{label}</span>
           </div>
         )}
 
@@ -59,7 +59,7 @@ export function PageHeader({
         >
           {title}
           {titleAccent && (
-            <span className="text-cyan-400"> {titleAccent}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-violet-500 pb-1"> {titleAccent}</span>
           )}
         </motion.h1>
 
