@@ -89,3 +89,33 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+/* ─── Hardware Accelerated Animations ─── */
+
+@keyframes spin-slow {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(-360deg); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); opacity: 0.08; }
+  50% { transform: translateY(-20px); opacity: 0.25; }
+  100% { transform: translateY(0px); opacity: 0.08; }
+}
+
+.animate-spin-slow {
+  animation: spin-slow linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse linear infinite;
+}
+
+.animate-float {
+  animation: float ease-in-out infinite;
+}

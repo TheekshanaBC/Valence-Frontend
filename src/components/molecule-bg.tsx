@@ -1,7 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
-
 interface MoleculeBgProps {
   /** Opacity multiplier for the rings (0-1). Defaults to 1 */
   intensity?: number
@@ -35,17 +33,16 @@ export function MoleculeBg({ intensity = 1, particles = true }: MoleculeBgProps)
         { size: 520,  duration: 45, opacity: 0.10, reverse: true  },
         { size: 720,  duration: 65, opacity: 0.07, reverse: false },
       ].map(({ size, duration, opacity, reverse }, idx) => (
-        <motion.div
+        <div
           key={idx}
-          className="absolute rounded-full border border-cyan-400 top-1/2 right-[-10%] -translate-y-1/2"
+          className={`absolute rounded-full border border-cyan-400 top-1/2 right-[-10%] -translate-y-1/2 ${reverse ? 'animate-spin-reverse' : 'animate-spin-slow'}`}
           style={{
             width: size,
             height: size,
             marginRight: -(size / 2),
             opacity: opacity * intensity,
+            animationDuration: `${duration}s`,
           }}
-          animate={{ rotate: reverse ? -360 : 360 }}
-          transition={{ duration, repeat: Infinity, ease: "linear" }}
         >
           {/* Electron dot */}
           <div
@@ -56,18 +53,21 @@ export function MoleculeBg({ intensity = 1, particles = true }: MoleculeBgProps)
               filter: `drop-shadow(0 0 6px rgba(6,182,212,0.9))`,
             }}
           />
-        </motion.div>
+        </div>
       ))}
 
       {/* Floating micro-particles */}
       {particles &&
         PARTICLES.map(({ id, left, top, size, duration, delay }) => (
-          <motion.div
+          <div
             key={id}
-            className="absolute rounded-full bg-cyan-300"
-            style={{ left, top, width: size, height: size, willChange: "transform, opacity" }}
-            animate={{ y: [0, -20, 0], opacity: [0.08, 0.25, 0.08] }}
-            transition={{ duration, repeat: Infinity, delay, ease: "easeInOut" }}
+            className="absolute rounded-full bg-cyan-300 animate-float"
+            style={{ 
+              left, top, width: size, height: size, 
+              animationDuration: `${duration}s`,
+              animationDelay: `${delay}s`,
+              willChange: "transform, opacity" 
+            }}
           />
         ))}
     </div>

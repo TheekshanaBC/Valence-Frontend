@@ -52,8 +52,8 @@ export function PageHeader({
 
         {/* Title */}
         <motion.h1
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ y: 20, opacity: 0, filter: "blur(10px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-4xl md:text-6xl font-semibold tracking-tight leading-tight mb-4"
         >
@@ -66,8 +66,8 @@ export function PageHeader({
         {/* Subtitle */}
         {subtitle && (
           <motion.p
-            initial={{ y: 15, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            initial={{ y: 15, opacity: 0, filter: "blur(10px)" }}
+            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
             className="text-lg text-slate-400 font-light max-w-2xl leading-relaxed"
           >
@@ -78,8 +78,8 @@ export function PageHeader({
         {/* Slot for extra content (buttons, etc) */}
         {children && (
           <motion.div
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            initial={{ y: 10, opacity: 0, filter: "blur(10px)" }}
+            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6"
           >

@@ -108,8 +108,8 @@ export default function Home() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 lg:px-12 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Content */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.9, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="flex flex-col"
           >
@@ -163,8 +163,8 @@ export default function Home() {
 
           {/* Right: Three.js 3D Viewport */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1.1, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="hidden lg:flex items-center justify-center h-[460px] xl:h-[560px] w-full"
           >
@@ -236,8 +236,8 @@ export default function Home() {
       <section className="w-full py-24 border-t border-[rgba(6,182,212,0.1)]">
         <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 25, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7 }}
             className="text-center mb-16"
@@ -259,7 +259,7 @@ export default function Home() {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
                 whileHover={{ y: -3 }}
-                className={`relative overflow-hidden rounded-2xl border border-[rgba(6,182,212,0.12)] bg-gradient-to-br from-[#071422]/70 to-[#03090e]/90 backdrop-blur-md p-7 group transition-all hover:border-[rgba(6,182,212,0.35)] hover:shadow-[0_0_24px_rgba(6,182,212,0.1)] ${span}`}
+                className={`relative overflow-hidden rounded-2xl border border-[rgba(6,182,212,0.12)] bg-gradient-to-br from-[#071422]/70 to-[#03090e]/90 backdrop-blur-md p-7 group transition-colors hover:border-[rgba(6,182,212,0.35)] hover:shadow-[0_0_24px_rgba(6,182,212,0.1)] ${span}`}
               >
                 {bgIcon}
                 <div className="relative z-10 flex flex-col h-full justify-between">
