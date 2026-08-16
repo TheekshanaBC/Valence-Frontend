@@ -45,7 +45,7 @@ export default function RootLayout({
       className={`${urbanist.variable} ${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[#03090e] text-[#f1f5f9]">
+      <body className="min-h-full flex flex-col bg-[#090416] text-[#f1f5f9]">
         <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>

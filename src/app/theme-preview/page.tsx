@@ -1207,7 +1207,7 @@ function AtomicV4Theme() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex-1 bg-[#03090e] text-white font-sans relative overflow-hidden flex items-center"
+      className="flex-1 bg-[#090416] text-white font-sans relative overflow-hidden flex items-center"
       style={{ minHeight: 600 }}
     >
       {/* Subtle gradient wash */}

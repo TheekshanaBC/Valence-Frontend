@@ -69,12 +69,12 @@ export function MermaidDiagram({ chart, id }: { chart: string; id: string }) {
           themeVariables: {
             darkMode: true,
             background: "transparent",
-            primaryColor: "#0a1a2e",
+            primaryColor: "#140a33",
             primaryTextColor: "#f1f5f9",
             primaryBorderColor: "rgba(139,92,246, 0.6)",
             lineColor: "#a78bfa",
-            secondaryColor: "#071422",
-            tertiaryColor: "#03090e",
+            secondaryColor: "#0f0726",
+            tertiaryColor: "#090416",
             fontFamily: "monospace",
             fontSize: "16px",
           },
@@ -147,16 +147,16 @@ export function MermaidDiagram({ chart, id }: { chart: string; id: string }) {
 
   if (!isRendered) {
     return (
-      <div className="w-full h-56 flex items-center justify-center bg-[#03090e]/80 rounded-2xl border border-[rgba(139,92,246,0.12)]">
+      <div className="w-full h-56 flex items-center justify-center bg-[#090416]/80 rounded-2xl border border-[rgba(139,92,246,0.12)]">
         <span className="text-xs font-mono text-violet-400/60 animate-pulse">Loading Architecture Flowchart...</span>
       </div>
     )
   }
 
   return (
-    <div className="relative w-full rounded-2xl border border-[rgba(139,92,246,0.2)] bg-[#03090e]/95 overflow-hidden shadow-[inset_0_2px_16px_rgba(0,0,0,0.7)] group">
+    <div className="relative w-full rounded-2xl border border-[rgba(139,92,246,0.2)] bg-[#090416]/95 overflow-hidden shadow-[inset_0_2px_16px_rgba(0,0,0,0.7)] group">
       {/* Floating Canvas Control Toolbar */}
-      <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-[#071422]/90 backdrop-blur-md p-1.5 rounded-xl border border-[rgba(139,92,246,0.25)] shadow-lg">
+      <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-[#0f0726]/90 backdrop-blur-md p-1.5 rounded-xl border border-[rgba(139,92,246,0.25)] shadow-lg">
         <button
           onClick={handleZoomIn}
           title="Zoom In"
@@ -185,7 +185,7 @@ export function MermaidDiagram({ chart, id }: { chart: string; id: string }) {
       </div>
 
       {/* Floating Hint Pill */}
-      <div className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 bg-[#071422]/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-[rgba(139,92,246,0.15)] text-[10px] font-mono text-slate-400 select-none pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
+      <div className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 bg-[#0f0726]/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-[rgba(139,92,246,0.15)] text-[10px] font-mono text-slate-400 select-none pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
         <Move className="w-3 h-3 text-violet-400" />
         <span>Drag to pan • Scroll to zoom</span>
       </div>

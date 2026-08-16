@@ -2,7 +2,7 @@
   <img src="./public/logo.png" alt="Valence Logo" width="300"/>
   <br/>
   <h3>Valence Web Wallet & Explorer</h3>
-  <p>The official interactive frontend for the Valence Blockchain Simulator.</p>
+  <p>An interactive frontend for the Valence Blockchain Simulator.</p>
 </div>
 
 ---

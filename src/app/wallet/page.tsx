@@ -6,6 +6,7 @@ import { Copy, Send, Download, Eye, EyeOff, ArrowUpRight, ArrowDownLeft, Refresh
 import { PageHeader } from "@/components/page-header"
 import { MoleculeBg } from "@/components/molecule-bg"
 import { useWallet } from "@/context/WalletContext"
+import QRCode from "react-qr-code"
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false)
@@ -63,10 +64,11 @@ export default function WalletPage() {
       if (histRes.ok) {
         const histData = await histRes.json()
         setHistory(histData || [])
-        setPendingHistory(prev => prev.filter(p => !(histData || []).some((h: any) => h.id === p.id)))
+        setPendingHistory(prev => prev.filter(p => !(histData || []).some((h: any) => h.tx_id === p.id)))
       }
     } catch (err) {
-      console.error("Failed to fetch wallet data:", err)
+      // Silently catch fetch errors during polling to prevent Next.js error overlays
+      // if the backend node is temporarily offline or restarting.
     }
   }
 
@@ -117,7 +119,17 @@ export default function WalletPage() {
         body: JSON.stringify({ address: keys.address, amount: 100000000000 }) // 100 VLC
       })
       if (res.ok) {
+        const data = await res.json()
         setSuccessMsg("100 VLC requested from faucet!")
+        
+        setPendingHistory(prev => [{
+          id: data.tx_id,
+          sender: "VALENCE_COINBASE",
+          recipient: keys.address,
+          amount: 100000000000,
+          timestamp: Date.now() * 1000000,
+        }, ...prev])
+
         setTimeout(fetchWalletData, 2000)
       } else {
         const text = await res.text()
@@ -126,6 +138,35 @@ export default function WalletPage() {
           setError(err.error || "Faucet request failed")
         } catch {
           setError(`Faucet request failed: ${res.statusText}`)
+        }
+      }
+    } catch (e: any) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+      setTimeout(() => setSuccessMsg(""), 5000)
+      setTimeout(() => setError(""), 5000)
+    }
+  }
+
+  const handleMine = async () => {
+    setLoading(true)
+    setError("")
+    setSuccessMsg("")
+    try {
+      const res = await fetch(`${rpcUrl}/mine`, {
+        method: "POST",
+      })
+      if (res.ok) {
+        setSuccessMsg("Block mined successfully! (Simulation)")
+        setTimeout(fetchWalletData, 1000)
+      } else {
+        const text = await res.text()
+        try {
+          const err = JSON.parse(text)
+          setError(err.error || "Mining failed")
+        } catch {
+          setError(`Mining failed: ${res.statusText}`)
         }
       }
     } catch (e: any) {
@@ -168,7 +209,18 @@ export default function WalletPage() {
     }
   }
 
-
+  // Calculate Pending Balances
+  let pendingSent = 0;
+  let pendingReceived = 0;
+  if (keys) {
+    pendingHistory.forEach(tx => {
+      const amtVLC = tx.amount / 1000000000;
+      if (tx.sender === keys.address) pendingSent += amtVLC;
+      if (tx.recipient === keys.address) pendingReceived += amtVLC;
+    });
+  }
+  const confirmedBal = parseFloat(balance) || 0;
+  const availableBal = Math.max(0, confirmedBal - pendingSent);
 
   return (
     <div className="min-h-screen">
@@ -208,7 +260,7 @@ export default function WalletPage() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="New Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                 />
               </div>
               <div>
@@ -217,7 +269,7 @@ export default function WalletPage() {
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                 />
               </div>
               <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all flex items-center justify-center gap-2">
@@ -252,7 +304,7 @@ export default function WalletPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
+                className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
               />
               <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all flex items-center justify-center gap-2">
                 Unlock Wallet
@@ -296,18 +348,25 @@ export default function WalletPage() {
                     </button>
                   </div>
                   <div className="text-4xl font-light text-white mb-1">
-                    {balance}
+                    {availableBal.toFixed(4)}
                   </div>
-                  <div className="text-sm text-slate-500 mb-6">VLC</div>
+                  <div className="text-sm text-slate-500 mb-2">VLC Available</div>
+                  {(pendingSent > 0 || pendingReceived > 0) && (
+                    <div className="flex gap-2 mb-6">
+                      {pendingSent > 0 && <span className="text-[10px] font-mono text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded border border-red-400/20">-{pendingSent.toFixed(4)} Pending</span>}
+                      {pendingReceived > 0 && <span className="text-[10px] font-mono text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded border border-green-400/20">+{pendingReceived.toFixed(4)} Pending</span>}
+                    </div>
+                  )}
+                  {!(pendingSent > 0 || pendingReceived > 0) && <div className="mb-6"></div>}
 
                   <div className="text-xs font-mono text-slate-500 mb-1">Your Address</div>
-                  <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-3 py-2.5 border border-[rgba(139,92,246,0.1)]">
+                  <div className="flex items-center gap-2 bg-[#090416] rounded-lg px-3 py-2.5 border border-[rgba(139,92,246,0.1)]">
                     <span className="text-xs font-mono text-slate-300 truncate flex-1">{keys.address}</span>
                     <CopyButton text={keys.address} />
                   </div>
 
                   <div className="mt-4 text-xs font-mono text-slate-500 mb-1">Private Key (Encrypted on disk)</div>
-                  <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-3 py-2.5 border border-[rgba(139,92,246,0.1)]">
+                  <div className="flex items-center gap-2 bg-[#090416] rounded-lg px-3 py-2.5 border border-[rgba(139,92,246,0.1)]">
                     <span className="text-xs font-mono text-slate-300 flex-1 truncate">
                       {showKey ? keys.privateKey : "•••••••••••••••••••••••••••"}
                     </span>
@@ -344,6 +403,26 @@ export default function WalletPage() {
                     <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Request 100 VLC
                   </button>
                 </motion.div>
+
+                {/* Mining Simulator */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                  transition={{ duration: 0.8, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+                  className="glass-panel rounded-2xl p-5"
+                >
+                  <div className="text-sm font-medium text-slate-200 mb-2">⛏️ Mining Simulator</div>
+                  <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+                    Trigger the local node to immediately mine a block and confirm any pending transactions. <span className="text-amber-400/80 font-medium">Note: In a live network, miners operate automatically in the background.</span>
+                  </p>
+                  <button 
+                    onClick={handleMine}
+                    disabled={loading}
+                    className="w-full py-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm font-medium hover:bg-amber-500/20 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Force Mine Block
+                  </button>
+                </motion.div>
               </div>
 
               {/* ── Right: Send/Receive + History ── */}
@@ -356,7 +435,7 @@ export default function WalletPage() {
                   transition={{ duration: 0.8, delay: 0.05, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className="glass-panel rounded-2xl overflow-hidden"
                 >
-                  <div className="flex bg-[#03090e] border-b border-[rgba(139,92,246,0.1)]">
+                  <div className="flex bg-[#090416] border-b border-[rgba(139,92,246,0.1)]">
                     {(["send", "receive"] as const).map((tab) => (
                       <button
                         key={tab}
@@ -383,7 +462,7 @@ export default function WalletPage() {
                             value={recipient}
                             onChange={e => setRecipient(e.target.value)}
                             placeholder="Address (hex)"
-                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
+                            className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                           />
                         </div>
                         <div>
@@ -393,7 +472,7 @@ export default function WalletPage() {
                             value={amount}
                             onChange={e => setAmount(e.target.value)}
                             placeholder="0.0000"
-                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
+                            className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
                           />
                         </div>
                         <button 
@@ -408,11 +487,17 @@ export default function WalletPage() {
                     
                     {activeTab === "receive" && (
                       <div className="flex flex-col items-center text-center gap-4 py-4">
-                        <div className="w-32 h-32 rounded-xl border-2 border-dashed border-violet-400/30 flex items-center justify-center bg-violet-400/5">
-                          <span className="text-xs text-slate-500 font-mono">QR Code</span>
+                        <div className="w-40 h-40 rounded-xl border-2 border-violet-400/30 flex items-center justify-center bg-violet-400/5 p-4">
+                          <QRCode 
+                            value={keys.address} 
+                            size={256} 
+                            style={{ height: "auto", maxWidth: "100%", width: "100%" }} 
+                            fgColor="#a78bfa" 
+                            bgColor="transparent" 
+                          />
                         </div>
                         <p className="text-sm text-slate-400 max-w-xs">Share your address to receive VLC from another wallet or the faucet.</p>
-                        <div className="flex items-center gap-2 bg-[#03090e] rounded-lg px-4 py-2.5 border border-[rgba(139,92,246,0.1)] w-full">
+                        <div className="flex items-center gap-2 bg-[#090416] rounded-lg px-4 py-2.5 border border-[rgba(139,92,246,0.1)] w-full">
                           <span className="text-xs font-mono text-slate-300 flex-1 truncate">{keys.address}</span>
                           <CopyButton text={keys.address} />
                         </div>

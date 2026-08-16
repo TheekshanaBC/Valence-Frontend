@@ -27,7 +27,7 @@ export function NativeNetworkTopology() {
   const [hoveredZone, setHoveredZone] = React.useState<string | null>(null)
 
   return (
-    <div className="w-full relative overflow-hidden rounded-2xl bg-[#03090e]/95 border border-[rgba(139,92,246,0.2)] p-4 sm:p-8 shadow-[inset_0_2px_24px_rgba(0,0,0,0.8)]">
+    <div className="w-full relative overflow-hidden rounded-2xl bg-[#090416]/95 border border-[rgba(139,92,246,0.2)] p-4 sm:p-8 shadow-[inset_0_2px_24px_rgba(0,0,0,0.8)]">
       {/* Background Blueprint Grid */}
       <div className="absolute inset-0 bg-[radial-gradient(rgba(139,92,246,0.07)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
@@ -63,7 +63,7 @@ export function NativeNetworkTopology() {
           className={`lg:col-span-3 rounded-2xl p-5 border transition-all duration-300 ${
             hoveredZone === "client"
               ? "border-violet-400 bg-violet-950/20"
-              : "border-[rgba(139,92,246,0.2)] bg-[#071422]/80"
+              : "border-[rgba(139,92,246,0.2)] bg-[#0f0726]/80"
           }`}
         >
           <div className="flex items-center gap-2.5 mb-3">
@@ -78,7 +78,7 @@ export function NativeNetworkTopology() {
 
           <div className="space-y-2.5">
             {/* Box 1: Next.js Frontend */}
-            <div className="p-3 rounded-xl bg-[#03090e] border border-[rgba(139,92,246,0.15)]">
+            <div className="p-3 rounded-xl bg-[#090416] border border-[rgba(139,92,246,0.15)]">
               <span className="text-[11px] font-semibold text-white block">Next.js Web Interface</span>
               <span className="text-[10px] text-slate-400 font-light block mt-0.5">Live Explorer & Dashboard</span>
             </div>
@@ -97,7 +97,7 @@ export function NativeNetworkTopology() {
 
           <div className="mt-4 pt-3 border-t border-[rgba(139,92,246,0.1)] flex items-center justify-between text-[10px] font-mono text-violet-400/80">
             <span>Payload:</span>
-            <span className="bg-[#03090e] px-2 py-0.5 rounded border border-violet-400/20">Signed JSON</span>
+            <span className="bg-[#090416] px-2 py-0.5 rounded border border-violet-400/20">Signed JSON</span>
           </div>
         </div>
 
@@ -125,7 +125,7 @@ export function NativeNetworkTopology() {
           className={`lg:col-span-3 rounded-2xl p-5 border transition-all duration-300 ${
             hoveredZone === "cloud"
               ? "border-violet-400 bg-violet-950/20"
-              : "border-[rgba(139,92,246,0.2)] bg-[#071422]/80"
+              : "border-[rgba(139,92,246,0.2)] bg-[#0f0726]/80"
           }`}
         >
           <div className="flex items-center gap-2.5 mb-3">
@@ -140,7 +140,7 @@ export function NativeNetworkTopology() {
 
           <div className="space-y-2.5">
             {/* Box 1: valenced RPC Daemon */}
-            <div className="p-3 rounded-xl bg-[#03090e] border border-[rgba(139,92,246,0.15)]">
+            <div className="p-3 rounded-xl bg-[#090416] border border-[rgba(139,92,246,0.15)]">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[11px] font-semibold text-white">Deployed valenced Node</span>
                 <span className="text-[9px] font-mono text-violet-400 bg-violet-400/10 px-1.5 py-0.5 rounded">:8080</span>
@@ -149,7 +149,7 @@ export function NativeNetworkTopology() {
             </div>
 
             {/* Box 2: PeerManager & SeenCache */}
-            <div className="p-3 rounded-xl bg-[#03090e] border border-[rgba(139,92,246,0.15)]">
+            <div className="p-3 rounded-xl bg-[#090416] border border-[rgba(139,92,246,0.15)]">
               <div className="flex items-center gap-1.5 text-violet-300 text-[11px] font-semibold mb-1">
                 <Radio className="w-3 h-3" />
                 <span>PeerManager & SeenCache</span>
@@ -162,7 +162,7 @@ export function NativeNetworkTopology() {
 
           <div className="mt-4 pt-3 border-t border-[rgba(139,92,246,0.1)] flex items-center justify-between text-[10px] font-mono text-violet-400/80">
             <span>Role:</span>
-            <span className="bg-[#03090e] px-2 py-0.5 rounded border border-violet-400/20">Discovery Relay</span>
+            <span className="bg-[#090416] px-2 py-0.5 rounded border border-violet-400/20">Discovery Relay</span>
           </div>
         </div>
 
@@ -190,7 +190,7 @@ export function NativeNetworkTopology() {
           className={`lg:col-span-4 rounded-2xl p-5 border transition-all duration-300 ${
             hoveredZone === "local"
               ? "border-emerald-400 bg-emerald-950/20 shadow-[0_0_24px_rgba(16,185,129,0.25)]"
-              : "border-[rgba(139,92,246,0.2)] bg-[#071422]/80"
+              : "border-[rgba(139,92,246,0.2)] bg-[#0f0726]/80"
           }`}
         >
           {/* NAT Barrier Banner */}
@@ -202,7 +202,7 @@ export function NativeNetworkTopology() {
                 <span className="text-[9px] text-amber-300 font-light block">Zero Open Inbound Ports</span>
               </div>
             </div>
-            <span className="text-[9px] font-mono bg-[#03090e] text-amber-300 px-2 py-0.5 rounded border border-amber-400/20">
+            <span className="text-[9px] font-mono bg-[#090416] text-amber-300 px-2 py-0.5 rounded border border-amber-400/20">
               Pinhole Active
             </span>
           </div>
@@ -215,7 +215,7 @@ export function NativeNetworkTopology() {
           {/* Local Cluster Nodes Grid */}
           <div className="grid grid-cols-2 gap-2">
             {/* Node 1 */}
-            <div className="p-2.5 rounded-xl bg-[#03090e] border border-[rgba(139,92,246,0.15)]">
+            <div className="p-2.5 rounded-xl bg-[#090416] border border-[rgba(139,92,246,0.15)]">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[10px] font-bold text-white">Node 1 (Miner)</span>
                 <span className="text-[8px] font-mono text-emerald-400 bg-emerald-400/10 px-1 py-0.2 rounded">:8080</span>
@@ -224,7 +224,7 @@ export function NativeNetworkTopology() {
             </div>
 
             {/* Node 2 */}
-            <div className="p-2.5 rounded-xl bg-[#03090e] border border-[rgba(139,92,246,0.15)]">
+            <div className="p-2.5 rounded-xl bg-[#090416] border border-[rgba(139,92,246,0.15)]">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[10px] font-bold text-white">Node 2 (Peer)</span>
                 <span className="text-[8px] font-mono text-emerald-400 bg-emerald-400/10 px-1 py-0.2 rounded">:8081</span>
@@ -297,7 +297,7 @@ const LIFECYCLE_STEPS = [
 
 export function NativeSequenceFlow() {
   return (
-    <div className="w-full relative overflow-hidden rounded-2xl bg-[#03090e]/95 border border-[rgba(139,92,246,0.2)] p-4 sm:p-8 space-y-6">
+    <div className="w-full relative overflow-hidden rounded-2xl bg-[#090416]/95 border border-[rgba(139,92,246,0.2)] p-4 sm:p-8 space-y-6">
       <div className="flex items-center justify-between pb-4 border-b border-[rgba(139,92,246,0.12)]">
         <div>
           <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 block mb-1">
@@ -313,10 +313,10 @@ export function NativeSequenceFlow() {
         {LIFECYCLE_STEPS.map((step) => (
           <div
             key={step.num}
-            className="p-4 rounded-xl bg-[#071422]/70 border border-[rgba(139,92,246,0.12)] hover:border-violet-400/40 transition-all flex flex-col sm:flex-row sm:items-start gap-4"
+            className="p-4 rounded-xl bg-[#0f0726]/70 border border-[rgba(139,92,246,0.12)] hover:border-violet-400/40 transition-all flex flex-col sm:flex-row sm:items-start gap-4"
           >
             <div className="flex items-center gap-3 sm:flex-col sm:items-center sm:w-16 flex-shrink-0">
-              <span className="text-lg font-black font-mono text-violet-400/80 bg-[#03090e] px-2.5 py-1 rounded-lg border border-violet-400/20">
+              <span className="text-lg font-black font-mono text-violet-400/80 bg-[#090416] px-2.5 py-1 rounded-lg border border-violet-400/20">
                 {step.num}
               </span>
               <span className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded border text-center whitespace-nowrap ${step.color}`}>
@@ -343,7 +343,7 @@ export function NativeSequenceFlow() {
 // ─── 3. Native Block & Gossip Propagation Flowchart ───
 export function NativePropagationFlow() {
   return (
-    <div className="w-full relative overflow-hidden rounded-2xl bg-[#03090e]/95 border border-[rgba(139,92,246,0.2)] p-4 sm:p-8 space-y-6">
+    <div className="w-full relative overflow-hidden rounded-2xl bg-[#090416]/95 border border-[rgba(139,92,246,0.2)] p-4 sm:p-8 space-y-6">
       <div className="flex items-center justify-between pb-4 border-b border-[rgba(139,92,246,0.12)]">
         <div>
           <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 block mb-1">
@@ -357,7 +357,7 @@ export function NativePropagationFlow() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Stage 1 */}
-        <div className="p-5 rounded-xl bg-[#071422]/80 border border-[rgba(139,92,246,0.15)] space-y-3 flex flex-col justify-between">
+        <div className="p-5 rounded-xl bg-[#0f0726]/80 border border-[rgba(139,92,246,0.15)] space-y-3 flex flex-col justify-between">
           <div>
             <div className="w-8 h-8 rounded-lg bg-emerald-400/10 border border-emerald-400/25 flex items-center justify-center text-emerald-400 mb-2">
               <Cpu className="w-4 h-4" />
@@ -368,13 +368,13 @@ export function NativePropagationFlow() {
               Miner produces block satisfying current difficulty target ($16^d$) with valid Merkle root.
             </p>
           </div>
-          <div className="p-2.5 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.1)] text-[10px] font-mono text-violet-300">
+          <div className="p-2.5 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.1)] text-[10px] font-mono text-violet-300">
             Block Header Hash Verified
           </div>
         </div>
 
         {/* Stage 2 */}
-        <div className="p-5 rounded-xl bg-[#071422]/80 border border-[rgba(139,92,246,0.15)] space-y-3 flex flex-col justify-between">
+        <div className="p-5 rounded-xl bg-[#0f0726]/80 border border-[rgba(139,92,246,0.15)] space-y-3 flex flex-col justify-between">
           <div>
             <div className="w-8 h-8 rounded-lg bg-violet-400/10 border border-violet-400/25 flex items-center justify-center text-violet-400 mb-2">
               <Share2 className="w-4 h-4" />
@@ -385,13 +385,13 @@ export function NativePropagationFlow() {
               Before relaying, the node checks its 1024-entry SeenCache hash ring. If already seen, broadcast is halted.
             </p>
           </div>
-          <div className="p-2.5 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.1)] text-[10px] font-mono text-violet-300">
+          <div className="p-2.5 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.1)] text-[10px] font-mono text-violet-300">
             Zero Broadcast Storms
           </div>
         </div>
 
         {/* Stage 3 */}
-        <div className="p-5 rounded-xl bg-[#071422]/80 border border-[rgba(139,92,246,0.15)] space-y-3 flex flex-col justify-between">
+        <div className="p-5 rounded-xl bg-[#0f0726]/80 border border-[rgba(139,92,246,0.15)] space-y-3 flex flex-col justify-between">
           <div>
             <div className="w-8 h-8 rounded-lg bg-indigo-400/10 border border-indigo-400/25 flex items-center justify-center text-indigo-400 mb-2">
               <Eye className="w-4 h-4" />
@@ -402,7 +402,7 @@ export function NativePropagationFlow() {
               Public RPC node updates its in-memory ledger. Explorer queries GET /chain and renders the new block tip.
             </p>
           </div>
-          <div className="p-2.5 rounded-lg bg-[#03090e] border border-[rgba(139,92,246,0.1)] text-[10px] font-mono text-violet-300">
+          <div className="p-2.5 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.1)] text-[10px] font-mono text-violet-300">
             Real-Time State Finality
           </div>
         </div>

@@ -150,7 +150,7 @@ function CodeBlock({ code }: { code: string }) {
   }
 
   return (
-    <div className="relative group bg-[#03090e] rounded-lg px-4 py-3 border border-[rgba(139,92,246,0.12)] flex items-center justify-between gap-3">
+    <div className="relative group bg-[#090416] rounded-lg px-4 py-3 border border-[rgba(139,92,246,0.12)] flex items-center justify-between gap-3">
       <div className="flex items-center gap-2.5 min-w-0 overflow-x-auto">
         <Terminal className="w-3.5 h-3.5 text-violet-400/60 flex-shrink-0" />
         <code className="text-xs font-mono text-slate-200 whitespace-nowrap">{code}</code>
@@ -237,7 +237,7 @@ export default function DocsPage() {
 
               <div className="space-y-4">
                 {QUICKSTART_STEPS.map((s) => (
-                  <div key={s.step} className="p-4 rounded-xl bg-[#03090e]/70 border border-[rgba(139,92,246,0.08)] space-y-2.5">
+                  <div key={s.step} className="p-4 rounded-xl bg-[#090416]/70 border border-[rgba(139,92,246,0.08)] space-y-2.5">
                     <div className="flex items-center gap-2.5">
                       <span className="w-5 h-5 rounded-md bg-violet-400/15 border border-violet-400/30 text-violet-300 font-mono text-[11px] font-bold flex items-center justify-center">
                         {s.step}
@@ -266,7 +266,7 @@ export default function DocsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {CLI_COMMANDS.map((c) => (
-                  <div key={c.cmd} className="p-4 rounded-xl bg-[#03090e]/80 border border-[rgba(139,92,246,0.08)] flex flex-col justify-between space-y-3">
+                  <div key={c.cmd} className="p-4 rounded-xl bg-[#090416]/80 border border-[rgba(139,92,246,0.08)] flex flex-col justify-between space-y-3">
                     <div>
                       <div className="flex items-center justify-between mb-1">
                         <code className="text-xs font-mono font-bold text-violet-300">{c.cmd}</code>
@@ -295,7 +295,7 @@ export default function DocsPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {DAEMON_FLAGS.map((f) => (
-                  <div key={f.flag} className="p-4 rounded-xl bg-[#03090e]/80 border border-[rgba(139,92,246,0.08)] flex flex-col justify-between">
+                  <div key={f.flag} className="p-4 rounded-xl bg-[#090416]/80 border border-[rgba(139,92,246,0.08)] flex flex-col justify-between">
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-xs font-mono font-bold text-violet-300">{f.flag}</span>
@@ -330,7 +330,7 @@ export default function DocsPage() {
                     placeholder="Search endpoints..."
                     value={apiSearch}
                     onChange={(e) => setApiSearch(e.target.value)}
-                    className="w-full bg-[#03090e] border border-[rgba(139,92,246,0.18)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-400 transition-colors"
+                    className="w-full bg-[#090416] border border-[rgba(139,92,246,0.18)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-400 transition-colors"
                   />
                 </div>
               </div>
@@ -339,7 +339,7 @@ export default function DocsPage() {
                 {filteredEndpoints.map((ep, idx) => (
                   <div
                     key={idx}
-                    className="p-3.5 rounded-xl bg-[#03090e]/70 border border-[rgba(139,92,246,0.08)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-violet-400/30 transition-colors"
+                    className="p-3.5 rounded-xl bg-[#090416]/70 border border-[rgba(139,92,246,0.08)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-violet-400/30 transition-colors"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <MethodBadge method={ep.method} />

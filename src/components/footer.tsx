@@ -4,7 +4,7 @@ import { ExternalLink, GitBranch } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="border-t border-[rgba(139,92,246,0.1)] bg-[#03090e]/80 backdrop-blur-sm mt-auto z-10 relative">
+    <footer className="border-t border-[rgba(139,92,246,0.1)] bg-[#090416]/80 backdrop-blur-sm mt-auto z-10 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           

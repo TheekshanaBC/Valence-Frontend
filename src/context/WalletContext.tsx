@@ -197,7 +197,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
               <div className="p-6">
                 <p className="text-sm text-slate-400 mb-6">A decentralized application is requesting your approval to broadcast a transaction.</p>
                 
-                <div className="bg-[#03090e] border border-[rgba(139,92,246,0.1)] rounded-xl p-4 mb-6">
+                <div className="bg-[#090416] border border-[rgba(139,92,246,0.1)] rounded-xl p-4 mb-6">
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Action</div>
                   <div className="text-base text-slate-200 font-medium mb-4">Send VLC</div>
                   

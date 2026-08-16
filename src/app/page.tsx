@@ -176,7 +176,7 @@ export default function Home() {
       {/* ══════════════════════════════
           QUICK START TERMINAL STRIP
       ══════════════════════════════ */}
-      <section className="w-full py-12 border-t border-[rgba(139,92,246,0.1)] bg-[#03090e]/70">
+      <section className="w-full py-12 border-t border-[rgba(139,92,246,0.1)] bg-[#090416]/70">
         <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="glass-panel rounded-2xl p-6 sm:p-8 border-[rgba(139,92,246,0.18)]">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -195,7 +195,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Node 1 Command */}
-              <div className="bg-[#03090e] rounded-xl p-4 border border-[rgba(139,92,246,0.12)] space-y-2">
+              <div className="bg-[#090416] rounded-xl p-4 border border-[rgba(139,92,246,0.12)] space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-mono text-violet-400">Terminal 1 • Node 8080 (Genesis)</span>
                   <button
@@ -211,7 +211,7 @@ export default function Home() {
               </div>
 
               {/* Node 2 Command */}
-              <div className="bg-[#03090e] rounded-xl p-4 border border-[rgba(139,92,246,0.12)] space-y-2">
+              <div className="bg-[#090416] rounded-xl p-4 border border-[rgba(139,92,246,0.12)] space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-mono text-violet-400">Terminal 2 • Node 8081 (Peer Mesh)</span>
                   <button
@@ -258,7 +258,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
-                className={`relative overflow-hidden rounded-2xl border border-[rgba(139,92,246,0.12)] bg-gradient-to-br from-[#071422]/70 to-[#03090e]/90 backdrop-blur-md p-7 group transition-colors hover:border-[rgba(139,92,246,0.35)] ${span}`}
+                className={`relative overflow-hidden rounded-2xl border border-[rgba(139,92,246,0.12)] bg-gradient-to-br from-[#0f0726]/70 to-[#090416]/90 backdrop-blur-md p-7 group transition-colors hover:border-[rgba(139,92,246,0.35)] ${span}`}
               >
                 {bgIcon}
                 <div className="relative z-10 flex flex-col h-full justify-between">

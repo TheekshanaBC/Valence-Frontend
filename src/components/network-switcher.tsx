@@ -13,7 +13,7 @@ export function NetworkSwitcher() {
     <div className="relative">
       <button 
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[rgba(139,92,246,0.2)] bg-[#03090e] hover:border-violet-400/40 hover:bg-violet-400/5 transition-all text-sm font-medium text-slate-300"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[rgba(139,92,246,0.2)] bg-[#090416] hover:border-violet-400/40 hover:bg-violet-400/5 transition-all text-sm font-medium text-slate-300"
       >
         <div className={`w-2 h-2 rounded-full ${network === "mainnet" ? "bg-violet-400 shadow-[0_0_8px_rgba(139,92,246,0.8)]" : "bg-violet-400 shadow-[0_0_8px_rgba(139,92,246,0.8)]"}`} />
         <span className="hidden sm:inline capitalize">{network}</span>

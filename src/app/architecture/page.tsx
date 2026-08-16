@@ -80,7 +80,7 @@ export default function ArchitecturePage() {
               placeholder="Search architecture..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#03090e] border border-[rgba(139,92,246,0.18)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-400 transition-colors"
+              className="w-full bg-[#090416] border border-[rgba(139,92,246,0.18)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-400 transition-colors"
             />
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function ArchitecturePage() {
                       className={`w-5 h-5 rounded-md flex items-center justify-center font-mono text-[10px] font-bold flex-shrink-0 ${
                         isSelected
                           ? "bg-violet-400 text-slate-950 shadow-[0_0_8px_rgba(139,92,246,0.5)]"
-                          : "bg-[#03090e] text-violet-400/80 border border-violet-400/20"
+                          : "bg-[#090416] text-violet-400/80 border border-violet-400/20"
                       }`}
                     >
                       {mod.number}
@@ -150,7 +150,7 @@ export default function ArchitecturePage() {
                     </div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{activeModule.title}</h2>
                   </div>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-violet-400/80 bg-[#03090e] px-3 py-1.5 rounded-lg border border-[rgba(139,92,246,0.15)] self-start">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-violet-400/80 bg-[#090416] px-3 py-1.5 rounded-lg border border-[rgba(139,92,246,0.15)] self-start">
                     <FileCode2 className="w-3.5 h-3.5" /> {activeModule.goPackage}
                   </span>
                 </div>
@@ -178,7 +178,7 @@ export default function ArchitecturePage() {
                 </div>
 
                 {/* 4. Key Architectural Highlights */}
-                <div className="space-y-2.5 bg-[#03090e]/60 p-4 rounded-xl border border-[rgba(139,92,246,0.08)]">
+                <div className="space-y-2.5 bg-[#090416]/60 p-4 rounded-xl border border-[rgba(139,92,246,0.08)]">
                   <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">Key Highlights & Guarantees</h4>
                   {activeModule.highlights.map((point, idx) => (
                     <div key={idx} className="flex items-start gap-2.5">

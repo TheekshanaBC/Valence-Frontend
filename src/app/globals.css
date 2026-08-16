@@ -4,9 +4,9 @@
 
 :root {
   /* Core palette — always dark */
-  --bg:           #03090e;
-  --bg-surface:   #071422;
-  --bg-panel:     #0a1a2e;
+  --bg:           #090416;
+  --bg-surface:   #0f0726;
+  --bg-panel:     #140a33;
 
   /* Cyan accent spectrum */
   --violet-400:     #a78bfa;
@@ -30,7 +30,7 @@
   --background:           var(--bg);
   --foreground:           var(--text-primary);
   --accent:               var(--violet-500);
-  --accent-foreground:    #0a1a2e;
+  --accent-foreground:    #140a33;
 }
 
 /* Force dark — site is dark-only */

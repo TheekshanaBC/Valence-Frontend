@@ -165,7 +165,7 @@ export default function ExplorerPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by block height or wallet address…"
-              className="w-full pl-12 pr-24 py-4 rounded-xl bg-[#071422] border border-[rgba(139,92,246,0.15)] text-slate-300 placeholder-slate-600 font-mono text-sm outline-none focus:border-violet-400/50 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.08)] transition-all"
+              className="w-full pl-12 pr-24 py-4 rounded-xl bg-[#0f0726] border border-[rgba(139,92,246,0.15)] text-slate-300 placeholder-slate-600 font-mono text-sm outline-none focus:border-violet-400/50 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.08)] transition-all"
               required
             />
             <button 
@@ -284,7 +284,7 @@ export default function ExplorerPage() {
                     </div>
                     {expandedBlock === block.height && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="px-5 pb-4">
-                        <div className="bg-[#03090e] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-mono">
+                        <div className="bg-[#090416] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-mono">
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Block Hash</div>
                             <div className="text-violet-300 break-all">{block.hash}</div>
@@ -356,7 +356,7 @@ export default function ExplorerPage() {
                     </div>
                     {expandedTx === uniqueId && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="px-5 pb-4">
-                        <div className="bg-[#03090e] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 gap-3 text-sm font-mono">
+                        <div className="bg-[#090416] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 gap-3 text-sm font-mono">
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Transaction ID</div>
                             <div className="text-violet-300 break-all">{tx.id || "N/A (System Transaction)"}</div>
