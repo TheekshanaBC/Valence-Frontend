@@ -84,18 +84,18 @@ export default function NetworkPage() {
               <span className="w-5 h-5 rounded-md bg-cyan-400/20 text-cyan-300 font-mono text-xs flex items-center justify-center font-bold">1</span>
               How the Website Talks to the Cloud RPC Node
             </h3>
-            <div className="space-y-3 text-sm text-slate-300 font-light leading-relaxed">
+            <div className="space-y-3 text-base text-slate-300 font-light leading-relaxed">
               <p>
                 The frontend is a static Next.js web application running in your browser. It uses standard HTTP <code className="text-cyan-300">fetch()</code> to connect to the deployed cloud RPC node on Railway (<code className="text-cyan-300">https://blockchain-simulator-production.up.railway.app</code>).
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <div className="p-3.5 rounded-xl bg-[#03090e] border border-[rgba(6,182,212,0.1)]">
                   <span className="text-xs font-semibold text-white block mb-1">Reading Blockchain Data</span>
-                  <span className="text-xs text-slate-400">The website sends <code className="text-cyan-300">GET /status</code>, <code className="text-cyan-300">GET /chain</code>, and <code className="text-cyan-300">GET /mempool</code> to display real-time network activity.</span>
+                  <span className="text-sm text-slate-400">The website sends <code className="text-cyan-300">GET /status</code>, <code className="text-cyan-300">GET /chain</code>, and <code className="text-cyan-300">GET /mempool</code> to display real-time network activity.</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-[#03090e] border border-[rgba(6,182,212,0.1)]">
                   <span className="text-xs font-semibold text-white block mb-1">Sending Transactions</span>
-                  <span className="text-xs text-slate-400">The browser wallet signs the transfer locally using its private key (Ed25519) and submits the signed JSON via <code className="text-cyan-300">POST /tx/submit</code>.</span>
+                  <span className="text-sm text-slate-400">The browser wallet signs the transfer locally using its private key (Ed25519) and submits the signed JSON via <code className="text-cyan-300">POST /tx/submit</code>.</span>
                 </div>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function NetworkPage() {
               <span className="w-5 h-5 rounded-md bg-emerald-400/20 text-emerald-300 font-mono text-xs flex items-center justify-center font-bold">2</span>
               How Local Nodes Talk to Each Other (Local Cluster)
             </h3>
-            <div className="space-y-3 text-sm text-slate-300 font-light leading-relaxed">
+            <div className="space-y-3 text-base text-slate-300 font-light leading-relaxed">
               <p>
                 When you run <code className="text-cyan-300">start-cluster.ps1</code> on your computer, it starts multiple node daemons (e.g. Node A on port 8080, Node B on port 8081, Node C on port 8082).
               </p>
@@ -123,7 +123,7 @@ export default function NetworkPage() {
               <span className="w-5 h-5 rounded-md bg-amber-400/20 text-amber-300 font-mono text-xs flex items-center justify-center font-bold">3</span>
               How Local Nodes Communicate with the Cloud Node (Why Firewalls Don&apos;t Block It)
             </h3>
-            <div className="space-y-3 text-sm text-slate-300 font-light leading-relaxed">
+            <div className="space-y-3 text-base text-slate-300 font-light leading-relaxed">
               <p>
                 Your home Wi-Fi router blocks unsolicited incoming connections from the internet. The cloud node on Railway cannot reach into your computer and call <code className="text-cyan-300">POST http://your-home-ip:8080</code>.
               </p>
@@ -134,7 +134,7 @@ export default function NetworkPage() {
               <div className="space-y-2.5 pt-2">
                 <div className="p-3.5 rounded-xl bg-[#03090e] border border-[rgba(6,182,212,0.1)] flex items-start gap-3">
                   <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                  <div className="text-xs">
+                  <div className="text-sm">
                     <span className="font-semibold text-white block mb-0.5">1. Pulling Transactions (Mempool Polling)</span>
                     <span className="text-slate-400">Every 5 seconds (<code className="text-cyan-300">runMempoolSync</code> in <code className="text-cyan-300">node_background.go</code>), the local node sends <code className="text-cyan-300">GET /mempool</code> to Railway to fetch any transactions submitted by web users.</span>
                   </div>
@@ -142,7 +142,7 @@ export default function NetworkPage() {
 
                 <div className="p-3.5 rounded-xl bg-[#03090e] border border-[rgba(6,182,212,0.1)] flex items-start gap-3">
                   <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                  <div className="text-xs">
+                  <div className="text-sm">
                     <span className="font-semibold text-white block mb-0.5">2. Pulling Blocks (Chain Sync)</span>
                     <span className="text-slate-400">Every 30 seconds (<code className="text-cyan-300">runSync</code> in <code className="text-cyan-300">node_background.go</code>), the local node sends <code className="text-cyan-300">GET /chain/height</code> to Railway to check if a new block was discovered.</span>
                   </div>
@@ -150,14 +150,14 @@ export default function NetworkPage() {
 
                 <div className="p-3.5 rounded-xl bg-[#03090e] border border-[rgba(6,182,212,0.1)] flex items-start gap-3">
                   <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                  <div className="text-xs">
+                  <div className="text-sm">
                     <span className="font-semibold text-white block mb-0.5">3. Pushing Mined Blocks (Push Sync)</span>
                     <span className="text-slate-400">When your local CPU mines a block with PoW, it sends <code className="text-cyan-300">POST /chain/sync</code> out to Railway. Railway verifies the block and updates the live chain.</span>
                   </div>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 pt-2">
+              <p className="text-sm text-slate-400 pt-2">
                 Because all of these requests are <strong>outbound client requests from your machine</strong>, your home router and firewall allow them automatically without any port forwarding or router setup required.
               </p>
             </div>
@@ -168,13 +168,13 @@ export default function NetworkPage() {
         <div className="p-6 rounded-2xl glass-panel border-[rgba(6,182,212,0.15)] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h4 className="text-sm font-semibold text-white">Want to explore the Go package details?</h4>
-            <p className="text-xs text-slate-400 font-light mt-0.5">
+            <p className="text-sm text-slate-400 font-light mt-0.5">
               Read the 12 core cryptographic, state, and consensus subsystems in the Architecture Guide.
             </p>
           </div>
           <Link
             href="/architecture"
-            className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-semibold tracking-wide transition-all shadow-[0_0_16px_rgba(6,182,212,0.3)] flex items-center gap-1.5 flex-shrink-0"
+            className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-semibold tracking-wide transition-all shadow-[0_0_16px_rgba(6,182,212,0.3)] flex items-center gap-1.5 flex-shrink-0"
           >
             Go to Architecture <ArrowRight className="w-3.5 h-3.5" />
           </Link>

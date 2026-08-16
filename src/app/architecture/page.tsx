@@ -162,7 +162,7 @@ export default function ArchitecturePage() {
                     <span>Subsystem Overview</span>
                   </div>
                   {activeModule.description.map((paragraph, idx) => (
-                    <p key={idx} className="text-sm text-slate-300 font-light leading-relaxed">
+                    <p key={idx} className="text-base text-slate-300 font-light leading-relaxed">
                       {paragraph}
                     </p>
                   ))}
@@ -183,7 +183,7 @@ export default function ArchitecturePage() {
                   {activeModule.highlights.map((point, idx) => (
                     <div key={idx} className="flex items-start gap-2.5">
                       <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                      <p className="text-xs text-slate-300 font-light leading-relaxed">{point}</p>
+                      <p className="text-sm text-slate-300 font-light leading-relaxed">{point}</p>
                     </div>
                   ))}
                 </div>
@@ -195,7 +195,7 @@ export default function ArchitecturePage() {
                     <h5 className="text-xs font-semibold text-white tracking-wide font-mono uppercase">
                       {activeModule.securityNote.title}
                     </h5>
-                    <p className="text-xs text-slate-300 font-light leading-relaxed mt-1">
+                    <p className="text-sm text-slate-300 font-light leading-relaxed mt-1">
                       {activeModule.securityNote.desc}
                     </p>
                   </div>

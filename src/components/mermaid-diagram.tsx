@@ -63,6 +63,9 @@ export function MermaidDiagram({ chart, id }: { chart: string; id: string }) {
           startOnLoad: false,
           theme: "dark",
           securityLevel: "loose",
+          flowchart: { useMaxWidth: false },
+          sequence: { useMaxWidth: false },
+          state: { useMaxWidth: false },
           themeVariables: {
             darkMode: true,
             background: "transparent",
@@ -73,7 +76,7 @@ export function MermaidDiagram({ chart, id }: { chart: string; id: string }) {
             secondaryColor: "#071422",
             tertiaryColor: "#03090e",
             fontFamily: "monospace",
-            fontSize: "12px",
+            fontSize: "16px",
           },
         })
 
@@ -97,12 +100,21 @@ export function MermaidDiagram({ chart, id }: { chart: string; id: string }) {
     }
   }, [chart, id])
 
-  // Mouse wheel zoom
-  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85
-    setScale((prev) => Math.min(Math.max(prev * zoomFactor, 0.4), 3.5))
-  }
+  // Mouse wheel zoom (attached via useEffect for non-passive preventDefault)
+  React.useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85
+      setScale((prev) => Math.min(Math.max(prev * zoomFactor, 0.4), 3.5))
+    }
+
+    el.addEventListener("wheel", handleWheel, { passive: false })
+    return () => el.removeEventListener("wheel", handleWheel)
+  }, [isRendered])
 
   // Drag start
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -181,7 +193,6 @@ export function MermaidDiagram({ chart, id }: { chart: string; id: string }) {
       {/* Interactive Drag & Zoom Viewport Canvas */}
       <div
         ref={containerRef}
-        onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

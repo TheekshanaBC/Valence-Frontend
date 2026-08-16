@@ -208,7 +208,7 @@ export default function WalletPage() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="New Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-sm placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
                 />
               </div>
               <div>
@@ -217,7 +217,7 @@ export default function WalletPage() {
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-sm placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
                 />
               </div>
               <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold tracking-wide transition-all shadow-[0_0_20px_rgba(6,182,212,0.25)] flex items-center justify-center gap-2">
@@ -252,7 +252,7 @@ export default function WalletPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-sm placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
               />
               <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold tracking-wide transition-all shadow-[0_0_20px_rgba(6,182,212,0.25)] flex items-center justify-center gap-2">
                 Unlock Wallet
@@ -383,7 +383,7 @@ export default function WalletPage() {
                             value={recipient}
                             onChange={e => setRecipient(e.target.value)}
                             placeholder="Address (hex)"
-                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-sm placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
                           />
                         </div>
                         <div>
@@ -393,7 +393,7 @@ export default function WalletPage() {
                             value={amount}
                             onChange={e => setAmount(e.target.value)}
                             placeholder="0.0000"
-                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-sm placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
+                            className="w-full px-4 py-3 rounded-lg bg-[#03090e] border border-[rgba(6,182,212,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-cyan-400/50 transition-all"
                           />
                         </div>
                         <button 
@@ -464,7 +464,7 @@ export default function WalletPage() {
                                 </span>
                               )}
                             </div>
-                            <div className="text-xs text-slate-500 font-mono">
+                            <div className="text-sm text-slate-500 font-mono">
                               {isReceived 
                                 ? (tx.sender === "VALENCE_COINBASE" ? "from Coinbase" : `from ${tx.sender.slice(0, 8)}…`)
                                 : (tx.recipient === "Genesis" ? "to Genesis" : `to ${tx.recipient.slice(0, 8)}…`)
@@ -476,7 +476,7 @@ export default function WalletPage() {
                           <div className={`text-sm font-semibold font-mono ${isReceived ? "text-green-400" : "text-red-400"}`}>
                             {isReceived ? "+" : "-"}{(tx.amount / 1000000000).toFixed(4)} VLC
                           </div>
-                          <div className="text-xs text-slate-500">{formatAge(tx.timestamp)}</div>
+                          <div className="text-sm text-slate-500">{formatAge(tx.timestamp)}</div>
                         </div>
                       </div>
                     )})}

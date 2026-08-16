@@ -67,7 +67,7 @@ export function Navbar() {
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-1 text-base font-medium transition-colors ${
                 isActive(link.href)
                   ? "text-cyan-400"
                   : "text-slate-400 hover:text-slate-100"
@@ -117,7 +117,7 @@ export function Navbar() {
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
-                  className={`flex items-center justify-between px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  className={`flex items-center justify-between px-3 py-3 rounded-lg text-base font-medium transition-colors ${
                     isActive(link.href)
                       ? "text-cyan-400 bg-cyan-400/5"
                       : "text-slate-300 hover:text-white hover:bg-white/5"

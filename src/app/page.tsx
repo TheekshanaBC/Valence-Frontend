@@ -268,7 +268,7 @@ export default function Home() {
                       {icon}
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2.5 tracking-tight">{title}</h3>
-                    <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed">{desc}</p>
+                    <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">{desc}</p>
                   </div>
                 </div>
               </motion.div>

@@ -212,9 +212,9 @@ export default function DocsPage() {
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id as typeof activeSection)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                 activeSection === tab.id
-                  ? "bg-cyan-500 text-slate-950 font-semibold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+                  ? "bg-cyan-500 text-slate-950 shadow-[0_0_12px_rgba(6,182,212,0.4)]"
                   : "glass-panel text-slate-400 hover:text-white hover:border-cyan-400/30"
               }`}
             >

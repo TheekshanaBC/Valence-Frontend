@@ -269,7 +269,7 @@ export default function ExplorerPage() {
                         </div>
                         <div>
                           <div className="text-sm font-semibold text-slate-200">Block #{block.height}</div>
-                          <div className="text-xs font-mono text-slate-500">{block.hash?.slice(0, 20)}…</div>
+                          <div className="text-sm font-mono text-slate-500">{block.hash?.slice(0, 20)}…</div>
                         </div>
                       </div>
                       <div className="text-right flex items-center gap-3">
@@ -284,7 +284,7 @@ export default function ExplorerPage() {
                     </div>
                     {expandedBlock === block.height && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="px-5 pb-4">
-                        <div className="bg-[#03090e] border border-cyan-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
+                        <div className="bg-[#03090e] border border-cyan-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-mono">
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Block Hash</div>
                             <div className="text-cyan-300 break-all">{block.hash}</div>
@@ -331,11 +331,13 @@ export default function ExplorerPage() {
                 {recentTxs.length === 0 && !loading && (
                   <div className="px-5 py-8 text-center text-slate-500 text-sm">No transactions found</div>
                 )}
-                {recentTxs.map((tx, idx) => (
-                  <div key={tx.id || `fallback-${idx}`} className="border-b border-transparent hover:bg-cyan-400/5 transition-colors cursor-pointer" onClick={() => setExpandedTx(expandedTx === tx.id ? null : tx.id)}>
+                {recentTxs.map((tx, idx) => {
+                  const uniqueId = tx.id || `fallback-${idx}`;
+                  return (
+                  <div key={uniqueId} className="border-b border-transparent hover:bg-cyan-400/5 transition-colors cursor-pointer" onClick={() => setExpandedTx(expandedTx === uniqueId ? null : uniqueId)}>
                     <div className="px-5 py-4 flex items-center justify-between">
                       <div>
-                        <div className="text-xs font-mono text-slate-200">{tx.id?.slice(0, 18)}…</div>
+                        <div className="text-sm font-mono text-slate-200">{tx.id ? `${tx.id.slice(0, 18)}…` : '---'}</div>
                         <div className="text-xs text-slate-500 mt-0.5 flex items-center gap-2">
                           <span>{tx.sender === "VALENCE_COINBASE" ? "Coinbase" : `${tx.sender?.slice(0, 8)}…`}</span>
                           <span className="text-cyan-500/50">→</span>
@@ -349,15 +351,15 @@ export default function ExplorerPage() {
                             <Clock className="w-3 h-3" /> {formatAge(tx.timestamp || 0)}
                           </div>
                         </div>
-                        {expandedTx === tx.id ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
+                        {expandedTx === uniqueId ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
                       </div>
                     </div>
-                    {expandedTx === tx.id && (
+                    {expandedTx === uniqueId && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="px-5 pb-4">
-                        <div className="bg-[#03090e] border border-cyan-400/10 rounded-lg p-4 grid grid-cols-1 gap-3 text-xs font-mono">
+                        <div className="bg-[#03090e] border border-cyan-400/10 rounded-lg p-4 grid grid-cols-1 gap-3 text-sm font-mono">
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Transaction ID</div>
-                            <div className="text-cyan-300 break-all">{tx.id}</div>
+                            <div className="text-cyan-300 break-all">{tx.id || "N/A (System Transaction)"}</div>
                           </div>
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Sender Public Key</div>
@@ -381,7 +383,8 @@ export default function ExplorerPage() {
                       </motion.div>
                     )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </Panel>
           </motion.div>
