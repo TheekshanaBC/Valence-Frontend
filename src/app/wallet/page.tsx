@@ -116,11 +116,11 @@ export default function WalletPage() {
       const res = await fetch(`${rpcUrl}/faucet`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ address: keys.address, amount: 100000000000 }) // 100 VLC
+        body: JSON.stringify({ address: keys.address, amount: 100000000000 }) // 100 VCN
       })
       if (res.ok) {
         const data = await res.json()
-        setSuccessMsg("100 VLC requested from faucet!")
+        setSuccessMsg("100 VCN requested from faucet!")
         
         setPendingHistory(prev => [{
           id: data.tx_id,
@@ -186,10 +186,10 @@ export default function WalletPage() {
     // to reuse the same approval logic.
     try {
       setLoading(true)
-      const amtVLC = parseFloat(amount)
-      if (isNaN(amtVLC) || amtVLC <= 0) throw new Error("Invalid amount")
+      const amtVCN = parseFloat(amount)
+      if (isNaN(amtVCN) || amtVCN <= 0) throw new Error("Invalid amount")
       
-      const res = await requestTransaction({ recipient, amountVLC: amtVLC })
+      const res = await requestTransaction({ recipient, amountVCN: amtVCN })
       if (res && res.transaction) {
         setPendingHistory(prev => [res.transaction, ...prev])
       }
@@ -214,9 +214,9 @@ export default function WalletPage() {
   let pendingReceived = 0;
   if (keys) {
     pendingHistory.forEach(tx => {
-      const amtVLC = tx.amount / 1000000000;
-      if (tx.sender === keys.address) pendingSent += amtVLC;
-      if (tx.recipient === keys.address) pendingReceived += amtVLC;
+      const amtVCN = tx.amount / 1000000000;
+      if (tx.sender === keys.address) pendingSent += amtVCN;
+      if (tx.recipient === keys.address) pendingReceived += amtVCN;
     });
   }
   const confirmedBal = parseFloat(balance) || 0;
@@ -350,7 +350,7 @@ export default function WalletPage() {
                   <div className="text-4xl font-light text-white mb-1">
                     {availableBal.toFixed(4)}
                   </div>
-                  <div className="text-sm text-slate-500 mb-2">VLC Available</div>
+                  <div className="text-sm text-slate-500 mb-2">VCN Available</div>
                   {(pendingSent > 0 || pendingReceived > 0) && (
                     <div className="flex gap-2 mb-6">
                       {pendingSent > 0 && <span className="text-[10px] font-mono text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded border border-red-400/20">-{pendingSent.toFixed(4)} Pending</span>}
@@ -394,13 +394,13 @@ export default function WalletPage() {
                   className="glass-panel rounded-2xl p-5"
                 >
                   <div className="text-sm font-medium text-slate-200 mb-2">🚰 Faucet</div>
-                  <p className="text-xs text-slate-500 mb-4 leading-relaxed">Request free VLC from the network faucet for testing purposes.</p>
+                  <p className="text-xs text-slate-500 mb-4 leading-relaxed">Request free VCN from the network faucet for testing purposes.</p>
                   <button 
                     onClick={handleFaucet}
                     disabled={loading}
                     className="w-full py-3 rounded-lg bg-violet-500/20 border border-violet-400/30 text-violet-300 text-sm font-medium hover:bg-violet-500/30 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Request 100 VLC
+                    <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Request 100 VCN
                   </button>
                 </motion.div>
 
@@ -447,7 +447,7 @@ export default function WalletPage() {
                         }`}
                       >
                         {tab === "send" ? <Send className="w-4 h-4" /> : <Download className="w-4 h-4" />}
-                        {`${tab} VLC`}
+                        {`${tab} VCN`}
                       </button>
                     ))}
                   </div>
@@ -466,7 +466,7 @@ export default function WalletPage() {
                           />
                         </div>
                         <div>
-                          <label className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-2 block">Amount (VLC)</label>
+                          <label className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-2 block">Amount (VCN)</label>
                           <input
                             type="number"
                             value={amount}
@@ -496,7 +496,7 @@ export default function WalletPage() {
                             bgColor="transparent" 
                           />
                         </div>
-                        <p className="text-sm text-slate-400 max-w-xs">Share your address to receive VLC from another wallet or the faucet.</p>
+                        <p className="text-sm text-slate-400 max-w-xs">Share your address to receive VCN from another wallet or the faucet.</p>
                         <div className="flex items-center gap-2 bg-[#090416] rounded-lg px-4 py-2.5 border border-[rgba(139,92,246,0.1)] w-full">
                           <span className="text-xs font-mono text-slate-300 flex-1 truncate">{keys.address}</span>
                           <CopyButton text={keys.address} />
@@ -559,7 +559,7 @@ export default function WalletPage() {
                         </div>
                         <div className="text-right">
                           <div className={`text-sm font-semibold font-mono ${isReceived ? "text-green-400" : "text-red-400"}`}>
-                            {isReceived ? "+" : "-"}{(tx.amount / 1000000000).toFixed(4)} VLC
+                            {isReceived ? "+" : "-"}{(tx.amount / 1000000000).toFixed(4)} VCN
                           </div>
                           <div className="text-sm text-slate-500">{formatAge(tx.timestamp)}</div>
                         </div>

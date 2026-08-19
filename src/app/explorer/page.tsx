@@ -212,7 +212,7 @@ export default function ExplorerPage() {
                   <div className="flex gap-8 mb-6">
                     <div>
                       <div className="text-xs text-slate-500 uppercase">Balance</div>
-                      <div className="text-xl text-slate-200 font-mono">{(searchResults.data.balance / 1000000000).toFixed(4)} VLC</div>
+                      <div className="text-xl text-slate-200 font-mono">{(searchResults.data.balance / 1000000000).toFixed(4)} VCN</div>
                     </div>
                     <div>
                       <div className="text-xs text-slate-500 uppercase">Transactions</div>
@@ -346,7 +346,7 @@ export default function ExplorerPage() {
                       </div>
                       <div className="text-right flex items-center gap-3">
                         <div>
-                          <div className="text-sm font-medium text-violet-400">{(tx.amount / 1000000000).toFixed(4)} VLC</div>
+                          <div className="text-sm font-medium text-violet-400">{(tx.amount / 1000000000).toFixed(4)} VCN</div>
                           <div className="text-xs text-slate-500 flex items-center gap-1 justify-end">
                             <Clock className="w-3 h-3" /> {formatAge(tx.timestamp || 0)}
                           </div>
@@ -409,7 +409,7 @@ export default function ExplorerPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium text-yellow-400">{(tx.amount / 1000000000).toFixed(4)} VLC</div>
+                      <div className="text-sm font-medium text-yellow-400">{(tx.amount / 1000000000).toFixed(4)} VCN</div>
                       <div className="text-xs text-yellow-500/60 uppercase tracking-wider font-bold mt-0.5">Pending</div>
                     </div>
                   </div>

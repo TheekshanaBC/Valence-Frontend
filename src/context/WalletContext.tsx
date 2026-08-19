@@ -18,7 +18,7 @@ export interface Keys {
 
 export interface TxParams {
   recipient: string
-  amountVLC: number // in VLC (will be converted to electrons)
+  amountVCN: number // in VCN (will be converted to electrons)
 }
 
 interface WalletContextType {
@@ -130,7 +130,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     setTxError("")
     
     try {
-      const electrons = Math.floor(pendingTx.params.amountVLC * 1000000000)
+      const electrons = Math.floor(pendingTx.params.amountVCN * 1000000000)
       
       const seqRes = await fetch(`${rpcUrl}/sequence/${keys.address}`)
       if (!seqRes.ok) throw new Error("Failed to get sequence")
@@ -199,13 +199,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
                 
                 <div className="bg-[#090416] border border-[rgba(139,92,246,0.1)] rounded-xl p-4 mb-6">
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Action</div>
-                  <div className="text-base text-slate-200 font-medium mb-4">Send VLC</div>
+                  <div className="text-base text-slate-200 font-medium mb-4">Send VCN</div>
                   
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">To</div>
                   <div className="text-xs font-mono text-slate-300 break-all bg-black/20 p-2 rounded mb-4 border border-white/5">{pendingTx.params.recipient}</div>
                   
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Amount</div>
-                  <div className="text-2xl font-light text-violet-400">{pendingTx.params.amountVLC.toFixed(4)} <span className="text-sm text-violet-400/60 font-medium">VLC</span></div>
+                  <div className="text-2xl font-light text-violet-400">{pendingTx.params.amountVCN.toFixed(4)} <span className="text-sm text-violet-400/60 font-medium">VCN</span></div>
                 </div>
 
                 {txError && (

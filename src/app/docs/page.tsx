@@ -102,6 +102,7 @@ const DAEMON_FLAGS = [
   { flag: "-peers", default: '""', desc: "Comma-separated list of bootstrap peers (e.g. localhost:8081,localhost:8082)." },
   { flag: "-announce-addr", default: '""', desc: "Explicit address to announce to peers (e.g. http://192.168.1.100:8080)." },
   { flag: "-miner-address", default: '""', desc: "Hex wallet address designated to receive block mining coinbase rewards." },
+  { flag: "-faucet-key", default: '""', desc: "Base64 encoded private key for the Faucet wallet to allow testnet token distribution." },
   { flag: "-difficulty", default: "3", desc: "Initial Proof-of-Work target leading zero requirement." },
   { flag: "-retarget-window", default: "4", desc: "Number of blocks between dynamic difficulty recalculations." },
   { flag: "-target-block-time", default: "10", desc: "Target seconds per block used by the retargeting formula." },
@@ -122,6 +123,8 @@ const REST_ENDPOINTS = [
   { method: "GET", path: "/sequence/:address", desc: "Returns the next expected sequential nonce for replay protection." },
   { method: "GET", path: "/mempool", desc: "Lists all unconfirmed transactions waiting in the memory pool." },
   { method: "POST", path: "/tx/submit", desc: "Submits an Ed25519 signed transaction into the mempool and broadcasts it." },
+  { method: "POST", path: "/tx/gossip", desc: "Internal P2P endpoint for receiving transaction broadcasts from peers." },
+  { method: "POST", path: "/block/gossip", desc: "Internal P2P endpoint for receiving newly mined blocks from peers." },
   { method: "POST", path: "/mine", desc: "Triggers multi-core CPU Proof-of-Work mining on pending transactions." },
   { method: "POST", path: "/faucet", desc: "Mints development test tokens to a recipient address (rate-limited)." },
   { method: "GET", path: "/peers", desc: "Returns list of connected and healthy network peers." },
@@ -262,6 +265,14 @@ export default function DocsPage() {
                 <p className="text-sm text-slate-400 font-light mt-1">
                   Interact with any node daemon from your terminal using Bitcoin Core-style CLI subcommands.
                 </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-violet-500/10 border border-violet-500/20">
+                <h4 className="text-base font-semibold text-violet-300 mb-2">🚀 Interactive Mode</h4>
+                <p className="text-sm text-slate-300 font-light mb-3">
+                  Running <code className="px-1.5 py-0.5 rounded bg-black/30 font-mono text-violet-200">valence-cli</code> without any arguments launches the new interactive terminal mode. This provides a user-friendly, menu-driven interface to manage wallets, check balances, send transactions, and monitor the network without needing to remember specific commands.
+                </p>
+                <CodeBlock code="go run ./cmd/valence-cli" />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
