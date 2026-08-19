@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react"
 import CryptoJS from "crypto-js"
-import { generateKeyPair, signTransaction } from "@/lib/crypto"
+import { generateKeyPair, generateKeyPairFromMnemonic, signTransaction } from "@/lib/crypto"
 import { motion, AnimatePresence } from "framer-motion"
 import { Check, X, AlertCircle } from "lucide-react"
 import { RPC_URL } from "@/lib/config"
@@ -14,6 +14,7 @@ export interface Keys {
   privateKey: string
   publicKey: string
   address: string
+  mnemonic?: string
 }
 
 export interface TxParams {
@@ -27,9 +28,10 @@ interface WalletContextType {
   rpcUrl: string
   walletState: WalletState
   keys: Keys | null
-  createWallet: (password: string) => void
+  createWallet: (password: string, mnemonic?: string) => void
   unlockWallet: (password: string) => boolean
   lockWallet: () => void
+  resetWallet: () => void
   requestTransaction: (params: TxParams) => Promise<any>
 }
 
@@ -81,8 +83,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("valence_network", n)
   }
 
-  const createWallet = (password: string) => {
-    const newKeys = generateKeyPair()
+  const createWallet = (password: string, mnemonic?: string) => {
+    const newKeys = mnemonic ? generateKeyPairFromMnemonic(mnemonic) : generateKeyPair()
     const encrypted = CryptoJS.AES.encrypt(JSON.stringify(newKeys), password).toString()
     localStorage.setItem("valence_keystore", encrypted)
     setKeys(newKeys)
@@ -111,6 +113,12 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   const lockWallet = () => {
     setKeys(null)
     setWalletState("LOCKED")
+  }
+
+  const resetWallet = () => {
+    localStorage.removeItem("valence_keystore")
+    setKeys(null)
+    setWalletState("UNINITIALIZED")
   }
 
   const requestTransaction = (params: TxParams): Promise<any> => {
@@ -171,7 +179,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <WalletContext.Provider value={{ network, setNetwork: handleSetNetwork, rpcUrl, walletState, keys, createWallet, unlockWallet, lockWallet, requestTransaction }}>
+    <WalletContext.Provider value={{ network, setNetwork: handleSetNetwork, rpcUrl, walletState, keys, createWallet, unlockWallet, lockWallet, resetWallet, requestTransaction }}>
       {children}
 
       {/* Transaction Approval Modal */}

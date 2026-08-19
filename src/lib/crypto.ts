@@ -1,6 +1,8 @@
 import { ed25519 } from '@noble/curves/ed25519.js';
 import { sha256 } from '@noble/hashes/sha2.js';
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils.js';
+import { generateMnemonic, mnemonicToSeedSync } from '@scure/bip39';
+import { wordlist } from '@scure/bip39/wordlists/english.js';
 
 export function generateKeyPair() {
   const privateKey = ed25519.utils.randomSecretKey();
@@ -14,6 +16,26 @@ export function generateKeyPair() {
     privateKey: bytesToHex(privateKey),
     publicKey: bytesToHex(publicKey),
     address: address,
+  };
+}
+
+export function generateWalletMnemonic(): string {
+  return generateMnemonic(wordlist, 128); // 12 words
+}
+
+export function generateKeyPairFromMnemonic(mnemonic: string) {
+  const seed = mnemonicToSeedSync(mnemonic);
+  const privateKey = seed.slice(0, 32);
+  const publicKey = ed25519.getPublicKey(privateKey);
+  
+  const hash = sha256(publicKey);
+  const address = bytesToHex(hash);
+  
+  return {
+    privateKey: bytesToHex(privateKey),
+    publicKey: bytesToHex(publicKey),
+    address: address,
+    mnemonic: mnemonic,
   };
 }
 

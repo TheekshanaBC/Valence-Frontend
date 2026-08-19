@@ -21,6 +21,32 @@ function CopyButton({ text }: { text: string }) {
   )
 }
 
+function downloadSeedPhrase(mnemonic: string, address: string = "") {
+  const content = `VALENCE BLOCKCHAIN - WALLET RECOVERY PHRASE
+--------------------------------------------------
+Generated at: ${new Date().toISOString()}
+Wallet Address: ${address || "N/A"}
+
+12-WORD SEED PHRASE:
+${mnemonic}
+
+IMPORTANT SECURITY NOTICE:
+- Never share these words with anyone.
+- Store this backup in a secure, offline location.
+- Anyone with this phrase can access and restore all your funds.
+--------------------------------------------------`;
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `valence-recovery-phrase-${Date.now()}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 function formatAge(timestampNano: number) {
   const diffMs = Date.now() - (timestampNano / 1e6)
   if (diffMs < 60000) return `${Math.max(0, Math.floor(diffMs/1000))}s ago`
@@ -29,12 +55,18 @@ function formatAge(timestampNano: number) {
 }
 
 export default function WalletPage() {
-  const { walletState, keys, createWallet, unlockWallet, lockWallet, rpcUrl, requestTransaction } = useWallet()
+  const { walletState, keys, createWallet, unlockWallet, lockWallet, resetWallet, rpcUrl, requestTransaction } = useWallet()
   
   // Auth UI State
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [authError, setAuthError] = useState("")
+
+  // Mnemonic State
+  const [initMode, setInitMode] = useState<"SELECT" | "CREATE" | "IMPORT">("SELECT")
+  const [generatedMnemonic, setGeneratedMnemonic] = useState("")
+  const [importMnemonic, setImportMnemonic] = useState("")
+  const [mnemonicSaved, setMnemonicSaved] = useState(false)
 
   // Dashboard UI State
   const [showKey, setShowKey] = useState(false)
@@ -80,6 +112,13 @@ export default function WalletPage() {
     }
   }, [walletState, keys, rpcUrl])
 
+  useEffect(() => {
+    if (initMode === "CREATE" && !generatedMnemonic) {
+      const { generateWalletMnemonic } = require("@/lib/crypto");
+      setGeneratedMnemonic(generateWalletMnemonic());
+    }
+  }, [initMode, generatedMnemonic])
+
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault()
     setAuthError("")
@@ -91,9 +130,34 @@ export default function WalletPage() {
       setAuthError("Passwords do not match")
       return
     }
-    createWallet(password)
+    createWallet(password, generatedMnemonic)
     setPassword("")
     setConfirmPassword("")
+  }
+
+  const handleImport = (e: React.FormEvent) => {
+    e.preventDefault()
+    setAuthError("")
+    const words = importMnemonic.trim().split(/\s+/)
+    if (words.length !== 12 && words.length !== 24) {
+      setAuthError("Mnemonic must be 12 or 24 words")
+      return
+    }
+    if (password.length < 6) {
+      setAuthError("Password must be at least 6 characters")
+      return
+    }
+    if (password !== confirmPassword) {
+      setAuthError("Passwords do not match")
+      return
+    }
+    try {
+      createWallet(password, importMnemonic.trim())
+      setPassword("")
+      setConfirmPassword("")
+    } catch(err) {
+      setAuthError("Invalid mnemonic phrase")
+    }
   }
 
   const handleUnlock = (e: React.FormEvent) => {
@@ -227,14 +291,14 @@ export default function WalletPage() {
       <PageHeader
         title="Web"
         titleAccent="Wallet"
-        subtitle="A secure, non-custodial wallet with AES encryption and MetaMask-style transaction approvals."
+        subtitle="A secure, non-custodial wallet with AES encryption and cryptographic transaction signing."
         breadcrumb={[{ href: "/wallet", label: "Wallet" }]}
       />
 
       <div className="relative max-w-5xl mx-auto px-4 py-10">
         <MoleculeBg intensity={0.25} particles={false} />
 
-        {/* --- UNINITIALIZED: CREATE WALLET --- */}
+        {/* --- UNINITIALIZED: CREATE OR IMPORT WALLET --- */}
         {walletState === "UNINITIALIZED" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -244,38 +308,108 @@ export default function WalletPage() {
             <div className="w-12 h-12 bg-violet-500/20 rounded-full flex items-center justify-center mb-6 border border-violet-400/30">
               <Key className="w-6 h-6 text-violet-400" />
             </div>
-            <h2 className="text-2xl font-semibold mb-2">Create Wallet</h2>
-            <p className="text-sm text-slate-400 mb-6">Create a strong password to securely encrypt your new Valence keys in this browser.</p>
-            
+
             {authError && (
               <div className="mb-4 p-3 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-sm">
                 {authError}
               </div>
             )}
 
-            <form onSubmit={handleCreate} className="flex flex-col gap-4">
-              <div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="New Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
-                />
-              </div>
-              <div>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm Password"
-                  className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
-                />
-              </div>
-              <button type="submit" className="mt-2 w-full py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all flex items-center justify-center gap-2">
-                Create & Encrypt Wallet
-              </button>
-            </form>
+            {initMode === "SELECT" && (
+              <>
+                <h2 className="text-2xl font-semibold mb-2">Welcome to Valence</h2>
+                <p className="text-sm text-slate-400 mb-6">Create a new wallet or import an existing one using a 12-word seed phrase.</p>
+                
+                <div className="flex flex-col gap-4">
+                  <button onClick={() => setInitMode("CREATE")} className="w-full py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all flex items-center justify-center gap-2">
+                    Create New Wallet
+                  </button>
+                  <button onClick={() => setInitMode("IMPORT")} className="w-full py-3.5 rounded-lg bg-[#090416] border border-violet-400/30 text-violet-300 font-semibold tracking-wide transition-all hover:bg-violet-500/10 flex items-center justify-center gap-2">
+                    Import with Seed Phrase
+                  </button>
+                </div>
+              </>
+            )}
+
+            {initMode === "CREATE" && !mnemonicSaved && (
+              <>
+                <div className="flex items-center justify-between mb-2">
+                  <h2 className="text-2xl font-semibold">Save Seed Phrase</h2>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => downloadSeedPhrase(generatedMnemonic)}
+                      className="px-2.5 py-1 rounded-lg bg-[#090416] border border-violet-400/20 text-slate-300 hover:text-violet-300 hover:border-violet-400/40 transition-colors flex items-center gap-1.5 text-xs font-medium"
+                      title="Download seed phrase as .txt file"
+                    >
+                      <Download className="w-3.5 h-3.5 text-violet-400" />
+                      <span>Download</span>
+                    </button>
+                    <CopyButton text={generatedMnemonic} />
+                  </div>
+                </div>
+                <p className="text-sm text-slate-400 mb-6">Write down these 12 words in order. This is the <strong>ONLY</strong> way to recover your wallet.</p>
+                
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  {generatedMnemonic.split(" ").map((word, i) => (
+                    <div key={i} className="bg-black/30 border border-violet-400/20 rounded py-2 px-1 text-center flex items-center gap-2">
+                      <span className="text-[10px] text-slate-500 w-3 text-right">{i+1}.</span>
+                      <span className="text-sm text-violet-300 font-mono">{word}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => downloadSeedPhrase(generatedMnemonic)}
+                  className="w-full mb-6 py-2.5 rounded-lg bg-[#090416] border border-violet-400/30 text-violet-300 hover:bg-violet-500/10 hover:border-violet-400/50 transition-all font-medium text-xs flex items-center justify-center gap-2"
+                >
+                  <Download className="w-4 h-4 text-violet-400" /> Download Backup File (.txt)
+                </button>
+
+                <div className="flex gap-3">
+                  <button onClick={() => setInitMode("SELECT")} className="flex-1 py-3.5 rounded-lg bg-[#090416] border border-slate-700 text-slate-300 hover:bg-white/5 transition-colors font-medium">Back</button>
+                  <button onClick={() => setMnemonicSaved(true)} className="flex-[2] py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold transition-all">I've Saved It</button>
+                </div>
+              </>
+            )}
+
+            {initMode === "CREATE" && mnemonicSaved && (
+              <>
+                <h2 className="text-2xl font-semibold mb-2">Secure Wallet</h2>
+                <p className="text-sm text-slate-400 mb-6">Create a strong password to locally encrypt your new keys.</p>
+                <form onSubmit={handleCreate} className="flex flex-col gap-4">
+                  <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="New Password" className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all" />
+                  <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm Password" className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all" />
+                  <div className="flex gap-3 mt-2">
+                    <button type="button" onClick={() => setMnemonicSaved(false)} className="flex-1 py-3.5 rounded-lg bg-[#090416] border border-slate-700 text-slate-300 hover:bg-white/5 transition-colors font-medium">Back</button>
+                    <button type="submit" className="flex-[2] py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all">Create Wallet</button>
+                  </div>
+                </form>
+              </>
+            )}
+
+            {initMode === "IMPORT" && (
+              <>
+                <h2 className="text-2xl font-semibold mb-2">Import Wallet</h2>
+                <p className="text-sm text-slate-400 mb-6">Enter your 12 or 24-word seed phrase and set a local password.</p>
+                <form onSubmit={handleImport} className="flex flex-col gap-4">
+                  <textarea
+                    value={importMnemonic}
+                    onChange={e => setImportMnemonic(e.target.value)}
+                    placeholder="Enter seed phrase separated by spaces..."
+                    className="w-full h-24 resize-none px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-violet-300 font-mono text-sm placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all"
+                  />
+                  <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="New Password" className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all" />
+                  <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm Password" className="w-full px-4 py-3 rounded-lg bg-[#090416] border border-[rgba(139,92,246,0.15)] text-slate-300 font-mono text-base placeholder-slate-600 outline-none focus:border-violet-400/50 transition-all" />
+                  <div className="flex gap-3 mt-2">
+                    <button type="button" onClick={() => setInitMode("SELECT")} className="flex-1 py-3.5 rounded-lg bg-[#090416] border border-slate-700 text-slate-300 hover:bg-white/5 transition-colors font-medium">Back</button>
+                    <button type="submit" className="flex-[2] py-3.5 rounded-lg bg-violet-500 hover:bg-violet-400 text-slate-900 font-semibold tracking-wide transition-all">Import Wallet</button>
+                  </div>
+                </form>
+              </>
+            )}
+
           </motion.div>
         )}
 
@@ -310,8 +444,20 @@ export default function WalletPage() {
                 Unlock Wallet
               </button>
             </form>
-            <div className="mt-6 text-center text-xs text-slate-600">
-              Forgot password? You can clear your localStorage and create a new wallet.
+            <div className="mt-6 pt-5 border-t border-[rgba(139,92,246,0.12)] text-center flex flex-col gap-2">
+              <span className="text-xs text-slate-500">Forgot your password?</span>
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm("Resetting this local session will require your 12-word recovery seed phrase to restore your wallet and set a new password. Do you want to proceed?")) {
+                    resetWallet()
+                    setInitMode("IMPORT")
+                  }
+                }}
+                className="text-xs text-violet-400 hover:text-violet-300 font-medium transition-colors underline underline-offset-4"
+              >
+                Restore with Secret Recovery Phrase
+              </button>
             </div>
           </motion.div>
         )}
@@ -377,6 +523,35 @@ export default function WalletPage() {
                       {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+
+                  {keys.mnemonic && (
+                    <div className="mt-4">
+                      <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+                        <span>Recovery Seed Phrase</span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => downloadSeedPhrase(keys.mnemonic!, keys.address)}
+                            className="text-slate-500 hover:text-violet-400 transition-colors"
+                            title="Download Seed Phrase (.txt)"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                          </button>
+                          <CopyButton text={keys.mnemonic} />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 bg-[#090416] rounded-lg px-3 py-2.5 border border-[rgba(139,92,246,0.1)]">
+                        <span className="text-xs font-mono text-slate-300 flex-1 truncate">
+                          {showKey ? keys.mnemonic : "•••••••• •••••••• ••••••••"}
+                        </span>
+                        <button
+                          onClick={() => setShowKey(v => !v)}
+                          className="text-slate-500 hover:text-violet-400 transition-colors"
+                        >
+                          {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   <button 
                     onClick={lockWallet}
