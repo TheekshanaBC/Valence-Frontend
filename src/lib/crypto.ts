@@ -43,6 +43,7 @@ export function signTransaction(
   senderAddress: string,
   recipientAddress: string,
   amount: number, // in electrons
+  fee: number, // in electrons
   sequence: number,
   privateKeyHex: string,
   publicKeyHex: string
@@ -50,8 +51,8 @@ export function signTransaction(
   const timestamp = Date.now() * 1000000; // nanoseconds
 
   // Build the record exactly as backend expects:
-  // record = fmt.Sprintf("%d:%s|%d:%s|%d|%d|%d", len(tx.Sender), tx.Sender, len(tx.Recipient), tx.Recipient, tx.Amount, tx.Sequence, tx.Timestamp)
-  const record = `${senderAddress.length}:${senderAddress}|${recipientAddress.length}:${recipientAddress}|${amount}|${sequence}|${timestamp}`;
+  // record = fmt.Sprintf("%d:%s|%d:%s|%d|%d|%d|%d", len(tx.Sender), tx.Sender, len(tx.Recipient), tx.Recipient, tx.Amount, tx.Fee, tx.Sequence, tx.Timestamp)
+  const record = `${senderAddress.length}:${senderAddress}|${recipientAddress.length}:${recipientAddress}|${amount}|${fee}|${sequence}|${timestamp}`;
   const recordBytes = new TextEncoder().encode(record);
   
   // Backend uses DoubleHashBytes (sha256(sha256(data)))
@@ -74,6 +75,7 @@ export function signTransaction(
     sender: senderAddress,
     recipient: recipientAddress,
     amount: amount,
+    fee: fee,
     sequence: sequence,
     public_key: toBase64(publicKeyBytes),
     signature: toBase64(signatureBytes),

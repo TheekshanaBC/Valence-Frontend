@@ -51,6 +51,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   // Transaction Prompt State
   const [pendingTx, setPendingTx] = useState<{
     params: TxParams
+    feeVCN: number
     resolve: (val: any) => void
     reject: (err: any) => void
   } | null>(null)
@@ -127,8 +128,18 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
         reject(new Error("Wallet is locked or uninitialized"))
         return
       }
-      setPendingTx({ params, resolve, reject })
-      setTxError("")
+      
+      // Fetch dynamic fee before prompting user
+      fetch(`${rpcUrl}/fee`)
+        .then(res => res.json())
+        .then(data => {
+          const feeVCN = data.fee / 1000000000
+          setPendingTx({ params, feeVCN, resolve, reject })
+          setTxError("")
+        })
+        .catch(err => {
+          reject(new Error("Failed to fetch dynamic fee from network"))
+        })
     })
   }
 
@@ -139,12 +150,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     
     try {
       const electrons = Math.floor(pendingTx.params.amountVCN * 1000000000)
+      const feeElectrons = Math.floor(pendingTx.feeVCN * 1000000000)
       
       const seqRes = await fetch(`${rpcUrl}/sequence/${keys.address}`)
       if (!seqRes.ok) throw new Error("Failed to get sequence")
       const { next_sequence } = await seqRes.json()
       
-      const tx = signTransaction(keys.address, pendingTx.params.recipient, electrons, next_sequence, keys.privateKey, keys.publicKey)
+      const tx = signTransaction(keys.address, pendingTx.params.recipient, electrons, feeElectrons, next_sequence, keys.privateKey, keys.publicKey)
       
       const submitRes = await fetch(`${rpcUrl}/tx/submit`, {
         method: "POST",
@@ -213,7 +225,10 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
                   <div className="text-xs font-mono text-slate-300 break-all bg-black/20 p-2 rounded mb-4 border border-white/5">{pendingTx.params.recipient}</div>
                   
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Amount</div>
-                  <div className="text-2xl font-light text-violet-400">{pendingTx.params.amountVCN.toFixed(4)} <span className="text-sm text-violet-400/60 font-medium">VCN</span></div>
+                  <div className="text-2xl font-light text-violet-400 mb-4">{pendingTx.params.amountVCN.toFixed(4)} <span className="text-sm text-violet-400/60 font-medium">VCN</span></div>
+                  
+                  <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Network Fee</div>
+                  <div className="text-sm text-slate-300">{pendingTx.feeVCN.toFixed(9)} <span className="text-xs text-slate-500">VCN</span></div>
                 </div>
 
                 {txError && (
