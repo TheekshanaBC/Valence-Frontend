@@ -225,7 +225,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
                   <div className="text-xs font-mono text-slate-300 break-all bg-black/20 p-2 rounded mb-4 border border-white/5">{pendingTx.params.recipient}</div>
                   
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Amount</div>
-                  <div className="text-2xl font-light text-violet-400 mb-4">{pendingTx.params.amountVCN.toFixed(4)} <span className="text-sm text-violet-400/60 font-medium">VCN</span></div>
+                  <div className="text-2xl font-light text-violet-400 mb-4">{pendingTx.params.amountVCN.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} <span className="text-sm text-violet-400/60 font-medium">VCN</span></div>
                   
                   <div className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-1">Network Fee</div>
                   <div className="text-sm text-slate-300">{Math.floor(pendingTx.feeVCN * 1000000000)} <span className="text-xs text-slate-500">electrons</span></div>

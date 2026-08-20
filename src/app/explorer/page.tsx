@@ -212,7 +212,7 @@ export default function ExplorerPage() {
                   <div className="flex gap-8 mb-6">
                     <div>
                       <div className="text-xs text-slate-500 uppercase">Balance</div>
-                      <div className="text-xl text-slate-200 font-mono">{(searchResults.data.balance / 1000000000).toFixed(4)} VCN</div>
+                      <div className="text-xl text-slate-200 font-mono">{(searchResults.data.balance / 1000000000).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} VCN</div>
                     </div>
                     <div>
                       <div className="text-xs text-slate-500 uppercase">Transactions</div>
@@ -346,7 +346,7 @@ export default function ExplorerPage() {
                       </div>
                       <div className="text-right flex items-center gap-3">
                         <div>
-                          <div className="text-sm font-medium text-violet-400">{(tx.amount / 1000000000).toFixed(4)} VCN</div>
+                          <div className="text-sm font-medium text-violet-400">{(tx.amount / 1000000000).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} VCN</div>
                           {tx.fee > 0 && (
                             <div className="text-[10px] text-slate-500 text-right mt-0.5">Fee: {tx.fee} electrons</div>
                           )}
@@ -416,7 +416,7 @@ export default function ExplorerPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium text-yellow-400">{(tx.amount / 1000000000).toFixed(4)} VCN</div>
+                      <div className="text-sm font-medium text-yellow-400">{(tx.amount / 1000000000).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} VCN</div>
                       {tx.fee > 0 && (
                         <div className="text-[10px] text-slate-500 mt-0.5">Fee: {tx.fee} electrons</div>
                       )}

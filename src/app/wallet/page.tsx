@@ -89,7 +89,7 @@ export default function WalletPage() {
       const balRes = await fetch(`${rpcUrl}/balances/${keys.address}`)
       if (balRes.ok) {
         const balData = await balRes.json()
-        setBalance((balData.balance / 1000000000).toFixed(4))
+        setBalance((balData.balance / 1000000000).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 }))
       }
       
       const histRes = await fetch(`${rpcUrl}/history/${keys.address}`)
@@ -494,13 +494,13 @@ export default function WalletPage() {
                     </button>
                   </div>
                   <div className="text-4xl font-light text-white mb-1">
-                    {availableBal.toFixed(4)}
+                    {availableBal.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })}
                   </div>
                   <div className="text-sm text-slate-500 mb-2">VCN Available</div>
                   {(pendingSent > 0 || pendingReceived > 0) && (
                     <div className="flex gap-2 mb-6">
-                      {pendingSent > 0 && <span className="text-[10px] font-mono text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded border border-red-400/20">-{pendingSent.toFixed(4)} Pending</span>}
-                      {pendingReceived > 0 && <span className="text-[10px] font-mono text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded border border-green-400/20">+{pendingReceived.toFixed(4)} Pending</span>}
+                      {pendingSent > 0 && <span className="text-[10px] font-mono text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded border border-red-400/20">-{pendingSent.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} Pending</span>}
+                      {pendingReceived > 0 && <span className="text-[10px] font-mono text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded border border-green-400/20">+{pendingReceived.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} Pending</span>}
                     </div>
                   )}
                   {!(pendingSent > 0 || pendingReceived > 0) && <div className="mb-6"></div>}
@@ -734,7 +734,7 @@ export default function WalletPage() {
                         </div>
                         <div className="text-right">
                           <div className={`text-sm font-semibold font-mono ${isReceived ? "text-green-400" : "text-red-400"}`}>
-                            {isReceived ? "+" : "-"}{(tx.amount / 1000000000).toFixed(4)} VCN
+                            {isReceived ? "+" : "-"}{(tx.amount / 1000000000).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} VCN
                           </div>
                           {tx.fee > 0 && (
                             <div className="text-[10px] text-slate-500 mt-0.5">Fee: {tx.fee} electrons</div>
