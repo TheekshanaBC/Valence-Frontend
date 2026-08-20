@@ -736,7 +736,10 @@ export default function WalletPage() {
                           <div className={`text-sm font-semibold font-mono ${isReceived ? "text-green-400" : "text-red-400"}`}>
                             {isReceived ? "+" : "-"}{(tx.amount / 1000000000).toFixed(4)} VCN
                           </div>
-                          <div className="text-sm text-slate-500">{formatAge(tx.timestamp)}</div>
+                          {tx.fee > 0 && (
+                            <div className="text-[10px] text-slate-500 mt-0.5">Fee: {tx.fee} electrons</div>
+                          )}
+                          <div className="text-xs text-slate-500 mt-0.5">{formatAge(tx.timestamp)}</div>
                         </div>
                       </div>
                     )})}

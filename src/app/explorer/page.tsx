@@ -347,7 +347,10 @@ export default function ExplorerPage() {
                       <div className="text-right flex items-center gap-3">
                         <div>
                           <div className="text-sm font-medium text-violet-400">{(tx.amount / 1000000000).toFixed(4)} VCN</div>
-                          <div className="text-xs text-slate-500 flex items-center gap-1 justify-end">
+                          {tx.fee > 0 && (
+                            <div className="text-[10px] text-slate-500 text-right mt-0.5">Fee: {tx.fee} electrons</div>
+                          )}
+                          <div className="text-xs text-slate-500 flex items-center gap-1 justify-end mt-0.5">
                             <Clock className="w-3 h-3" /> {formatAge(tx.timestamp || 0)}
                           </div>
                         </div>
@@ -369,10 +372,14 @@ export default function ExplorerPage() {
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Cryptographic Signature</div>
                             <div className="text-slate-400 break-all">{tx.signature || "N/A"}</div>
                           </div>
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-3 gap-4">
                             <div>
                               <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Amount (Electrons)</div>
                               <div className="text-slate-300">{tx.amount}</div>
+                            </div>
+                            <div>
+                              <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Fee (Electrons)</div>
+                              <div className="text-slate-300">{tx.fee || 0}</div>
                             </div>
                             <div>
                               <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Sequence</div>
@@ -410,6 +417,9 @@ export default function ExplorerPage() {
                     </div>
                     <div className="text-right">
                       <div className="text-sm font-medium text-yellow-400">{(tx.amount / 1000000000).toFixed(4)} VCN</div>
+                      {tx.fee > 0 && (
+                        <div className="text-[10px] text-slate-500 mt-0.5">Fee: {tx.fee} electrons</div>
+                      )}
                       <div className="text-xs text-yellow-500/60 uppercase tracking-wider font-bold mt-0.5">Pending</div>
                     </div>
                   </div>
