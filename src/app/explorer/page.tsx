@@ -70,7 +70,11 @@ export default function ExplorerPage() {
           let txs: any[] = []
           for (const b of sortedBlocks) {
             if (b.transactions) {
-              txs.push(...b.transactions)
+              const enrichedTxs = b.transactions.map((tx: any) => ({
+                ...tx,
+                blockHeight: b.height
+              }))
+              txs.push(...enrichedTxs)
             }
             if (txs.length >= 8) break
           }
@@ -284,7 +288,22 @@ export default function ExplorerPage() {
                     </div>
                     {expandedBlock === block.height && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="px-5 pb-4">
-                        <div className="bg-[#090416] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-mono">
+                        <div className="bg-[#090416] border border-violet-400/10 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-mono mb-4">
+                          {(() => {
+                            const coinbaseTx = block.transactions?.find((t: any) => t.sender === "VALENCE_COINBASE");
+                            return (
+                              <>
+                                <div>
+                                  <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Mined By</div>
+                                  <div className="text-violet-300 break-all">{coinbaseTx ? (coinbaseTx.recipient === "Genesis" ? "Genesis" : coinbaseTx.recipient) : "Unknown"}</div>
+                                </div>
+                                <div>
+                                  <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Block Reward</div>
+                                  <div className="text-slate-300">{coinbaseTx ? (coinbaseTx.amount / 1000000000).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 }) + " VCN" : "Unknown"}</div>
+                                </div>
+                              </>
+                            );
+                          })()}
                           <div>
                             <div className="text-slate-500 uppercase tracking-wider mb-1 text-[10px]">Block Hash</div>
                             <div className="text-violet-300 break-all">{block.hash}</div>
@@ -307,6 +326,24 @@ export default function ExplorerPage() {
                               <div className="text-slate-300">{block.header?.nonce}</div>
                             </div>
                           </div>
+                        </div>
+                        
+                        <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Transactions in this Block ({block.transactions?.length || 0})</div>
+                        <div className="bg-[#090416] border border-violet-400/10 rounded-lg overflow-hidden divide-y divide-white/5">
+                          {block.transactions?.map((tx: any, idx: number) => (
+                            <div key={tx.id || idx} className="p-3 hover:bg-white/5 transition-colors text-sm font-mono flex items-center justify-between">
+                              <div>
+                                <div className="text-slate-300 text-xs">{tx.id ? tx.id.slice(0, 16) + '...' : 'System TX'}</div>
+                                <div className="text-[10px] text-slate-500 mt-1">
+                                  {tx.sender === "VALENCE_COINBASE" ? "Coinbase" : tx.sender.slice(0, 8) + '...'} <span className="text-violet-500/50">→</span> {tx.recipient === "Genesis" ? "Genesis" : tx.recipient.slice(0, 8) + '...'}
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-violet-400 text-xs">{(tx.amount / 1000000000).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 9 })} VCN</div>
+                                {tx.fee > 0 && <div className="text-[9px] text-slate-500 mt-0.5">Fee: {tx.fee} electrons</div>}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </motion.div>
                     )}
@@ -353,6 +390,11 @@ export default function ExplorerPage() {
                           <div className="text-xs text-slate-500 flex items-center gap-1 justify-end mt-0.5">
                             <Clock className="w-3 h-3" /> {formatAge(tx.timestamp || 0)}
                           </div>
+                          {tx.blockHeight !== undefined && (
+                            <div className="text-[10px] text-emerald-400/80 text-right mt-0.5 font-mono">
+                              {Math.max(1, stats.height - tx.blockHeight + 1)} Confirmations
+                            </div>
+                          )}
                         </div>
                         {expandedTx === uniqueId ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
                       </div>
